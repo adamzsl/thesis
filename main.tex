@@ -13,6 +13,13 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[OT4]{fontenc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{float}  % Dodaj ten pakiet w preambule
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usetikzlibrary{shapes.geometric, positioning}
 
 %--------------------------------------
 % Strona tytułowa
@@ -65,7 +72,7 @@
 \mainmatter%
 \input{chapters/01-wprowadzenie.tex}
 \input{chapters/02-literatura}
-\input{chapters/03-praca-wlasna}
+\input{chapters/03-opis-rozwiazania}
 \input{chapters/04-dane.tex}
 \input{chapters/05-eksperymenty.tex}
 \input{chapters/06-dyskusja.tex}
@@ -77,13 +84,6 @@
 
 \bibliographystyle{plain}{\raggedright\sloppy\small\bibliography{bibliografia}}
 
-%--------------------------------------
-% Dodatki
-%--------------------------------------
-
-\cleardoublepage\appendix%
-\newpage
-\input{chapters/zalacznik.tex}
 
 %--------------------------------------
 % Informacja o prawach autorskich

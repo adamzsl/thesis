@@ -1,6 +1,159 @@
 
 \chapter{Zbiór danych}
 
-Jaki jest zbiór danych, podział zbioru na testowy, validujący i train. Ręczne sprawdzanie zbioru modeli
+Zbiór danych stanowią zadania treściowe z dziedziny programowania liniowego wraz z ich wynikiem zapisanym w języku \textit{ZIMPL}. Łącznie baza stanowi 4380 przykładów wraz z prawidłowym kodem \textit{ZIMPL}. Zbiór został podzielony i wykorzystany do odpowiednio: trenowania, walidacji oraz testowania programu.
 
-Struktura, atrybuty, powstawanie, skąd są opisy problemów (przy książkach cytowanie, przy linkach, spisać je w jednymi miejscu).
+\section{Proces powstawania bazy}
+
+Proces tworzenia bazy można podzielić na trzy różne etapy: etap wyszukiwania problemów programowania liniowego, etap formułowania odpowiedzi przy użyciu języka \textit{ZIMPL}, oraz etap zwielokrotniania przykładów za pomocą zmiany sposobu formułowania treści zadań.
+
+\subsection{Wyszukiwanie problemów programowania liniowego}
+
+Początkowym etapem pracy było przeszukiwanie dostępnych źródeł, w tym publikacji, dokumentacji związanej z programowaniem liniowym\cite{brilliant_linear}\cite{byjus_linear}\cite{cimt}\cite{arsdcollege2020}\cite{libretexts_linear}\cite{superprof_linear}\cite{toppr_graphical} oraz zbiorów Politechniki Poznańskiej. Głównym źródłem modeli problemów programowania liniowego jest dokumentacja języka  \textit{ZIMPL}, która została napisana w formie przypominającej instrukcję. Zaczerpnięto również dane z przykładowych zadań publikowanych przez prowadzących zajęcia na Politechnice Poznańskiej. Zadania są zapisane w języku angielskim. Ich formuła jest zróżnicowana. Zadania są przedstawiane w formie długich opisów, punktowania problemu, tabelek, bądź są połączeniem tych form. Łącznie stworzono 40 unikalnych przykładów.
+
+\subsection{Tworzenie odpowiedzi w formie kodu  \textit{ZIMPL}}
+
+Dla wyszukanych i sprawdzonych zadań programowania liniowego stworzono poprawne programy w języku  \textit{ZIMPL}, rozwiązujące przedstawiony problem. Każdy kod posiada dwa różne odpowiedniki swojego rozwiązania w kodzie  \textit{ZIMPL}. 
+
+Pierwszym sposobem rozwiązania zadania jest kod w formule \textbf{sztywnego programowania}. Takim kodem nazwano rozwiązanie, w którym wprowadzone wartości, takie jak liczby i parametry, są zapisane w sposób bezpośredni i statyczny. Utrudnia to wszelkie zmiany i dostosowania bez modyfikacji kodu, sprawiając, że rozwiązanie jest kompatybilne tylko dla konkretnej treści. W tym przypadku przy tworzeniu kodu  \textit{ZIMPL} należy się skupić na elementach uwzględnionych poniżej.
+
+\begin{enumerate}
+\item Deklaracja zmiennych, których dotyczy zadanie.
+
+\begin{quote}
+\begin{verbatim}
+var <nazwa_zmiennej>: <zakres_wartości>; # Zadeklarowana zmienna
+\end{verbatim}
+\end{quote}
+
+\item Zapisanie celu funkcji (minimalizacja lub maksymalizacja), wraz z podaniem konkretnych wartości liczbowych.
+
+\begin{quote}
+\begin{verbatim}
+<minimize/maximize> <nazwa_funkcji>: <wyrażenie matematyczne
+reprezentujące funkcję celu>; # Cel funkcji
+\end{verbatim}
+\end{quote}
+
+\item Zapisanie ograniczeń przedstawionych w treści zadania za pomocą wyrażeń matematycznych.
+
+\begin{quote}
+\begin{verbatim}
+subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące
+ograniczenie>;
+\end{verbatim}
+\end{quote}
+\end{enumerate}
+
+Drugi sposób programowania polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a także zwiększa elastyczność pracy z kodem  \textit{ZIMPL}. Jest to zalecany sposób rozwiązywania zadań, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. Jego wygląd jest pokazany poniżej.
+
+\begin{enumerate}
+\item Deklaracja zbiorów podanych w treści zadania.
+
+\begin{quote}
+\begin{verbatim}
+set <nazwa_zbioru> := {<wartości>}; # Zbiór indeksów
+\end{verbatim}
+\end{quote}
+
+\item Deklaracja wartości wejściowych parametrów, używanych jako dane pomocnicze przy określaniu stałych cech problemu.
+
+\begin{quote}
+\begin{verbatim}
+param <nazwa_parametru>[<indeks> w <zbiór>] := <wartość dla każdego
+elementu>; # Parametry związane z indeksem
+param <nazwa_parametruo> := <wartość>; # Parametr globalny
+\end{verbatim}
+\end{quote}
+
+\item Deklaracja zmiennych, których dotyczy zadanie.
+
+\begin{quote}
+\begin{verbatim}
+var <nazwa_zmiennej>[<indeks> w <zbiór>]: <zakres_wartości>;
+# Zmienna decyzyjna zależna od indeksów w zbiorze
+\end{verbatim}
+\end{quote}
+
+\item Zapisanie celu funkcji (minimalizacja lub maksymalizacja), zależnego od ustalonych zmiennych i parametrów.
+
+\begin{quote}
+\begin{verbatim}
+<minimize/maximize> <nazwa_funkcji>: <wyrażenie matematyczne
+reprezentujące funkcję celu>; # Cel funkcji
+\end{verbatim}
+\end{quote}
+
+\item Zapisanie ograniczeń przedstawionych w treści zadania za pomocą wyrażeń matematycznych.
+
+\begin{quote}
+\begin{verbatim}
+subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące
+ograniczenie>;
+\end{verbatim}
+\end{quote}
+\end{enumerate}
+
+Obie wersje kodu poprawnie rozwiązują problemy programowania liniowego. W generatorze testowane są dane dla obu możliwości rozwiązań, a każde z nich powstaje w inny sposób. Przygotowany przykład, zanim trafi do kolejnego etapu poszerzania zbioru danych, jest sprawdzany za pomocą ręcznych kalkulacji i narzędzi do automatycznego sprawdzania jakości kodu. Do sprawdzania przykładów wykorzystywany jest algorytm rozwiązujący, dostarczony przez Solving Constraint Integer Programs. Dopiero gdy przykład otrzyma status 'poprawny' i zadanie posiada rozwiązanie, może przejść do procesu zwielokrotniania.
+
+\subsection{Zwielokrotnianie przygotowanych przykładów}
+
+Posiadając przygotowane 40 unikalnych przykładów wraz z ich rozwiązaniami w formule sztywnego i parametryzowanego programowania, należało powiększyć zbiór o zadania podobne, lecz różniące się sformułowaniem i wynikami.
+
+Początkowy proces polegał na tworzeniu zadań o zbliżonej strukturze, ale z dywersyfikowaną treścią fabularną oraz danymi. Na podstawie jednego przykładu tworzone było od 5 do 10 różnych zadań, w których przekształcana była narracja zadania, mógł zmienić się cel zadania z maksymalizacji na minimalizację i odwrotnie, a także zmieniały się dane i ich ilość. Dzięki temu, z podobnego zadania powstawały zupełnie niezależne i nowe problemy programowania liniowego. Sumarycznie utworzono 800 unikalnych zadań wraz z ich zmodyfikowanym kodem  \textit{ZIMPL}.
+
+Posiadając taką bazę, kolejnym etapem było stworzenie różniących się opisów. Każde z zadań było przepisywane i formułowane ponownie na jeden z pięciu sposobów.
+
+\begin{enumerate}
+\item Opis w formie punktów - wersja przedstawiająca kluczowe informacje w podpunktach. Każdy element zadania jest krótko i konkretnie opisany. Zadanie prezentuje się czytelnie, a rozwiązujący ma jasno wyznaczone cele zadania.
+\item Długi opis tekstowy - zadanie wprowadza wartość fabularną oraz opisuje dokładnie zadanie w formie tekstowej. Dane techniczne są wplecione w narracyjny opis zadania.
+\item Zwięzły opis tekstowy - opis zwięźle przedstawiający problem w formie tekstowej. Nie zawiera opisów fabularnych, wprowadza jedynie konkretne informacje potrzebne do rozwiązania zadania.
+\item Zestawienie w formie tabeli - rozwiązanie jest prezentowane w formie tabeli/tabel, zwierających kluczowe dane potrzebne do rozwiązania zadania. Poza tabelą zawarty jest krótki opis celu.
+\item Opis z strukturalnym uporządkowaniem - elementy w opisie są rozdzielane na kategorie, tworząc łatwe przejrzyste i łatwe do analizy segmenty.
+\end{enumerate}
+
+Decyzję o takim zwielokrotnianiu posiadanych podjęto z kilku powodów. Pierwszym z nich była potrzeba weryfikacji, czy stworzony model generatora kodu  \textit{ZIMPL} poradzi sobie z każdym rodzajem zadania, niezależnie od jego formuły i kolejności przekazywanych danych. Drugim kluczowym argumentem była mała dostępność do treści zadań z zakresu programowania liniowego połączona z zapotrzebowaniem na dużą ilość danych do testów.
+
+\section{Podział i wykorzystanie zbioru danych}
+
+Łącznie stworzono około 4800 zadań programowania liniowego wraz z rozwiązaniem w języku  \textit{ZIMPL}. Po ponownej analizie zadań i automatycznym sprawdzeniu rozwiązań, zdecydowano się usunąć niekonkretne lub trudne do interpretacji przykłady, a także przykłady, dla których rozwiązanie dostarczone przez Solving Constraint Integer Programs zostało oznaczone jako 'niepoprawne'. Przy takiej selekcji zadań, zbiór pomniejszył się do 4380 przykładów. Tak utworzona baza została podzielona na następujące zbiory: treningowy, walidacyjny oraz testowy. Dokładny podział na zbiory zależał od liczby przykładów sztywnego i parametryzowanego programowania, a jego ostateczny wygląd był następujący:
+
+\begin{table}[ht]
+\caption{Podział zbioru danych na poszczególne podzbiory.}\label{tab:tabela}
+\centering%
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Zbiór} & \textbf{Sztywne} & \textbf{Parametryzowane} & \textbf{Razem} \\
+\hline
+Treningowy & 10 & 10 & 20\\
+\hline
+Walidacyjny & 30 & 30 & 60\\
+\hline
+Testowy & 2275 & 2025 & 4300\\
+\hline
+\textbf{Łącznie} & \textbf{2315} & \textbf{2065} & \textbf{4380}\\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Zbiór treningowy}
+
+Pierwszy zbiór nazwany treningowym, jest najmniejszym z utworzonych zbiorów i został wykorzystany bezpośrednio do tworzenia zapytań do dużego modelu językowego. W związku z tym takim wykorzystaniem, jego ponowne użycie w innych zbiorach byłoby błędne, bo model językowy posiada dokładne odpowiedzi do zawartych treści. Zadania zostały dobrane w sposób różnorodny, tak aby jak najlepiej przedstawić modelowi oczekiwane rezultaty generacji kodu  \textit{ZIMPL}. 
+
+Rozmiar zbioru jest mały, a wynika to z zapotrzebowania na utrzymanie zapytania o niskiej liczbie tokenów. Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Do każdego z czterech różnych zapytań dotyczących programowania sztywnego dodano wszystkie możliwe treści zadania programowania liniowego wraz z elementem kodu  \textit{ZIMPL}, którego dotyczy zapytanie. Łącznie uwzględniono 10 takich zapytań. Podobnie zrealizowano zadanie dla programowania z parametryzacją. Dla każdego z sześciu zapytań, wykorzystano 10 zadań wraz z elementami kodu  \textit{ZIMPL}.
+
+\subsection{Zbiór walidacyjny}
+
+Do testowania działania generatora kodu  \textit{ZIMPL} wykorzystano początkowo 60 przykładów, w tym 30 przykładów programowania sztywnego i 30 przykładów programowania parametryzowanego. Przy pomocy tego zbioru sprawdzano jakość generowanego kodu  \textit{ZIMPL} oraz weryfikowano jego poprawność pod względem posiadanego rozwiązania oraz pokrycia rozwiązania z rozwiązaniem zawartym w bazie.
+
+Zdecydowano się na taką liczbę przykładów w zbiorze ze względu na potrzebę szybkiej weryfikacji wyników. Czas generowania odpowiedzi wynosił maksymalnie 7 minut, co sprawiło, że można było szybko sprawdzać i naprawiać błędy w logice zapytań. Zbiór celowo zawarł w sobie połowę zadań z wynikami parametryzowanymi oraz połowę zadań z wynikami sztywno zaprogramowanymi, tak aby zapewnić poprawny wgląd do rozwiązań obu problemów. Zadania zostały wyselekcjonowane w różnorodny sposób, tak aby dać możliwie najszerszy wgląd w problemy, z jakimi może się mierzyć generator.
+
+\subsection{Zbiór testowy}
+
+Ostatni i zarazem największy wydzielony zbiór jest zbiorem testowym. Znajduje się w nim pozostałe 4300 przykładów, w tym 2315 przykładów sztywnego i 2065 przykładów parametryzowanego kodu. Zbiór został wykorzystany do prowadzenia wyłącznie testów. Na jego podstawie zostały opracowane wyniki eksperymentu.
+
+Zbiór został stworzony tak, aby liczba przykładów odpowiedniego sposobu programowania była porównywalna, natomiast w procesie selekcji i usuwania przykładów ta liczba nieznacznie się zmieniła.
+
+\section{Przechowywanie i dostępność zbioru}
+
+W związku ze specyficznym formatowaniem zbiory są przechowywane w formie pliku arkusza kalkulacyjnego, a następnie konwertowane do pliku JSON, z którego pobierane są do wykonywania walidacji i testów generatora. Zbiór treningowy znajduje się bezpośrednio w zapytaniach do modelu językowego. Pozostałe dwa zbiory w formacie JSON znajdują się również na platformie Hugging Face, ścieżce \href{https://huggingface.co/datasets/Tamiza/test_zimpl_dataset}{\textbf{Tamiza/test\_zimpl\_dataset}} na licencji MIT, gdzie można je darmowo wykorzystywać.
