@@ -271,7 +271,7 @@ Typeset using \LaTeX\.
 % Polish
 \newcommand{\definicja}[1]{\termdef{#1}}
 \newcommand{\akronim}[1]{\acronym{#1}}
-\newcommand{\english}[1]{ang.~\emph{#1}}
+\newcommand{\english}[1]{(ang.~\emph{#1})}
 
 % Table head
 \newcolumntype{L}{c}\newcommand{\tabhead}[1]{\multicolumn{1}{L}{#1}}
