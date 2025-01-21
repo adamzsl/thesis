@@ -11,11 +11,11 @@ Badanie zdolności generatora do tworzenia kodu, który spełni podstawowe wymag
 
     \item \textbf{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?}
 
- Określenie średniego poziomu poprawności generowanych rozwiązań na pełnym zbiorze testowym. Poprawność odpowiedzi jest mierzona na podstawie pokrycia generowanego kodu z oczekiwanym wynikiem dla danego zadania.
+ Określenie średniego poziomu poprawności generowanych rozwiązań na pełnym zbiorze testowym. Poprawność odpowiedzi jest mierzona na podstawie pokrycia generowanego kodu z~oczekiwanym wynikiem dla danego zadania.
     
-    \item \textbf{Czy istnieje poprawa w jakości wygenerowanego rozwiązania, w stosunku do rozwiązania za pomocą pojedynczego zapytania?}
+    \item \textbf{Czy opracowany system generuje modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
 
-Porównanie wyników i przy użyciu stworzonego generatora kodu  \textit{ZIMPL} i wyników generowanych przez model na podstawie standardowego, pojedynczego zapytania. Brana pod uwagę jest liczba poprawnie wygenerowanych odpowiedzi za pomocą pojedynczego zapytania w porównaniu do liczby odpowiedzi stworzonego generatora.
+Porównanie wyników i przy użyciu stworzonego generatora kodu  \textit{ZIMPL} i wyników generowanych przez model na podstawie standardowego, pojedynczego zapytania. Brana pod uwagę jest liczba poprawnie wygenerowanych odpowiedzi za pomocą pojedynczego zapytania w~porównaniu do liczby odpowiedzi stworzonego generatora.
     
     \item \textbf{Jaką poprawę zapewnia zaawansowane generowanie kodu pod względem jakości składni w stosunku do pojedynczego zapytania?}
 
@@ -23,16 +23,12 @@ Ocena jakości składni dla poszczególnych zapytań pod względem poprawnego zd
     
 \end{itemize}
 
+% TP: TODO: tutaj można dopisać parametry, które są stałe w trakcie eksperymentów (temperatura?) oraz inne założenia
+
 \section{Jaki procent modeli stworzonych przez generator  \textit{ZIMPL} kompiluje się poprawnie?}
 
-Do odpowiedzi na to pytanie został wykorzystany zbiór testowy oraz algorytm SCIP sprawdzający możliwość stworzenia rozwiązania dla podanego zadania. Algorytm dla rozwiązania nadaje status \texttt{VALID} (poprawny) lub \texttt{NOT VALID} (niepoprawny). Do weryfikacji i udzielenia odpowiedzi na to pytanie należy zliczyć liczbę poprawnie i niepoprawnie zweryfikowanych kodów oraz obliczyć ich procentową wartość.
-
-Posługując się zbiorem testowym, zweryfikowane zostały odpowiedzi generatora \textit{ZIMPL}, oraz otrzymały konkretne statusy. \textbf{Procentową wartością, jaka została osiągnięta przy sprawdzaniu poprawnej kompilacji to 88.07\%}. Poniżej zostały przedstawione dokładne wyniki.
-
-Łączne wyniki generatora \textit{ZIMPL} dla całego zbioru testowego:
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla całego zbioru testowego.}\label{tab:tabela1}
+\begin{table}
+\caption{Tabela sprawdzenia poprawności dla całego zbioru testowego.}\label{tab:experiment:compilation}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
@@ -47,109 +43,135 @@ Niepoprawne & 513 & 11,93\% \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=4200,
-]
-\addplot coordinates {(Poprawne,3787) (Niepoprawne,513)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla całego zbioru testowego.}\label{rys:plama2a}
-\end{figure}
+% TP: to są tak proste dane, że nie potrzeba wykresu.
+%\begin{figure}[H]
+%\centering
+%\begin{tikzpicture}
+%\begin{axis}[
+%    ybar,
+%    symbolic x coords={Poprawne, Niepoprawne},
+%    xtick=data,
+%    ylabel={Liczba},
+%    nodes near coords,
+%    enlarge x limits=1,
+%    bar width=15pt,
+%    ymin=0,
+%    ymax=4200,
+%]
+%\addplot coordinates {(Poprawne,3787) (Niepoprawne,513)};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{Wykres wyników sprawdzenia poprawności dla całego zbioru testowego.}\label{rys:plama2a}
+%\end{figure}
 
-Ze względu na różnice w procesie generacji kodu, zależnie od potrzeby parametryzacji lub stworzenia sztywnego (tzw. hardcoded) modelu  \textit{ZIMPL}, wyniki różnią się od siebie, a co za tym idzie, proces tworzenia parametryzowanego kodu wymaga wykorzystania większej ilości zapytań i struktury o większej złożoności. W związku z tym należy uwzględnić również wyniki dla obu wersji wygenerowanych modeli  \textit{ZIMPL}.
-
-Łączne wyniki generatora  \textit{ZIMPL} dla zbioru testowego posiadającego odpowiedzi dla wyników kodowanych w formule sztywnej:
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla sztywnych odpowiedzi.}\label{tab:tabela2}
+% TP: połączyłem te dwie tabele w jedną z 5 kolumnami i dodatkowym wierszem nagłówka,
+\begin{table}
+\caption{Tabela sprawdzenia poprawności w rozbiciu na sztywne i parametryzowane modele}\label{tab:experiment:compilation:breakdown}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
+\hline%
+	&\multicolumn{2}{c|}{Wersja sztywna}&\multicolumn{2}{c|}{Wersja parametryzowana}\\
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+\textbf{Status} & \textbf{Suma} & \textbf{Procent} & \textbf{Suma} & \textbf{Procent} \\
 \hline
-Poprawne & 2129 & 93,58\% \\
+Poprawne & 2129 & 93,58\% & 1658 & 81,88\% \\
 \hline
-Niepoprawne & 146 & 6,42\% \\
+Niepoprawne & 146 & 6,42\% & 367 & 18,12\%\\
 \hline
-\textbf{Razem} & \textbf{2275} & \textbf{100\%} \\
+\textbf{Razem} & \textbf{2275} & \textbf{100\%} &\textbf{2025} & \textbf{100\%} \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=2400,
-]
-\addplot coordinates {(Poprawne,2129) (Niepoprawne,146)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla sztywnych odpowiedzi.}\label{rys:plama2b}
-\end{figure}
+% TP: to są tak proste dane, że nie potrzeba wykresu.
+%\begin{figure}[H]
+%\centering
+%\begin{tikzpicture}
+%\begin{axis}[
+%    ybar,
+%    symbolic x coords={Poprawne, Niepoprawne},
+%    xtick=data,
+%    ylabel={Liczba},
+%    nodes near coords,
+%    enlarge x limits=1,
+%    bar width=15pt,
+%    ymin=0,
+%    ymax=2400,
+%]
+%\addplot coordinates {(Poprawne,2129) (Niepoprawne,146)};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{Wykres wyników sprawdzenia poprawności dla sztywnych odpowiedzi.}\label{rys:plama2b}
+%\end{figure}
 
-Podobna weryfikacja została przeprowadzona dla części odpowiedzi, stworzonych w formule parametryzowanej:
+%Podobna weryfikacja została przeprowadzona dla części odpowiedzi, stworzonych w formule parametryzowanej:
 
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla parametryzowanych odpowiedzi.}\label{tab:tabela3}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
-\hline
-Poprawne & 1658 & 81,88\% \\
-\hline
-Niepoprawne & 367 & 18,12\% \\
-\hline
-\textbf{Razem} & \textbf{2025} & \textbf{100\%} \\
-\hline
-\end{tabular}
-\end{table}
+%\begin{table}
+%\caption{Tabela sprawdzenia poprawności dla parametryzowanych odpowiedzi.}\label{tab:tabela3}
+%\centering%
+%\begin{tabular}{|l|c|c|}
+%\hline
+%\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+%\hline
+%Poprawne & 1658 & 81,88\% \\
+%\hline
+%Niepoprawne & 367 & 18,12\% \\
+%\hline
+%\textbf{Razem} & \textbf{2025} & \textbf{100\%} \\
+%\hline
+%\end{tabular}
+%\end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=2000,
-]
-\addplot coordinates {(Poprawne,1658) (Niepoprawne,367)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla parametryzowanych odpowiedzi.}\label{rys:plama2c}
-\end{figure}
+% TP: to są tak proste dane, że nie potrzeba wykresu.
+%\begin{figure}[H]
+%\centering
+%\begin{tikzpicture}
+%\begin{axis}[
+%    ybar,
+%    symbolic x coords={Poprawne, Niepoprawne},
+%    xtick=data,
+%    ylabel={Liczba},
+%    nodes near coords,
+%    enlarge x limits=1,
+%    bar width=15pt,
+%    ymin=0,
+%    ymax=2000,
+%]
+%\addplot coordinates {(Poprawne,1658) (Niepoprawne,367)};
+%\end{axis}
+%\end{tikzpicture}
+%\caption{Wykres wyników sprawdzenia poprawności dla parametryzowanych odpowiedzi.}\label{rys:plama2c}
+%\end{figure}
 
-Sumaryczne wyniki, niezależnie od różnicy w formule kodu, dają ponad 80\% skuteczności. Test jest istotny, bo pokazuje, że model radzi sobie z formułowaniem możliwych do rozwiązania zadań. Zwłaszcza przy zadaniach z sztywno zapisanym kodem wynikowym, rezultaty pokazują, że generator potrafi w większości wypadków tworzyć prawidłowo składniowe wyniki.
+% TP: Poniżej moja propozycja krótko i na temat:
+Kompiluje się 88,07\% wygenerowanych modeli PL, w tym 95,58\% dla wersji sztywnej i 81,88\% dla wersji parametryzowanej. Tabela~\ref{tab:experiment:compilation} prezentuje liczbę i odsetek przykładów ze zbioru testowego, dla których DMJ wygenerował kompilujący i niekompilujący się kod. Tabela~\ref{tab:experiment:compilation:breakdown} zawiera analogiczne dane w~rozbiciu na wersje sztywną i parametryzowaną problemu.
 
-\section{Jaki jest średni procent poprawności odpowiedzi generatora na zbiorze testowym?}
+%Do odpowiedzi na to pytanie został wykorzystany zbiór testowy oraz program SCIP sprawdzający możliwość stworzenia rozwiązania dla podanego modelu PL. Program dla rozwiązania nadaje status \texttt{VALID} (poprawny) lub \texttt{NOT VALID} (niepoprawny). Do weryfikacji i udzielenia odpowiedzi na to pytanie należy zliczyć liczbę poprawnie i niepoprawnie zweryfikowanych kodów oraz obliczyć ich procentową wartość.
 
-Do uzyskania średniego procenta poprawności odpowiedzi, potrzebne są konkretne rezultaty pozyskane z algorytmu rozwiązującego SCIP. Takie wyniki zostały porównane z wynikami poprawnych rozwiązań i na podstawie porównania otrzymywały status poprawnego lub niepoprawnego rozwiązania. Do takiej weryfikacji brane pod uwagę były jedynie rozwiązania, które uzyskały status poprawnego (VALID) podczas poprzedniego eksperymentu.
+%Posługując się zbiorem testowym, zweryfikowane zostały odpowiedzi generatora \textit{ZIMPL}, oraz otrzymały konkretne statusy. \textbf{Procentową wartością, jaka została osiągnięta przy sprawdzaniu poprawnej kompilacji to 88.07\%}. Poniżej zostały przedstawione dokładne wyniki.
+
+%Łączne wyniki generatora \textit{ZIMPL} dla całego zbioru testowego:
+
+
+%Ze względu na różnice w procesie generacji kodu, zależnie od potrzeby parametryzacji lub stworzenia sztywnego (tzw. hardcoded) modelu  \textit{ZIMPL}, wyniki różnią się od siebie, a co za tym idzie, proces tworzenia parametryzowanego kodu wymaga wykorzystania większej liczby zapytań i~struktury o większej złożoności. % TP: TODO <- jakiej struktury?
+%W~związku z tym należy uwzględnić również wyniki dla obu wersji wygenerowanych modeli  \textit{ZIMPL}.
+
+%Łączne wyniki generatora  \textit{ZIMPL} dla zbioru testowego posiadającego odpowiedzi dla wyników kodowanych w formule sztywnej:
+
+
+Opracowany system generuje poprawne modele z prawdopodobieństwem ponad 80\% niezależnie od przyjętej formy wynikowego modelu PL. %Sumaryczne wyniki, niezależnie od różnicy w formule kodu, oferują ponad 80\% skuteczności. 
+Test jest istotny, bo pokazuje, że system radzi sobie z formułowaniem możliwych do rozwiązania modeli LP. Zwłaszcza przy modelach LP ze sztywno zapisanym kodem wynikowym, rezultaty pokazują, że generator potrafi w większości wypadków tworzyć prawidłowo składniowe wyniki. % TP: TODO: <- nie jestem przekonany do tego akapitu. W zasadzie powtarza i rozmywa to co zostało powiedziane wczesniej. Takie ogólnikowe stwierdzenia bardziej pasują do dyskusji.
+
+% TP: TODO: Bardzo ważne: wykonajcie proszę analizy statystyczne:
+% - estymacja 95% przedziałów ufności dla prawdopodobieństwa zwrócenia poprawnego modelu: slajd 12 stąd https://theta.edu.pl/wp-content/uploads/2014/02/W11EP.pdf - możecie dopisać do tabel wyżej jako $procent \pm połowa szerokości przedziału$
+% - test t lub Z na różnice między prawdopodobieństwami zwrócenia poprawnych modeli w wersj sztywnej i parametryzowanej, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych
+
+\section{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?} % TP: <- usuwam słowo średni, bo "średni procent" nie brzmi poprawnie; niżej też
+
+% TP: TODO: Bardzo proszę, przeróbcie ten tekst w stylu poprzedniej sekcji: krótka odpowiedź na pytanie z nagłówka + wyrzucić wykresy + zagregować tabele 5.4 i 5.5  oraz 5.7 i 5.8 + analiza statystyczna.
+% Tutaj trzeba jeszcze wyjaśnić jak jest weryfikowana poprawność odpowiedzi, bo z poniższego tekstu to nie wynika. 
+
+Do uzyskania procenta poprawności odpowiedzi, potrzebne są konkretne rezultaty pozyskane z algorytmu rozwiązującego SCIP. Takie wyniki zostały porównane z wynikami poprawnych rozwiązań i na podstawie porównania otrzymywały status poprawnego lub niepoprawnego rozwiązania. Do takiej weryfikacji brane pod uwagę były jedynie rozwiązania, które uzyskały status poprawnego (VALID) podczas poprzedniego eksperymentu.
 
 \textbf{Procent poprawności odpowiedzi względem poprawnych wyników, przeanalizowany na zbiorze testowym, wynosi 60,93\%.} Ten sam wynik analizowany na \textbf{zbiorze testowym wyłączając wyniki, które nie zostały poprawnie skompilowane w poprzednim etapie, procent poprawności wynosi 69,18\%}. Poniżej przedstawiona jest tabela uwzględniająca wszystkie dane testowe wraz z wynikiem analizy rozwiązań.
 
@@ -380,7 +402,10 @@ Niezgadzające się & 403 & 24,31\% \\
 
 Przy interpretowaniu tych wyników należy uwzględnić czynniki, które mogły powodować szumy. Jednym z nich jest niepoprawna interpretacja zadania przez generator. W przypadku, gdy model językowy zrozumie zadanie w inny sposób niż autor bazy, wynik automatycznie jest klasyfikowany jako niepoprawny, mimo że nie zawsze będzie błędny względem treści zadania.
 
-\section{Czy istnieje poprawa w jakości wygenerowanego rozwiązania, w stosunku do rozwiązania za pomocą pojedynczego zapytania?}
+\section{Czy opracowany system generuje modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
+% TP: TODO: Tutaj też sugeruję skrócić odpowiedź i usunąć rysunek 5.7; 5.8 może zostać
+% To co nazywacie "pojedynczym zapytaniem" lepiej nazwać "kontrolnym DMJ" i trzeba krótko napisać co to dokładnie jest, tj. GPT-4o-mini?
+% Pilnujcie nazewnictwa; nie "rozwiązanie", a "model":
 
 Weryfikacja rozwiązania, poza sprawdzeniem poprawności generowanego kodu, odbywa się również poprzez porównanie jego wyników do wyników standardowego zapytania skierowanego do modelu językowego. Jako standardowe zapytanie rozumiane jest zapytanie w formacie:
 
@@ -391,9 +416,11 @@ roziwązanie>
 \end{verbatim}
 \end{quote}
 
-Kod generowany poprzez takie zapytanie przechodzi jeszcze obróbce końcowej, w tym usuwaniu zbędnych znaków wywołujących niepotrzebne zakłócenia w interpretacji kodu. Zdecydowano się na taki krok ze względu na brak skuteczności, w celu faktycznego sprawdzenia, czy kod jest poprawny, niezależnie od dodatkowych informacji przekazywanych w odpowiedzi.
+Kod generowany poprzez takie zapytanie przechodzi jeszcze obróbce końcowej, w tym usuwaniu zbędnych znaków wywołujących niepotrzebne zakłócenia w interpretacji kodu. % TP: TODO: jakiej konkretnie obróbce? Jakich znaków?
+Zdecydowano się na taki krok ze względu na brak skuteczności, % TP: TODO: <- w eksperymentach są pokazywane konkretne miary, więc należy używać ich nazw; "skuteczność" nie jest zdefiniowana
+w celu faktycznego sprawdzenia, czy kod jest poprawny, niezależnie od dodatkowych informacji przekazywanych w odpowiedzi.
 
-\textbf{Istnieje znacząca poprawa w jakości wygenerowanego rozwiązania w stosunku do rozwiązania za pomocą pojedynczego zapytania.} Testy poprowadzone na jednorazowym zapytaniu, wykorzystując model językowy GPT-4o-mini oraz temperaturę = 0, czyli dokładnie takie parametry, jakie zostały zastosowane w przypadku stworzonego generatora, jasno wskazują na zerową skuteczność. Rezultaty nigdy nie osiągają statusu poprawnego, a tym samym nie są rozważane przy porównywaniu rozwiązań. Model nie zna składni języka  \textit{ZIMPL}, w związku z czym dodaje do niego niepoprawne elementy kodu, zwłaszcza w przypadku deklaracji ograniczeń. Nie jest świadomy wszystkich koniecznych do kompilacji elementów kodu, a także generuje podstawowe błędy przy odczytywaniu wartości z polecenia. Wynik sprawdzania poprawności uwzględnia jedynie sprawdzenie możliwości kompilacji kodu. Nie ma potrzeby przeprowadzania dalszych testów, albowiem musiałyby przebiegać na pustym zbiorze rozwiązań.
+\textbf{Istnieje znacząca poprawa w jakości wygenerowanego rozwiązania w stosunku do rozwiązania za pomocą pojedynczego zapytania.} Testy poprowadzone na jednorazowym zapytaniu, wykorzystując model językowy GPT-4o-mini oraz temperaturę = 0, czyli dokładnie takie parametry, jakie zostały zastosowane w przypadku stworzonego generatora, jasno wskazują na zerową skuteczność. Rezultaty nigdy nie osiągają statusu poprawnego, a tym samym nie są rozważane przy porównywaniu rozwiązań. DMJ nie zna składni języka  \textit{ZIMPL}, w związku z czym dodaje do niego niepoprawne elementy kodu, zwłaszcza w przypadku deklaracji ograniczeń. Nie jest świadomy wszystkich koniecznych do kompilacji elementów kodu, a także generuje podstawowe błędy przy odczytywaniu wartości z polecenia. Wynik sprawdzania poprawności uwzględnia jedynie sprawdzenie możliwości kompilacji kodu. Nie ma potrzeby przeprowadzania dalszych testów, albowiem musiałyby przebiegać na pustym zbiorze rozwiązań.
 
 \begin{table}[ht]
 \caption{Tabela sprawdzenia poprawności dla zbioru testowego przy zastosowaniu pojedynczego zapytania.}\label{tab:tabela10}
