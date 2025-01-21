@@ -1,5 +1,17 @@
 
-\chapter{Podstawy teoretyczne}\label{ch:review}
+\chapter{Przegląd literatury}\label{ch:review}
+
+% TP: TODO: Ten rozdział powinien być przeglądem literatury na tematy związane z pracą. Sugeruję utworzyć sekcje poświęcone następującym tematom:
+% - Generowanie modeli PL z opisów zagadnień - alternatywne systemy działające na podobnej zasadzie -> OptiMUS
+% - Odkrywanie modeli PL z innego rodzaju danych - metody/algorytmy syntezy/odkrywania/generowania modeli PL (i innych PM) na podstawie danych/przykładów/rozwiązań/informacji zwrotnej/uczenia aktywnego/itd.
+% - Duże modele językowe dla generowania kodu - w szczególności modele dedykowane pod generowanie modeli PL, np. AMPL ma taką nakładkę na ChatGPT https://ampl.com/guide-to-using-chatgpt-for-ampl-models-and-streamlit-apps/ Warto referować jakiś benchmark, który pozwoli wskazać, który model generalnie lepiej się sprawdza
+% W przeglądzie literatury powinniście porównać przeglądane prace z Waszą, w szczególności krótko napiszcie jakie są różnice, w czym Wasze podejście jest lepsze/inne. Im bardziej odległa tematycznie praca, tym to porównanie może być krótsze, albo nawet pominięte (np. przy odkrywaniu z przykładów rozwiązań)
+% Obecna sekcja "Przeszukanie literatury" brzmi opis, w jaki sposób pozyskaliście wiedzę o PL/jak sami się uczyliście. To nie o to chodzi. Sugeruję usunąć; jeśli w ten sposób były pozyskiwane dane do bazy zagadnień optymalizacyjch (problemów), to raczej należy z tamtym opisem zintegrować tę informację.
+% Obecna sekcja "Uczenie przez wzmacnianie" pasuje bardziej do opisu metody (Rozdział 3).
+% Obecna sekcja "Podobne narzędzia - OptiMUS" może być zalążkiem dla Sekcji Generowanie modeli PL z opisów zagadnień, o której piszę wyżej. Trochę przerobiłem tekst, który tam jest. To musi być bardzo konkretnie napisane, bez nieistotnych informacji i lania wody.
+
+
+
 
 \section{Przeszukanie literatury}
 
@@ -62,8 +74,12 @@ W pracy wykorzystano uczenie przez wzmacnianie, którego kroki opisano poniżej:
     \item Na podstawie oceny wygenerowanego modelu \textit{PL}, instrukcja generacji modelu jest poprawiana
 \end{itemize}
 
-\section{Podobne narzędzia -- \textit{OptiMUS}\cite{ahmaditeshnizi2023optimus}}
+\section{Podobne narzędzia -- \textit{OptiMUS}} \label{sec:optimus}
 
-Podczas przeglądu literatury natrafiono na podobne narzędzia wykonane przez Wydział Nauk o Zarządzaniu i Inżynierii na Uniwersytecie Stanforda -- \textit{OptiMUS}. Głównymi różnicami między narzędziami jest możliwość obsługi problemów \textit{ang. mixed-integer linear programming (MILP)} oraz system automatycznej iteracji w celu naprawy błędów (\textit{OptiMUS}). Program w razie uzyskania niepoprawnej odpowiedzi wysyła zapytanie do \textit{DMJ} dodatkowo z treścią otrzymanego błedu. Program generuje wtedy poprawiony kod --- operacja jest wykonywana do momentu uzyskania poprawnej odpowiedzi bądź do momentu osiągnięcia maksymalnej liczby iteracji. Dodatkowo \textit{OptiMUS} zapisuje dane z tekstu do pliku w określonym formacie, co ułatwia przetwarzanie. \label{sec:optimus}
+\akronim{OptiMUS} \cite{ahmaditeshnizi2023optimus} jest systemem opartym o \akronim{DMJ}, który generuje modele PL w języku TODO na podstawie opisu słownego zagadnienia w języku angielskim. % TP: TODO <- uzupełnijcie język/format, w którym działa OptiMUS
+Głównymi różnicami między narzędziami jest obsługa modeli \textit{ang. mixed-integer linear programming (MILP)} oraz system automatycznej iteracji w~celu naprawy błędów (\akronim{OptiMUS}). % TP: TODO <- nie jest jasne, który system obsługuje MILP, a który nie; wydawało mi się, że Wasz obsługuje MILP; z punktu widzenia generowania kodu obsługa MILP nie jest szczególnie trudna.
+OptiMUS w~razie uzyskania niepoprawnej odpowiedzi wysyła zapytanie do \akronim{DMJ} dodatkowo z~treścią otrzymanego błędu. % TP: TODO <- nie jest jasne skąd się bierze błąd
+Program generuje wtedy poprawiony kod --- operacja jest wykonywana do momentu uzyskania poprawnej odpowiedzi, bądź do momentu osiągnięcia maksymalnej liczby iteracji. Dodatkowo \akronim{OptiMUS} zapisuje dane z tekstu do pliku w określonym formacie, co ułatwia przetwarzanie. % TP: TODO <- jakie dane? Czy to jest istotna informacja?
+
 
 
