@@ -76,10 +76,10 @@ W pracy wykorzystano uczenie przez wzmacnianie, którego kroki opisano poniżej:
 
 \section{Podobne narzędzia -- \textit{OptiMUS}} \label{sec:optimus}
 
-\akronim{OptiMUS} \cite{ahmaditeshnizi2023optimus} jest systemem opartym o \akronim{DMJ}, który generuje modele PL w języku TODO na podstawie opisu słownego zagadnienia w języku angielskim. % TP: TODO <- uzupełnijcie język/format, w którym działa OptiMUS
-Głównymi różnicami między narzędziami jest obsługa modeli \textit{ang. mixed-integer linear programming (MILP)} oraz system automatycznej iteracji w~celu naprawy błędów (\akronim{OptiMUS}). % TP: TODO <- nie jest jasne, który system obsługuje MILP, a który nie; wydawało mi się, że Wasz obsługuje MILP; z punktu widzenia generowania kodu obsługa MILP nie jest szczególnie trudna.
+\textit{OptiMUS} \cite{ahmaditeshnizi2023optimus} jest systemem opartym o \akronim{DMJ}, który generuje modele PL w języku TODO na podstawie opisu słownego zagadnienia w języku angielskim. % TP: TODO <- uzupełnijcie język/format, w którym działa OptiMUS
+Głównymi różnicami między narzędziami jest obsługa modeli \english{mixed-integer linear programming, MILP} oraz system automatycznej iteracji w~celu naprawy błędów (\textit{OptiMUS}). % TP: TODO <- nie jest jasne, który system obsługuje MILP, a który nie; wydawało mi się, że Wasz obsługuje MILP; z punktu widzenia generowania kodu obsługa MILP nie jest szczególnie trudna.
 OptiMUS w~razie uzyskania niepoprawnej odpowiedzi wysyła zapytanie do \akronim{DMJ} dodatkowo z~treścią otrzymanego błędu. % TP: TODO <- nie jest jasne skąd się bierze błąd
-Program generuje wtedy poprawiony kod --- operacja jest wykonywana do momentu uzyskania poprawnej odpowiedzi, bądź do momentu osiągnięcia maksymalnej liczby iteracji. Dodatkowo \akronim{OptiMUS} zapisuje dane z tekstu do pliku w określonym formacie, co ułatwia przetwarzanie. % TP: TODO <- jakie dane? Czy to jest istotna informacja?
+Program generuje wtedy poprawiony kod --- operacja jest wykonywana do momentu uzyskania poprawnej odpowiedzi, bądź do momentu osiągnięcia maksymalnej liczby iteracji. Dodatkowo \textit{OptiMUS} zapisuje dane z tekstu do pliku w określonym formacie, co ułatwia przetwarzanie. % TP: TODO <- jakie dane? Czy to jest istotna informacja?
 
 
 
