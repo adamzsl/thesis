@@ -8,20 +8,28 @@
 \tikzstyle{decision} = [diamond, minimum width=2cm, minimum height=1cm, text centered, draw=black]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
-\chapter{Opis rozwiązania}\label{ch:generation}
+\chapter{Generowanie modeli PL z~opisów tekstowych zagadnień optymalizacyjnych}\label{ch:generation}
 
-\section{Wtęp teoretyczny}
+\section{Wstęp teoretyczny}
 
-Programowanie liniowe (\textit{PL}) jest metodą minimalizacji wieloaspektowej z funkcją kosztu. Metodę opisują poniższe twierdzenia\footnote{Definicja i twierdzenia pochodzą częściowo z Metod Podejmowania Decyzji Waldemara Rebizanta~\cite{rebizant2012metody}.}:
-\begin{itemize}
-\item Tw1: Zbiór wypukły \textit{W} to zbiór, w którym odcinek łączący dwa dowolne punkty zawierające się w zbiorze \textit{W}, również zawiera się w zbiorze \textit{W}.
+% TP: Po co to? Przecież nie rozwiązujecie modeli PL, ani nie korzystacie w żaden sposób z tych twierdzeń; one też nie pasują do ogólniejszej klasy -> MILP, którą Wasza metoda obsługuje
+%Programowanie liniowe (\textit{PL}) jest metodą minimalizacji wieloaspektowej z funkcją kosztu. Metodę opisują poniższe twierdzenia\footnote{Definicja i twierdzenia pochodzą częściowo z Metod Podejmowania Decyzji Waldemara Rebizanta~\cite{rebizant2012metody}.}:
+%\begin{itemize}
+%\item Tw1: Zbiór wypukły \textit{W} to zbiór, w którym odcinek łączący dwa dowolne punkty zawierające się w zbiorze \textit{W}, również zawiera się w zbiorze \textit{W}.
 
-\item Tw2: Zbiór rozwiązań dopuszczalnych \textit{D} jest zbiorem wypukłym.
+%\item Tw2: Zbiór rozwiązań dopuszczalnych \textit{D} jest zbiorem wypukłym.
 
-\item Tw3: Warunki ograniczające tworzą wierzchołek zbioru wypukłego \textit{D}, gdzie funkcja osiąga wartość optymalną.
+%\item Tw3: Warunki ograniczające tworzą wierzchołek zbioru wypukłego \textit{D}, gdzie funkcja osiąga wartość optymalną.
 
-\item Tw4: Przy co najmniej dwóch rozwiązaniach optymalnych, każda liniowa kombinacja tych rozwiązań, jest rozwiązaniem optymalnym danego modelu decyzyjnego.
-\end{itemize}
+%\item Tw4: Przy co najmniej dwóch rozwiązaniach optymalnych, każda liniowa kombinacja tych rozwiązań, jest rozwiązaniem optymalnym danego modelu decyzyjnego.
+%\end{itemize}
+
+% TP: TODO: Tutaj też sugeruję nie rozwodzić się nad zapisami, które są istotne z punktu widzenia metod rozwiązywania modeli PL; z punktu widzenia modelowania rozróżnienie postaci ogólnej i standardowej nie ma większego znaczenia. Z drugiej strony brakuje definicji modelu PL takiego, który Wy generujecie. 
+% Dlatego sugeruję tutaj wprowadzić 3 sekcje:
+% - Model Programowania Liniowego - tutaj definicja, która jest zgodna z reprezentacją ZIMPL
+% - Problem generowania modelu PL z opisu tekstowego - tutaj poza formalnym postawieniem problemu należy omówić właściwości tego problemu; zdefiniujcie też warianty problem z parametryzacją i bez parametryzacji
+% - Problem oceny modelu PL na zgodność z opisem tekstowym - formalny opis problemu i jego właściwości
+% W załączeniu do maila dołączam przykładową pracę mgr, w której autor definiuje model PL i problem odkrywania modelu PL z danych (rozdział 2). Możecie się zasugerować, ale proszę nie przepisywać żywcem bo to byłby plagiat!
 Problem programowania liniowego można zapisać w dwóch postaciach:
 
 \subsection{Postać ogólna}
@@ -65,13 +73,19 @@ Problem programowania liniowego można zapisać w dwóch postaciach:
 
 \section{Propozycja rozwiązania}
 
-Rozwiązanie rozpoczyna się od utworzenia bazy danych z parami: \textit{problem} jako opis słowny problemu \textit{PL} oraz \textit{kod modelu} jako poprawny kod w języku \textit{ZIMPL}. Następnie tworzony jest \textit{Szablon zapytania}, który wykorzystuje schemat zaczerpnięty z materiałów edukacyjnych opisanych w dziale \ref{sec:model_example}. \textit{Szablon zapytania} kierowany jest do \textit{DMJ} w celu generacji modelu \textit{PL}. W związku z niskim kosztem i pozytywnymi wynikami, do tworzenia zapytania wykorzystano model \texttt{GPT 4o-mini}. Wygenerowany \textit{model} zostaje poddany procesowi \textit{Walidacji działania kodu}, korzystając z programu \href{https://www.scipopt.org/}{SCIP}. Zdecydowano się na \textit{SCIP}, ponieważ jest on jednym z najskuteczniejszych oraz najlepiej udokumentowanych narzędzi do rozwiązywania między innymi problemów \textit{PL}. W przypadku wystąpienia błędu w wygenerowanym kodzie, program do \textit{Walidacji działania kodu} powiadamia o tym \textit{Ekspertów}, którzy przystępują do rekonstrukcji szablonu zapytania.
+% TP: TODO: bardzo proszę trzymać się nazewnictwa:
+% - "zagadnienie" to zagadnienie optymalizacyjne
+% - "problem" to problem odkrywania modelu PL lub problem ocen modelu PL
+% - "rozwiązanie" to rozwiązanie modelu PL
+% TP: Nie używajcie modyfikatora [H] do figure; niech latex to sam ułoży wg ogólnych zasad.
 
-Jeśli \textit{Walidacja działania kodu} zakończy się sukcesem, wygenerowany kod jest oceniany poprzez niezależny \textit{DMJ}. Aby uniknąć sytuacji, w której model oceniający jest taki sam jak model generujący kod, zdecydowano się na wykorzystanie modelu \texttt{GPT-4} do ewaluacji działania generatora. Jeśli \textit{Ocena jakości modelu} zwróci \textit{niesatysfakcjonujące rozwiązanie} jest ono zwracane do \textit{Ekspertów} w celu refaktoryzacji \textit{Szablonu zapytania}. Modele wynikowe \textit{ZIMPL} oraz walidator punktujący poszczególne zadania są poddawane sprawdzeniu i czyszczeniu z ewentualnych nieścisłości wywołanych przez halucynacje \textit{DMJ}, poprzez usuwanie i modyfikację częstych błędów.
+% TP: TODO: Sugeruję takie sekcje:
+% - Architektura systemu - tutaj należy dorobić rysunek architektury i odpowiednio dostosować poniższy opis; w opisie rozdzielcie architekturę od przepływu sterowania. Powinny być osobno omówione dwa przepływy sterowania: generowanie modelu i ocena modelu. Tutaj też odwołajcie się do zbioru danych i napiszcie, że jest on dokładnie omówiony w rozdziale \ref{ch:dataset}.
+% - Inżynieria podpowiedzi - tutaj opiszcie jak powstały prompty używane w poszczególnych problemach, jak były testowane i rozwijane; jeśli są dostępne jakieś wyniki eksperymentalne krótko (np. na jednym wykresie) pokazujące poprawę jakości uzyskiwanych wyników dla kolejnych wersji to też możecie pokazać; Na koniec jako listing kodu możecie pokazać wynikowe prompty, być może mniejszą czcionką.
+% Te opisy też powinny być bardziej konkretne i zwięzłe. Trzeba napisać np. jak nauczyliście DMJ ZIMPLa.
 
-Wizualny opis rozwiązania został przedstawiony na rysunku \ref{fig:workflow}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{tikzpicture}[node distance=1.5cm]
     
@@ -104,8 +118,18 @@ Wizualny opis rozwiązania został przedstawiony na rysunku \ref{fig:workflow}.
 \label{fig:workflow}
 \end{figure}
 
+Wizualny opis rozwiązania został przedstawiony na rysunku \ref{fig:workflow}. % TP: łatwiej jest zrozumieć, kiedy od początku jest odwołanie do schematu
+Rozwiązanie rozpoczyna się od utworzenia bazy danych z parami: \textit{problem} jako opis słowny problemu \textit{PL} oraz \textit{kod modelu} jako poprawny kod w języku \textit{ZIMPL}. Następnie tworzony jest \textit{Szablon zapytania}, który wykorzystuje schemat zaczerpnięty z materiałów edukacyjnych opisanych w dziale \ref{sec:model_example}. \textit{Szablon zapytania} kierowany jest do \textit{DMJ} w celu generacji modelu \textit{PL}. W związku z niskim kosztem i pozytywnymi wynikami, do tworzenia zapytania wykorzystano model \texttt{GPT 4o-mini}. Wygenerowany \textit{model} zostaje poddany procesowi \textit{Walidacji działania kodu}, korzystając z programu \href{https://www.scipopt.org/}{SCIP} \cite{TODO}. % TP: TODO: SCIP ma oficjalną publikację do cytowania https://www.scipopt.org/index.php#cite
+ Zdecydowano się na \textit{SCIP}, ponieważ jest on jednym z najskuteczniejszych oraz najlepiej udokumentowanych narzędzi do rozwiązywania między innymi problemów \textit{PL}. % TP: TODO <- unikajcie niepotwierdzonych stwierdzeń; prawdopodobnie można znależć benchmarki, w których SCIP wypada słabiej od konkurencji; wybór SCIPa wynika z jego dostępności; to jest projekt open-source
+ W przypadku wystąpienia błędu w wygenerowanym kodzie, program do \textit{Walidacji działania kodu} powiadamia o tym \textit{Ekspertów}, którzy przystępują do rekonstrukcji szablonu zapytania.
 
-Zakładając możliwość komercyjnego wykorzystania generatora modeli, stworzono interfejs graficzny. Wykorzystano do tego narzędzie \textit{Streamlit} oraz gotowy przepływ zapytań \textit{DML}. Jako funkcjonalności narzędzia można wyróżnić:
+Jeśli \textit{Walidacja działania kodu} zakończy się sukcesem, wygenerowany kod jest oceniany poprzez niezależny \textit{DMJ}. Aby uniknąć sytuacji, w której model oceniający jest taki sam jak model generujący kod, zdecydowano się na wykorzystanie modelu \texttt{GPT-4} do ewaluacji działania generatora. Jeśli \textit{Ocena jakości modelu} zwróci \textit{niesatysfakcjonujące rozwiązanie} jest ono zwracane do \textit{Ekspertów} w celu refaktoryzacji \textit{Szablonu zapytania}. Modele wynikowe \textit{ZIMPL} oraz walidator punktujący poszczególne zadania są poddawane sprawdzeniu i czyszczeniu z ewentualnych nieścisłości wywołanych przez halucynacje \textit{DMJ}, poprzez usuwanie i modyfikację częstych błędów.
+
+
+\section{Graficzny interfejs użytkownika}\label{sec:generation:gui}
+
+%Zakładając możliwość komercyjnego wykorzystania generatora modeli, s
+Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite{TODO} oraz gotowy przepływ zapytań \textit{DML} \cite{TODO}. Jako funkcjonalności narzędzia można wyróżnić:
 
 \begin{enumerate}
 \item Rozwijany pasek boczny z zapisaną historią poprzednich rozwiązań wygenerowanych w czasie sesji oraz możliwością edycji i usuwania.
@@ -115,9 +139,7 @@ Zakładając możliwość komercyjnego wykorzystania generatora modeli, stworzon
 \item Obszar wypisywania wygenerowanych wyników z możliwością edycji.
 \end{enumerate}
 
-Na poniższym schemacie przedstawiono wizualizację ekranu generatora wraz z układem jego funkcjonalności.
-
-\begin{figure}[H]
+\begin{figure}
 \centering
 \begin{tikzpicture}[
     app/.style={draw, thick, rectangle, rounded corners, minimum width=\textwidth, minimum height=14cm, fill=gray!10},
@@ -140,6 +162,12 @@ Na poniższym schemacie przedstawiono wizualizację ekranu generatora wraz z uk�
 \caption{Schemat graficzny interfejsu aplikacji z opisem elementów.}
 \label{fig:application-diagram}
 \end{figure}
+
+Na Rysunku \ref{fig:application-diagram} przedstawiono wizualizację ekranu generatora wraz z układem jego funkcjonalności.
+
+% TP: TODO: dla kompletności pokażcie też zrzut ekranu z GUI
+
+
 
 
 
