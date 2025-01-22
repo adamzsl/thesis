@@ -24,6 +24,7 @@ Ocena jakości składni dla poszczególnych zapytań pod względem poprawnego zd
 \end{itemize}
 
 % TP: TODO: tutaj można dopisać parametry, które są stałe w trakcie eksperymentów (temperatura?) oraz inne założenia
+% TP: TODO: tutaj też można zdefiniować "kontrolnego DMJ", jako GPT-4 (czy jakiś inny DMJ) z prostym promptem, tj. to co obecnie jest zdefiniowane w Sekcji 5.4; ten kontrolny DMJ jest wykorzystywany w Sekcjach 5.4 i 5.5
 
 \section{Jaki procent modeli stworzonych przez generator  \textit{ZIMPL} kompiluje się poprawnie?}
 
@@ -164,7 +165,7 @@ Test jest istotny, bo pokazuje, że system radzi sobie z formułowaniem możliwy
 
 % TP: TODO: Bardzo ważne: wykonajcie proszę analizy statystyczne:
 % - estymacja 95% przedziałów ufności dla prawdopodobieństwa zwrócenia poprawnego modelu: slajd 12 stąd https://theta.edu.pl/wp-content/uploads/2014/02/W11EP.pdf - możecie dopisać do tabel wyżej jako $procent \pm połowa szerokości przedziału$
-% - test t lub Z na różnice między prawdopodobieństwami zwrócenia poprawnych modeli w wersj sztywnej i parametryzowanej, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych
+% - test t lub Z na różnice między prawdopodobieństwami zwrócenia poprawnych modeli w wersj sztywnej i parametryzowanej dla alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych
 
 \section{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?} % TP: <- usuwam słowo średni, bo "średni procent" nie brzmi poprawnie; niżej też
 
@@ -505,30 +506,38 @@ Dla wykresu zastosowano skrócone nazewnictwo, w którym komplementarnie do powy
 \end{figure}
 
 \section{Jaką poprawę zapewnia zaawansowane generowanie kodu pod względem jakości składni w stosunku do pojedynczego zapytania?}
+% TP: TODO: sugeruję zmienić na "Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?" i dalej pisać o kontrolnym DMJ
 
-Do sprawdzenia jakości modelu pod względem jego składni i jakości zrozumienia zadania wykorzystano model GPT-4o. Po otrzymaniu wyników, dla większej wiarygodności, wykonano oczyszczanie rezultatów i naprawę oczywistych błędów halucynowanych przez model. Zależnie od funkcjonalności kodu, wykorzystano inne mierniki jakości. Dla wyników parametryzowanych zastosowano skalę sześciostopniową, podczas gdy dla sztywnego kodowania - czterostopniową.
+Dla modeli PL w formule sztywnej generator uzyskał \textbf{3,31p}, a kontrolny DMJ \textbf{1,81p} na 4-punktowej skali jakości zdefiniowanej poniżej. Dla modeli PL w formule parametryzowanej, generator uzyskał \textbf{4,75p}, a kontrolny DMJ \textbf{2,78p} na 6-punktowej skali jakości zdefiniowanej poniżej.
 
-Wynikiem eksperymentu jest punktacja \textbf{3,31/4,00} dla wygenerowanych wyników, w porównaniu do \textbf{1,81/4,00} dla standardowego zapytania, dla wszystkich wyników sztywnego kodowania. Tak samo, dla parametryzowanych wyników powstałych w wyniku wykorzystania generatora oceną jest \textbf{4,75/6,00}, podczas gdy dla pojedynczego zapytania wynosi \textbf{2,78/6,00}. Sumaryczna poprawa względem standardowego zapytania \textbf{wzrosła o średnio 1,74} punktu.
+% TP: TODO: tutaj wypadałoby zrobić 2 testy statystyczne na różnice generator vs kontrolny DMJ; ta skala punktowa jest arbitralna, więc rozkład wartości może być nietypowy i byłbym ostrożny w stosowaniu testów parametrycznych; raczej sugeruję użyć np. Wilcoxona dla alpha=0,05 https://pl.wikipedia.org/wiki/Test_Wilcoxona_dla_par_obserwacji
 
-\subsection{Wyniki dla modelu zapisanego w sztywnej formule.}
+Do sprawdzenia jakości modelu PL pod względem jego składni i jakości zrozumienia zadania zastosowano ocenę ekspercką, w~której ekspert przyznawał punktu na czterech (formuła sztywna) lub sześciu (formuła parametryzowana) kryteriach. W~roli eksperta wykorzystano DMJ \textit{GPT-4o} \cite{TODO}, który jest niezależny od DMJ stosowanych w generatorze i kontrolnym DMJ. Po otrzymaniu wyników, dla większej wiarygodności, wykonano oczyszczanie rezultatów i naprawę oczywistych błędów halucynowanych przez DMJ. % TP: TODO <- opiszcie dokładnie procedurę czyszczenia i naprawy; jak dobrze rozumiem, w Sekcji 5.4 nie było takiej procedury; gdyby jednak była też tam stosowana, to wtedy możecie to czyszczenie dodać do opisu kontrolengo DMJ z sekcji 5.1
+% TP: TODO: tutaj brakuje też dokładnego udokumentowania procedury odpytania DMJ, tzn. jakiego prompta dostał? Czy to była sekwencja pytań i odpowiedzi? itd. Jako, że prompty są pewnie dedykowane pod formułę poniżej, to możecie je pokazać w poniższych sekcjach.
 
-Aby poprawnie zweryfikować wyniki, rozpatrzone zostały poszczególne elementy modelu wynikowego. Na początku rozważony zostanie model kodu zapisanego w \textbf{sztywnej formule}. Wszystkie wyniki są porównywane z poprawnym kodem zawartym w danych testowych. W tej skali punktowane były poszczególne elementy:
+%Zależnie od funkcjonalności kodu, wykorzystano inne mierniki jakości. Dla wyników parametryzowanych zastosowano skalę sześciostopniową, podczas gdy dla sztywnego kodowania - czterostopniową.
+
+%Wynikiem eksperymentu jest punktacja \textbf{3,31/4,00} dla wygenerowanych wyników, w porównaniu do \textbf{1,81/4,00} dla standardowego zapytania, dla wszystkich wyników sztywnego kodowania. Tak samo, dla parametryzowanych wyników powstałych w wyniku wykorzystania generatora oceną jest \textbf{4,75/6,00}, podczas gdy dla pojedynczego zapytania wynosi \textbf{2,78/6,00}. Sumaryczna poprawa względem standardowego zapytania \textbf{wzrosła o średnio 1,74} punktu.
+
+\subsection{Modele PL w sztywnej formule.}
+
+Dla wynikowych modeli PL w \textbf{sztywnej formule} poddano ocenie poniższe kryteria binarne w odniesieniu do wzorcowego modelu PL zawartego w danych testowych:
 
 \begin{enumerate}
-\item (1 punkt) \textbf{Definiowanie zmiennych} -- aby uzyskać punkt w tej kategorii, zmienne i typy muszą być zgodne ze sobą. Ich nazwy i komentarze mogą się od siebie różnić, ale logika musi pozostać taka sama. Brak zgodności powoduje utratę punktu.
-\item (1 punkt) \textbf{Funkcja celu} -- punkt przyznawany jest za poprawne zdefiniowanie funkcji celu. Musi być zgodna w strukturze, współczynnikach oraz poprawnie zdefiniowana za pomocą uwzględnienia minimalizacji lub maksymalizacji. Brak nazwy lub niezgodna struktura powodują utratę punktu.
-\item (1 punkt) \textbf{Ograniczenia} -- aby otrzymać punkt, ograniczenia muszą być zdefiniowane zgodnie z poprawnym kodem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje odjęcie punktu.
-\item (1 punkt) \textbf{Inne wymagania} -- punkt przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}).
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich typy są zgodne z modelem wzorcowym. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: <- zmieniłem, zweryfikujcie; czy jeśli generator _zadeklaruje_ wiecej zmiennych niż potrzeba, ale dobrze użyje tylko części zmiennych to dostanie punkt czy nie?
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). % TP: TODO: To trzeba doprecyzować - czy tutaj każdy czynnik jest oceniany 0,25p i razem sumuje się do 1p? Czy jeśli jeden komentarzb będzie zaczynać się od \#, a drugi nie to punkt zostanie przyznany? Czy puste linie dyskwalifikują przyznanie punktu? Czy długie ograniczenie rozpisane na wiele linii dyskwalifikuje przyznanie punktu?
 \end{enumerate}
 
-Poniżej przedstawiona została analiza wyników generatora oraz pojedynczego zapytania dla poszczególnych kategorii.
+Poniżej przedstawiona została analiza wyników generatora oraz kontrolnego DMJ dla poszczególnych kategorii.
 
 \begin{table}[ht]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennych}.}\label{tab:tabela12}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1832 & 1418 \\
 \hline
@@ -539,67 +548,70 @@ Poniżej przedstawiona została analiza wyników generatora oraz pojedynczego za
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1832) (0,443)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1418) (0,857)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}
-\end{figure}
+% TP: TODO: test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych
 
-Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczym zapytaniem. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba.
+% TP: to są proste dane; wykresy niepotrzebne
+%\begin{figure}[H]
+%\centering
+%\begin{minipage}{0.45\textwidth}
+%\centering
+%\begin{tikzpicture}
+%\begin{axis}[
+%    ybar,
+%    symbolic x coords={1, 0},
+%    xtick=data,
+%    ylabel={Liczba},
+%    width=1.1\textwidth,
+%    height=1.1\textwidth,
+%    nodes near coords,
+%    bar width=15pt,
+%    enlarge x limits=1,
+%    ymin=0,
+%    ymax=2100,
+%    xlabel={Punktacja},
+%    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+%]
+%\addplot coordinates {(1,1832) (0,443)};
+%\addlegendentry{Generator ZIMPL}
+%\end{axis}
+%\end{tikzpicture}
+%\end{minipage}%
+%\hspace{0.05\textwidth}
+%\begin{minipage}{0.45\textwidth}
+%\centering
+%\begin{tikzpicture}
+%\begin{axis}[
+%    ybar,
+%    symbolic x coords={1, 0},
+%    xtick=data,
+%    %ylabel={Liczba},
+%    width=1.1\textwidth,
+%    height=1.1\textwidth,
+%    ytick = \empty,
+%    nodes near coords,
+%    bar width=15pt,
+%    enlarge x limits=1,
+%    ymin=0,
+%    ymax=2100,
+%    xlabel={Punktacja},
+%    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+%]
+%\addplot coordinates {(1,1418) (0,857)};
+%\addlegendentry{Pojedyncze zapytanie}
+%\end{axis}
+%\end{tikzpicture}
+%\end{minipage}
+%\caption{Wykres ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}
+%\end{figure}
+
+Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczym zapytaniem. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. % TP: TODO: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania?
 
 \begin{table}[ht]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela13}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1882 & 1469 \\
 \hline
@@ -610,67 +622,72 @@ Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczy
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1882) (0,393)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1469) (0,806)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Funkcja celu}.}
-\end{figure}
+% TP: TODO: test statystyczny jw.
 
-W powyższym przykładzie widać całkowitą przewagę w ocenie obu wyników, która wskazuje na przewagę modelu  \textit{ZIMPL} stworzonego przez dostosowany do tego generator. Znacznie większą różnicę prezentują wygenerowane ograniczenia, co zostało przedstawione w wizualizacji poniżej. Pojedyncze zapytanie w każdym z przypadków testowych generuje kod zwierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny.
+% TP: to są proste dane, wykres niepotrzebny
+% \begin{figure}[H]
+% \centering
+% \begin{minipage}{0.45\textwidth}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     ybar,
+%     symbolic x coords={1, 0},
+%     xtick=data,
+%     ylabel={Liczba},
+%     width=1.1\textwidth,
+%     height=1.1\textwidth,
+%     nodes near coords,
+%     bar width=15pt,
+%     enlarge x limits=1,
+%     ymin=0,
+%     ymax=2100,
+%     xlabel={Punktacja},
+%     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+% ]
+% \addplot coordinates {(1,1882) (0,393)};
+% \addlegendentry{Generator ZIMPL}
+% \end{axis}
+% \end{tikzpicture}
+% \end{minipage}%
+% \hspace{0.05\textwidth}
+% \begin{minipage}{0.45\textwidth}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     ybar,
+%     symbolic x coords={1, 0},
+%     xtick=data,
+%     %ylabel={Liczba},
+%     width=1.1\textwidth,
+%     height=1.1\textwidth,
+%     ytick = \empty,
+%     nodes near coords,
+%     bar width=15pt,
+%     enlarge x limits=1,
+%     ymin=0,
+%     ymax=2100,
+%     xlabel={Punktacja},
+%     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+% ]
+% \addplot coordinates {(1,1469) (0,806)};
+% \addlegendentry{Pojedyncze zapytanie}
+% \end{axis}
+% \end{tikzpicture}
+% \end{minipage}
+% \caption{Wykres ocenionych wyników dla kategorii \textbf{Funkcja celu}.}
+% \end{figure}
+
+Generator tworzy poprawne funkcje celu %TP: TODO: zależnie od wyników testu statystycznego: jeśli wyjdzie różnica to "znacząco", jeśli brak różnicy to "nieznacznie"
+częściej od kontrolnego DMJ. 
+Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z przypadków testowych generuje kod zwierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny. % TP: TODO: w tabeli jednak widać, że zdobywa jedyniki - chyba błąd w danych; zobaczcie, że średnie też nie pasują do danych.
 
 \begin{table}[ht]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela14}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 2140 & 1754 \\
 \hline
@@ -681,60 +698,62 @@ W powyższym przykładzie widać całkowitą przewagę w ocenie obu wyników, kt
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2600,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,2140) (0,135)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2600,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,0) (0,2275)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Ograniczenia}.}
-\end{figure}
+% TP: TODO: test statystyczy jw.
 
-Największą trudnością dla obu modeli jest uzyskanie pozytywnej punktacji w kategorii \textbf{Inne wymagania}. Wpływa na to fakt, iż jest to kategoria sprawdzająca wszystkie, wcześniej nieuwzględnione błędy, a zatem łatwo w niej stracić punkt. Również w tym przypadku generator okazał się nieco lepszy.
+% \begin{figure}[H]
+% \centering
+% \begin{minipage}{0.45\textwidth}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     ybar,
+%     symbolic x coords={1, 0},
+%     xtick=data,
+%     ylabel={Liczba},
+%     width=1.1\textwidth,
+%     height=1.1\textwidth,
+%     nodes near coords,
+%     bar width=15pt,
+%     enlarge x limits=1,
+%     ymin=0,
+%     ymax=2600,
+%     xlabel={Punktacja},
+%     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+% ]
+% \addplot coordinates {(1,2140) (0,135)};
+% \addlegendentry{Generator ZIMPL}
+% \end{axis}
+% \end{tikzpicture}
+% \end{minipage}%
+% \hspace{0.05\textwidth}
+% \begin{minipage}{0.45\textwidth}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     ybar,
+%     symbolic x coords={1, 0},
+%     xtick=data,
+%     %ylabel={Liczba},
+%     width=1.1\textwidth,
+%     height=1.1\textwidth,
+%     ytick = \empty,
+%     nodes near coords,
+%     bar width=15pt,
+%     enlarge x limits=1,
+%     ymin=0,
+%     ymax=2600,
+%     xlabel={Punktacja},
+%     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+% ]
+% \addplot coordinates {(1,0) (0,2275)};
+% \addlegendentry{Pojedyncze zapytanie}
+% \end{axis}
+% \end{tikzpicture}
+% \end{minipage}
+% \caption{Wykres ocenionych wyników dla kategorii \textbf{Ograniczenia}.}
+% \end{figure}
+
+Największą trudnością dla obu DMJ jest uzyskanie pozytywnej punktacji w kategorii \textbf{Inne wymagania}. Wpływa na to fakt, iż jest to kategoria sprawdzająca wszystkie, wcześniej nieuwzględnione błędy, a zatem łatwo w niej stracić punkt. Również w tym przypadku generator okazał się nieco lepszy.
 
 \begin{table}[ht]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela15}
@@ -752,60 +771,62 @@ Największą trudnością dla obu modeli jest uzyskanie pozytywnej punktacji w k
 \end{tabular}
 \end{table}
 
+% TP: TODO: test statystyczny
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=1900,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1665) (0,610)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=1900,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1229) (0,1046)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Inne wymagania}.}
-\end{figure}
+% \begin{figure}[H]
+% \centering
+% \begin{minipage}{0.45\textwidth}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     ybar,
+%     symbolic x coords={1, 0},
+%     xtick=data,
+%     ylabel={Liczba},
+%     width=1.1\textwidth,
+%     height=1.1\textwidth,
+%     nodes near coords,
+%     bar width=15pt,
+%     enlarge x limits=1,
+%     ymin=0,
+%     ymax=1900,
+%     xlabel={Punktacja},
+%     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+% ]
+% \addplot coordinates {(1,1665) (0,610)};
+% \addlegendentry{Generator ZIMPL}
+% \end{axis}
+% \end{tikzpicture}
+% \end{minipage}%
+% \hspace{0.05\textwidth}
+% \begin{minipage}{0.45\textwidth}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     ybar,
+%     symbolic x coords={1, 0},
+%     xtick=data,
+%     %ylabel={Liczba},
+%     width=1.1\textwidth,
+%     height=1.1\textwidth,
+%     ytick = \empty,
+%     nodes near coords,
+%     bar width=15pt,
+%     enlarge x limits=1,
+%     ymin=0,
+%     ymax=1900,
+%     xlabel={Punktacja},
+%     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
+% ]
+% \addplot coordinates {(1,1229) (0,1046)};
+% \addlegendentry{Pojedyncze zapytanie}
+% \end{axis}
+% \end{tikzpicture}
+% \end{minipage}
+% \caption{Wykres ocenionych wyników dla kategorii \textbf{Inne wymagania}.}
+% \end{figure}
 
+% TP: TODO: sugeruje to przenieść na początek 5.5; tzn. zintegrować z tamtym tekstem i umieścić tam tabele 5.15 oraz wykresy
 Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniają poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych danych. W średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla pojedynczego zapytania ten wynik zmniejsza się o 1,50 punktu (średnio 1,81).
 
 \begin{table}[ht]
@@ -878,21 +899,29 @@ Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniaj�
 \end{axis}
 \end{tikzpicture}
 \end{minipage}
-\caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.}
+\caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.} % TP: TODO: ...dla modeli w sztywnej formule?
 \end{figure}
 
-\subsection{Wyniki dla parametryzowanych modeli.}
+\subsection{Modele PL w parametryzowanej formule.}
 
-Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
+Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poniższe kryteria binarne w~odniesieniu do wzorcowych modeli PL zawartych w danych testowych: 
+%Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
 
 \begin{enumerate}
-\item (1 punkt) \textbf{Definiowanie zbiorów} -- aby uzyskać punkt w tej kategorii, zbiory muszą być poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. Każde odstępstwo od składni, powoduje utratę punktu.
-\item (1 punkt) \textbf{Definiowanie parametrów} -- punkt jest przyznawany gdy parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]} i logicznie zgodne z poprawnym kodem. Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie i strukturę.
-\item (1 punkt) \textbf{Definiowanie zmiennych} -- aby uzyskać punkt w tej kategorii, zmienne i typy muszą być zgodne ze sobą. Zmienne muszą być zgodne z odpowiednimi zbiorami. Ich nazwy i komentarze mogą się od siebie różnić, ale logika musi pozostać taka sama. Brak zgodności powoduje utratę punktu.
-\item (1 punkt) \textbf{Funkcja celu} -- punkt przyznawany jest za poprawne zdefiniowanie funkcji celu. Musi być zgodna w strukturze, współczynnikach oraz poprawnie zdefiniowana za pomocą uwzględnienia minimalizacji lub maksymalizacji. Brak nazwy lub niezgodna struktura powodują utratę punktu.
-\item (1 punkt) \textbf{Ograniczenia} -- aby otrzymać punkt, ograniczenia muszą być zdefiniowane zgodnie z poprawnym kodem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje odjęcie punktu.
-\item (1 punkt) \textbf{Inne wymagania} -- punkt przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}).
+\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. % TP: TODO: a jeśli wartościami zbioru są liczby?
+ Każde odstępstwo od składni, powoduje utratę punktu. % TP: TODO: czy nie ma tutaj weryfikacji semantycznej? Wcześniejsze kryteria to uwzględniały
+ W przeciwnym wypadku $0$p.
+\item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]} % TP: TODO: co jeśli wzorcowy parametr jest skalarem, a nie wektorem?
+i logicznie zgodne z poprawnym kodem. % TP: TODO: co to dokładnie znaczy, że są logicznie zgodne?
+Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie. W przeciwnym wypadku $0$p.
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich typy % TP: TODO: dziedziny?
+są zgodne z modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). % TP: TODO: To trzeba doprecyzować - czy tutaj każdy czynnik jest oceniany 0,25p i razem sumuje się do 1p? Czy jeśli jeden komentarzb będzie zaczynać się od \#, a drugi nie to punkt zostanie przyznany? Czy puste linie dyskwalifikują przyznanie punktu? Czy długie ograniczenie rozpisane na wiele linii dyskwalifikuje przyznanie punktu?
 \end{enumerate}
+
+% TP: TODO: poprawcie proszę niżej analogicznie do sekcji 5.5.1 -> ja kontynuuję sprawdzanie w Rozdziale 6
 
 Już w pierwszej kategorii widać znaczącą różnicę w wynikach między generowanymi wynikami. Pojedyncze zapytanie nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu, co jest najwyższym dotąd uzyskanym wynikiem.
 
