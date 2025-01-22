@@ -23,6 +23,7 @@ Stworzone narzędzie jest najbardziej wydajne dla prostych instancji zagadnień 
 % - DMJ i ogólnie głębokie sieci neuronowe nie dają żadnych gwarancji - mogą generować modele PL z bardzo wyrafinowanymi błędami, które trudno zauważyć nawet ekspertom; Wasz generator nie nadaje się do zastosowań krytycznych, wymagających gwarancji bezpieczeństwa, poprawności, itd.
 % - DMJ może halucyjnować i dla niedokładnego opisu zagadnienia "dopowiedzieć sobie" albo założyć pewne zależności, które nie zachodzą.
 % - inżynieria podpowiedzi (o której niżej piszecie, że jest uczeniem przez wzmacnianie) to jest robotą ręczna, więc trudno ją przeprowadzić na większej liczbie zagadnień, problemów i dla wszystkich możliwych przypadków (brzegowych)
+% - potencjalne obciążenie zbioru danych - opracowany zbiór zawiera tylko pewne specyficzne zagadnienia optymalizacyjne; nie wiadomo jak generator zachowałby się na zagadnieniach innego typu
 
 \section{Możliwe kierunki poprawy opracowanego generatora}
 Niewątpliwie automatyzacja procesu \textit{uczenia przez wzmacnianie} pozwoliłaby uzyskać bardziej satysfakcjonujące wyniki, pozwalając modelowi dostosować się do bardziej różnorodnych problemów na podstawie nowych oraz wykorzystanych danych. Rozwiązanie zautomatyzowane zostało przedstawione w sekcji \ref{sec:optimus}. % TP: TODO <- raczej napiszcie, że konkurencyjne rozwiązanie zautomatyzowało proces, który Wy wykonaliście ręcznie i co z tego wyniknęło
