@@ -21,6 +21,7 @@
 \usepackage{amsmath}
 \usepackage{listings}
 \usepackage[table]{xcolor}
+\usepackage{listingsutf8}
 \usetikzlibrary{shapes.geometric, positioning}
 
 
@@ -44,6 +45,23 @@ breaklines=false,%
 numbers=left,%
 numbersep=0.5em,%
 numberstyle=\tiny%
+}
+
+\lstset{
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={ą}{{\k{a}}}1
+             {ć}{{\'c}}1
+             {ę}{{\k{e}}}1
+             {ł}{{\l{}}}1
+             {ń}{{\'n}}1
+             {ó}{{\'o}}1
+             {ś}{{\'s}}1
+             {ź}{{\'z}}1
+             {ż}{{\.z}}1,
+    language=zimpl,
+    basicstyle=\ttfamily,
+    commentstyle=\itshape,
 }
 
 
