@@ -1,19 +1,61 @@
 
 \chapter{Zbiór danych}\label{ch:dataset}
 
-Na potrzeby metod opisach w Rozdziale 3. przygotowano zbiór danych składający się z zagadnień optymalizacyjnych opisanych w języku angielskim oraz referencyjnych modeli PL w języku \akronim {ZIMPL} dla tych zagadnień. Zbiór danych stanowią zadania treściowe z dziedziny programowania liniowego wraz z ich wynikiem zapisanym w języku \akronim {ZIMPL}.
-Zbiór danych zawiera 4380 przykładów wraz z prawidłowym kodem \akronim {ZIMPL}. Stanowi on zwielokrotnienie 40 unikalnych przykładów bazowych, stworzonych poprzez przeszukiwanie dostępnych źródeł dotyczących problemów programowania liniowego \cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical}. Dla każdego unikalnego przykładu zmieniono jego treść pod względem wartościu, celu oraz opisu zadania. Zachowano podobną logikę zadania. Stworzono od 8 do 12 różnych opisów zadania, w zależności od liczby danych zawartych w bazowym zadaniu. Dla każdego z tak utworzonych zadań oraz zadania bazowego na podstawie, którego zostały utworzone, zmieniono strukturę opisu problemu na 8 do 10 różnych sposobów, zapewniając możliwość testów takich samych zadań zależnie od wariantu opisu tekstowego problemu. Podane widełki wynikają z usuwania przykładów, które w swojej końcowej formie nie przedstawiały poprawnego opisu zadania, zwłaszcza pod względem zbyt małej ilości podanych danych, względem kodu, któremu odpowiadały.
+Na potrzeby metod opisanych w Rozdziale~\ref{ch:description}. przygotowano zbiór danych składający się z zagadnień optymalizacyjnych przedstawionych w języku angielskim oraz referencyjnych modeli PL w języku \akronim {ZIMPL} dla tych zagadnień. Zbiór danych stanowią zadania treściowe z dziedziny programowania liniowego wraz z ich wynikiem zapisanym w języku \akronim {ZIMPL}.
+Zbiór danych zawiera 4380 przykładów wraz z prawidłowym kodem \akronim {ZIMPL}. Stanowi on zwielokrotnienie 40 unikalnych przykładów bazowych, stworzonych poprzez przeszukiwanie dostępnych źródeł dotyczących problemów programowania liniowego \cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical}. Przykłady bazowe posiadają dwie wersje dostępnych rozwiązań: sztywne oraz parametryzowane, zatem dla 40 unikalnych treści w rzeczywistości powstaje zbiór 80 przykładów. Dla każdego unikalnego przykładu zmieniono jego treść pod względem wartości, celu oraz opisu zadania. Zachowano podobną logikę zadania. Stworzono od 8 do 12 różnych opisów zadania, w zależności od liczby danych zawartych w bazowym zadaniu. Dla każdego z tak utworzonych zadań oraz zadania bazowego, na podstawie którego zostały utworzone, zmieniono strukturę opisu problemu na 8 do 10 różnych sposobów, zapewniając możliwość testów takich samych zadań zależnie od wariantu opisu tekstowego problemu. Podane widełki wynikają z usuwania przykładów, które w swojej końcowej formie nie przedstawiały poprawnego opisu zadania, zwłaszcza pod względem zbyt małej ilości podanych danych, względem kodu, któremu odpowiadały.
 % TP: TODO: wypada podać dokładniejsze statystyki, tj. bazowych zagadnień jest mniej (podajcie ile) i dla każdego stworzono od X do Y wariantów opisu oraz wzorcowych modeli. Łacznie przykładów jest 4380. - DONE
-Zbiór danych podzielono i wykorzystano do odpowiednio: trenowania, walidacji oraz testowania programu. Zbiór treningowy wyselekcjonowano jako 20 przykładów pochodzących od 20 różnych zadań bazowych, wybranych tak aby pokryć jak największy obszar zróżnicowanych elementów kodu \akronim {ZIMPL}. Zbiór walidacyjny składa się z 60 wybranych losowo zwielokrotnionych przykładów, w tym 30 przykładów z odpowiedzią w formie sztywnego kodu oraz 30 przykładów kodu parametryzowanego. Tak jak w przypadku doboru zbioru treningowego, przyjęto zasadę wyboru zadań pochodzących od zróżnicowanych zadań bazowych. Zbiór testowy stanowi pozostałe 4300 przykładów wraz z kodem \akronim {ZIMPL}.  % TP: TODO: wg jakiego schematu podzielony? - DONE
+Zbiór danych podzielono i wykorzystano do odpowiednio: trenowania, walidacji oraz testowania programu. Zbiór treningowy wyselekcjonowano jako 20 przykładów pochodzących od 10 różnych zadań bazowych, wybranych tak, aby pokryć jak największy obszar zróżnicowanych elementów kodu \akronim {ZIMPL}. Zbiór walidacyjny składa się z pozostałych bazowych przykładów. Łącznie zawiera w sobie 60 przykładów w tym 30 przykładów z odpowiedzią w formie sztywnego kodu oraz 30 przykładów kodu parametryzowanego. Tak jak w przypadku doboru zbioru treningowego, przyjęto zasadę wyboru zadań pochodzących od zróżnicowanych zadań bazowych. Zbiór testowy stanowi 4300 przykładów zwielokrotnionych przykładów wraz z kodem \akronim {ZIMPL} w zróżnicowanej formule.  % TP: TODO: wg jakiego schematu podzielony? - DONE
 
 % TP: TODO: unikajcie synonimów. Skoro zbiór danych został wprowadzony jako "zbiór danych" to niech zawsze nazywa się zbiorem danych, a nie bazą. Poprawiam, ale być może coś zostanie. - mam nadzieję, że DONE
 \section{Proces powstawania zbioru danych}
 
 Proces tworzenia zbioru danych można podzielić na trzy różne etapy: etap wyszukiwania zagadnień optymalizacyjnych, etap formułowania modeli PL przy użyciu języka \textit{ZIMPL}, oraz etap zwielokrotniania przykładów za pomocą zmiany sposobu formułowania opisów i modeli PL. % TP: TODO <- niejasne: "treści zadań". Czy chodzi o "...formułowania opisów i modeli PL."? - tak, DONE
 
-% TP: TODO: być może warto rozrysować ten proces razem z wariantami/równoległymi ścieżkami?
+% TP: TODO: być może warto rozrysować ten proces razem z wariantami/równoległymi ścieżkami? - DONE, nie ma równoległych ścieżek
 
-tu będzie rysunek...
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm and 2cm,
+    every node/.style={align=center},
+    stage/.style={rectangle, draw=blue!70, fill=blue!10, thick, minimum height=1cm, minimum width=4.5cm, rounded corners},
+    stagevol2/.style={rectangle, draw=green!70, fill=green!10, thick, minimum height=1cm, minimum width=5cm, rounded corners},
+    ending/.style={rectangle, draw=lightgray!70, fill=lightgray!10, thick, minimum height=1cm, minimum width=5cm, rounded corners},
+    dataset/.style={rectangle, draw=red!70, fill=red!10, thick, minimum height=1cm, minimum width=5cm, rounded corners},
+    frame/.style={draw=black!70, thick, rounded corners, inner sep=1cm},]
+    arrow/.style={->, thick}
+]
+
+\node[stage] (search) {\textbf{Etap wyszukiwania} \\ zagadnień optymalizacyjnych};
+\node[stage, below=of search] (model) {\textbf{Etap formułowania} \\ modeli PL \\ (w \textit{ZIMPL})};
+
+\node[stagevol2, below=of model, minimum height=0.5cm, text depth=0.5ex] (multiplication) {\textbf{Etap zwielokrotniania przykładów}};
+
+\node[frame, below=of model, minimum width=8cm, minimum height=6cm, anchor=north] (frame) {};
+
+\node[stagevol2, below=1cm of frame.north] (descVariants) {\textbf{Tworzenie wariantów} \\ \textbf{opisu tekstowego} \\ (12 opisów)};
+\node[stagevol2, below=of descVariants] (modelVariants) {\textbf{Tworzenie wariantów} \\ \textbf{struktury modelu} \\ (10 modeli)};
+
+\node[dataset, below=of frame.south] (check) {\textbf{Sprawdzenie poprawności} \\ \textbf{treści zadań i kodu} \\ przez ekspertów \\ oraz przy użyciu SCIP \\ \textbf{Usuwanie błędnych przykładów}};
+\node[dataset, below=of check] (dataset) {\textbf{Dodanie do zbioru danych} \\ od 64 do 120 przykładów};
+
+\node[ending, below=of dataset] (end) {\textbf{Gotowy zbiór} \\ 4380 przykładów};
+
+\draw[arrow] (search) -- (model);
+\draw[arrow] (model) -- (multiplication.north);
+\draw[arrow] (multiplication.south) -- (descVariants);
+\draw[arrow] (descVariants) -- (modelVariants);
+\draw[arrow] (modelVariants) -- (check);
+\draw[arrow] (check) -- (dataset);
+\draw[arrow] (dataset) -- (end);
+
+\draw[arrow] (dataset.east) -- ++(3cm, 0) -- ++(0, 18.25cm) -- ++(-5.5cm, 0) -- ++(0, -1cm);
+
+\end{tikzpicture}
+\caption{Proces tworzenia zbioru danych z podziałem na etapy.}
+\label{fig:dataset-creation-logical}
+\end{figure}
+
 
 
 \subsection{Wyszukiwanie zagadnień optymalizacyjnych}
@@ -22,7 +64,7 @@ tu będzie rysunek...
 
 Ze względu na specyfikę zbioru danych, skupiono się na przeszukaniu źródeł opisów zagadnień optymalizacyjnych zawierających sformułowania wzorcowych modeli PL.
 Do źródeł tych należą publikacje, dokumentacja związana z programowaniem liniowym\cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical} oraz zbiorów Politechniki Poznańskiej. % TP: TODO: co to za zbiory? Jak piszecie o repo GECS, to sugeruję zamiast tego stwierdzenia dokleić wyżej cytowanie na https://www.sciencedirect.com/science/article/pii/S2210650221000572  - Adam x2?
-Głównym źródłem zagadniej optymalizacyjnych i modeli PL jest dokumentacja języka  \akronim{ZIMPL} \cite{zimpl_manual}, która została napisana w formie przypominającej instrukcję. Zaczerpnięto również dane z przykładowych zadań publikowanych przez prowadzących zajęcia na Politechnice Poznańskiej. Zadania są zapisane w języku angielskim. Ich formuła jest zróżnicowana. Zadania są przedstawiane w formie długich opisów, punktowania problemu, tabelek, bądź są połączeniem tych form. Łącznie stworzono 40 unikalnych przykładów.
+Głównym źródłem zagadnień optymalizacyjnych i modeli PL jest dokumentacja języka  \akronim{ZIMPL} \cite{zimpl_manual}, która została napisana w formie przypominającej instrukcję. Zaczerpnięto także dane z przykładowych zadań publikowanych przez prowadzących zajęcia na Politechnice Poznańskiej. Zadania są zapisane w języku angielskim. Ich formuła jest zróżnicowana. Zadania są przedstawiane w formie długich opisów, punktowania problemu, tabelek, bądź są połączeniem tych form. Łącznie stworzono 40 unikalnych przykładów.
 
 \subsection{Tworzenie modeli PL w języku \akronim{ZIMPL}}
 
@@ -79,7 +121,7 @@ subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
 \end{lstlisting}
 \end{enumerate}
 
-Drugi sposób programowania polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a także zwiększa elastyczność pracy z kodem  \akronim{ZIMPL}. Jest to zalecany sposób modelowania zagadnień, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. % TP: TODO <- skoro jest zalecany, to musi mieć jakieś zalety, a tutaj piszecie tylko o Wadach.
+Drugi sposób programowania polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a także zwiększa elastyczność pracy z kodem  \akronim{ZIMPL}. Modele parametryzowane łatwo dostosować do różnych problemów, zmieniając tylko parametry wejściowe, co zwiększa ich uniwersalność. Modele są łatwiejsze do skalowania, a także zwiększają czytelność kodu. W związku z tym jest to zalecany sposób modelowania zagadnień, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. % TP: TODO <- skoro jest zalecany, to musi mieć jakieś zalety, a tutaj piszecie tylko o Wadach. - DONE
 Jego wygląd jest pokazany poniżej.
 
 \begin{enumerate}
@@ -123,7 +165,7 @@ subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
 \end{enumerate}
 
 Obie wersje kodu poprawnie rozwiązują problemy programowania liniowego. W przy trenowaniu i testowaniu generatora wykorzystywane są dane uwzględniające obie możliwości rozwiązań. Przy generowaniu modelu \akronim{ZIMPL} użytkownik wybiera formułę, a następnie zależnie od jego wyboru, proces generacji przechodzi przez ciąg zapytań do DMJ, w wyniku których powstają opisane powyżej elementy kodu. % TP: TODO <- czy generator coś testuje? Tutaj jest chyba pomieszane nazewnictwo. Czy choci o proces tworzenia zbioru danych? Słowo "generować" pojawia się w kontekście problemu generowania modelu PL i metody generownia modelu PL, więc należy go unikać w innych kontekstach - DONE
-Przygotowany przykład, zanim trafi do kolejnego etapu poszerzania zbioru danych, jest sprawdzany za pomocą narzędzi do automatycznego sprawdzania jakości kodu oraz ręcznej analizy jakości kodu. Poprawność składniowa oraz semantyczna modelu PL jest weryfikowana poprzez próbę jego rozwiązania solverem SCIP \cite{scip_documentation}. Model PL, dla którego SCIP zwrócił rozwiązanie dopuszczalne, jest uznawany za poprawny składniowo i semantycznie. Weryfikacja przebiegała również poprzez ręczne sprawdzanie przez dwóch niezależnych od siebie ekspertów każdego modelu i weryfikacji czy poszczególne elementy kodu odpowiadają celowi optymalizacji, zależnością między modelowanym wielkościom oraz czynnikom podlegającym optymalizacji. Ponadto eksperci weryfikowali rozwiązanie optymalne modelu PL pod względem zgodności z wiedzą dziedzinową.
+Przygotowany przykład, zanim trafi do kolejnego etapu poszerzania zbioru danych, jest sprawdzany za pomocą narzędzi do automatycznego sprawdzania jakości kodu oraz ręcznej analizy jakości kodu. Poprawność składniowa oraz semantyczna modelu PL jest weryfikowana poprzez próbę jego rozwiązania solverem SCIP \cite{scip_documentation}. Model PL, dla którego SCIP zwrócił rozwiązanie dopuszczalne, jest uznawany za poprawny składniowo i semantycznie. Weryfikacja przebiegała również poprzez ręczne sprawdzanie przez dwóch niezależnych od siebie ekspertów każdego modelu i weryfikacji, czy poszczególne elementy kodu odpowiadają celowi optymalizacji, zależnościom między modelowanymi wielkościami oraz czynnikom podlegającym optymalizacji. Ponadto eksperci weryfikowali rozwiązanie optymalne modelu PL pod względem zgodności z wiedzą dziedzinową.
 
 % TP: TODO <- wcześniej jest używana nazwa po prostu SCIP, po co ją rozwijać? Na pierwszy rzut oka nie wiadomo co to jest. Dopiero gdy przykład otrzyma status 'poprawny' i zadanie posiada rozwiązanie, może przejść do procesu zwielokrotniania. Ponadto SCIP to nie algorytm, ale oprogramowanie; w oprogramowaniu jest wiele _implementacji_ algorytmów. Algorytm != oprogramowanie. Czy nie lepiej napisać, że: "Poprawność składniowa oraz semantyczna modelu PL jest weryfikowana poprzez próbę jego rozwiązania solverem SCIP \cite{TODO}. Model PL, dla którego SCIP zwrócił rozwiązanie dopuszczalne jest uznawany za poprawny składniowo i semantycznie." Wydaje się, że brakuje fazy weryfikacji zgodności z wiedzą dziedzinową. A może to jest w tych ręcznych kalkulacjach? Nie wiadomo co to znaczy i jak dokładnie ta zgodność była weryfikowana (np. "Dwóch ekspertów niezależnie analizowało każdy model i weryfikowało czy funkcja celu, ograniczenia i zmienne odpowiadają odpowiednio celowi optymalizacji, zależnościom między modelowanym wielkościom oraz czynnikom podlegającym optymalizacji. Ponadto eksperci weryfikowali rozwiązanie optymalne modelu PL pod względem zgodności z wiedzą dziedzinową."). - DONE
 
@@ -131,24 +173,98 @@ Przygotowany przykład, zanim trafi do kolejnego etapu poszerzania zbioru danych
 
 Posiadając przygotowane 40 unikalnych przykładów wraz z ich modelami PL w formule sztywnego i parametryzowanego programowania, należało powiększyć zbiór o przykłady podobne, lecz różniące się sformułowaniem i wynikami.
 
-Początkowy proces polegał na tworzeniu przykładów o zbliżonej strukturze, ale z dywersyfikowaną treścią fabularną oraz danymi. Na podstawie jednego przykładu tworzone było od 5 do 10 różnych przykładów, w których przekształcana była narracja zadania, mógł zmienić się cel zadania z maksymalizacji na minimalizację i odwrotnie, a także zmieniały się dane i ich ilość. Dzięki temu, z podobnego zadania powstawały zupełnie niezależne i nowe problemy programowania liniowego. Sumarycznie utworzono 800 unikalnych zadań wraz z ich zmodyfikowanym kodem  \textit{ZIMPL}. % TP: TODO: <- Protokół zwielokrotniania mógłby być opisany bardziej algorytmicznie, nawet od punktów. Nie jest jasne kiedy i jakie modyfikacje były wykonywane. Czy to by random czy może wg jakiegoś klucza (jakiego?). Czy dochodziły np. nowe ograniczenia, zmienne? Warto w jednym miejscu wymienić (np. wypunktować) wszystie typy modyfikacji elementarnych, które wykonaliście, a dalej napisać, że zastosowano losowy wybór modyfikacji elementowanych do przykładu bazowego. Protokół zmiany opisów poniżej jest dużo lepiej opisany.
-
-Posiadając taki zbiór danych, kolejnym etapem było stworzenie różniących się opisów. Każdy przykład był przepisywany i formułowany ponownie na jeden z pięciu sposobów.
+Początkowy proces polegał na tworzeniu przykładów o zbliżonej strukturze, ale z dywersyfikowaną treścią fabularną oraz danymi. Na podstawie jednego przykładu tworzone było do 12 różnych przykładów, w których przekształcana była narracja zadania, mógł zmienić się cel zadania z maksymalizacji na minimalizację i odwrotnie, a także zmieniały się dane i ich ilość. Dzięki temu, z podobnego zadania powstawały zupełnie niezależne i nowe problemy programowania liniowego. Sumarycznie utworzono 800 unikalnych zadań wraz z ich zmodyfikowanym kodem  \textit{ZIMPL}. % TP: TODO: <- Protokół zwielokrotniania mógłby być opisany bardziej algorytmicznie, nawet od punktów. Nie jest jasne kiedy i jakie modyfikacje były wykonywane. Czy to by random czy może wg jakiegoś klucza (jakiego?). Czy dochodziły np. nowe ograniczenia, zmienne? Warto w jednym miejscu wymienić (np. wypunktować) wszystie typy modyfikacji elementarnych, które wykonaliście, a dalej napisać, że zastosowano losowy wybór modyfikacji elementowanych do przykładu bazowego. Protokół zmiany opisów poniżej jest dużo lepiej opisany. - DONE
+Dokładny proces tworzenia nowych wariantów został przedstawiony poniżej:
 
 \begin{enumerate}
-\item Opis w formie punktów --- wersja przedstawiająca kluczowe informacje w podpunktach. Każdy element zadania jest krótko i konkretnie opisany. Zadanie prezentuje się czytelnie, a rozwiązujący ma jasno wyznaczone cele zadania.
-\item Długi opis tekstowy --- zadanie wprowadza wartość fabularną oraz opisuje dokładnie zadanie w formie tekstowej. Dane techniczne są wplecione w narracyjny opis zadania.
-\item Zwięzły opis tekstowy --- opis zwięźle przedstawiający problem w formie tekstowej. Nie zawiera opisów fabularnych, wprowadza jedynie konkretne informacje potrzebne do rozwiązania zadania.
-\item Zestawienie w formie tabeli --- rozwiązanie jest prezentowane w formie tabeli/tabel, zwierających kluczowe dane potrzebne do rozwiązania zadania. Poza tabelą zawarty jest krótki opis celu.
-\item Opis z strukturalnym uporządkowaniem --- elementy w opisie są rozdzielane na kategorie, tworząc łatwe przejrzyste i łatwe do analizy segmenty.
+\item Wybór bazowego przykładu do zwielokrotniania --- każde zadanie opiera się na poprawnie stworzonym i zweryfikowanym przykładzie z bazy 40 głównych przykładów. Przykłady posiadają zapisany i zweryfikowany kod w \akronim{ZIMPL}.
+\item Losowa modyfikacja poszczególnych elementów zadania i kodu bazowego --- na podstawie przykładu bazowego można zastosować poniższe modyfikacje, które prowadzą do nowych, unikalnych zadań.
+\begin{enumerate}
+\item Zmiana narracji fabularnej --- zmiana kontekstu problemu (np. fabryka mebli -> wartości odżywcze w posiłku) oraz wprowadzenie nowych nazw zmiennych decyzyjnych i zasobów.
+\item Modyfikacja danych liczbowych --- zmiana wartości parametrów w ograniczeniach oraz zmiana współczynników celu.
+\item Zmiana struktury ograniczeń --- dodanie nowych ograniczeń (nowe limity lub zasoby) oraz usunięcie istniejących ograniczeń.
+\item Zmiana celu optymalizacji --- przekształcenie z maksymalizacji na minimalizację lub odwrotnie. Stosowane losowo dla połowy generowanych przykładów.
+\item Dodanie nowych zmiennych decyzyjnych --- wprowadzenie nowego produktu/usług/zmiennej do treści zadania oraz kodu wynikowego.
 \end{enumerate}
-% TP: TODO ^ Czy można bardziej konkretnie opisać te modyfikacje? To brzmi bardzo arbitralnie/subiektywnie i nieweryfikowalnie. Czy można określić konkretne warunki, które te zmodyfikowane opisy miały spełniać? Czy były nałożone jakieś wymagania pozafunkcjonalne, np. max. długość, poziom skomplikowania tekstu np. z użyciem którejś ze standardowych miar https://en.wikipedia.org/wiki/Readability#Readability_formulas
+\item Weryfikacja poprawności zadania - zadanie musi posiadać pełny opis, na podstawie którego można stworzyć docelowy model w \akronim{ZIMPL}. Rozwiązanie w formie kodu powinno być matematycznie i składniowo poprawne.
+\item Proces zostaje powtórzony dla kolejnych zadań bazowych.
+\end{enumerate}
 
-Decyzję o takim zwielokrotnianiu posiadanych podjęto z kilku powodów. Pierwszym z nich była potrzeba weryfikacji, czy stworzony model generatora kodu  \akronim{ZIMPL} poradzi sobie z każdym rodzajem zadania, niezależnie od jego formuły i kolejności przekazywanych danych. Drugim kluczowym argumentem była mała dostępność do treści zagadnień optymalizacyjnych i modeli PL połączona z zapotrzebowaniem na dużą ilość danych do testów.
+Posiadając taki zbiór danych, kolejnym etapem było stworzenie różniących się opisów. Każdy przykład był przepisywany i formułowany ponownie na jeden z pięciu sposobów. Dokładny opis elementów etapu znajduje się poniżej.
+
+\begin{enumerate}
+\item Wybór przykładu do zwielokrotniania --- uwzględniając przy tym wszystkie przykłady, które przeszły etap tworzenia różnych wariantów opisu tekstowego wraz z modyfikacjami kodu oraz przykłady bazowe.
+\item Zwielokrotnianie wybranego przykładu na każdy z przedstawionych poniżej sposobów. Modyfikacji ulega jedynie treść zadania PL, kod \akronim{ZIMPL} będący rozwiązaniem jest przepisywany z wybranego przykładu w nienaruszonej formie.
+\begin{enumerate}
+\item Opis w formie punktów --- wersja przedstawiająca kluczowe informacje w podpunktach. Każdy element zadania jest krótko i konkretnie opisany. Zadanie prezentuje się czytelnie, a rozwiązujący ma jasno wyznaczone cele zadania.
+
+Kryteria tworzenia:
+
+- Wszystkie dane liczbowe i techniczne są przedstawiane w punktach.
+
+- Każdy punkt opisuje tylko i wyłącznie jeden element zadania, w tym zasoby, ograniczenia, cel optymalizacji.
+
+- Średnia długość każdego punktu wynosi 4 słowa.
+
+- Wykorzystywane są rzeczowniki, liczby i jednostki miar, natomiast nie wykorzystuje się czasowników.
+
+\item Długi opis tekstowy --- zadanie wprowadza wartość fabularną oraz opisuje dokładnie zadanie w formie tekstowej. Dane techniczne są wplecione w narracyjny opis zadania.
+
+Kryteria tworzenia:
+
+- Opis zawiera szczegółową narrację i wprowadzenie kontekstu fabularnego.
+
+- Wszystkie dane potrzebne do wykonania zadania oraz funkcja celu  są wplecione w tekst.
+
+- Średnia długość zdań wynosi 10-16 słów.
+
+- W opisie wykorzystuje się czasowniki, przymiotniki i rzeczowniki w celu dokładnego opisu fabularnego.
+
+\item Zwięzły opis tekstowy --- opis zwięźle przedstawiający problem w formie tekstowej. Nie zawiera opisów fabularnych, wprowadza jedynie konkretne informacje potrzebne do rozwiązania zadania.
+
+Kryteria tworzenia:
+
+- Opis przedstawia problem w skondensowanej formie ciągłej, ograniczając narrację fabularną do nazw poszczególnych zasobów.
+
+- Wszystkie dane potrzebne do wykonania zadania oraz funkcja celu  są wplecione w tekst.
+
+- Średnia długość zdania wynosi 8-12 słów.
+
+- W opisie wykorzystuje się głównie czasowniki, rzeczowniki, liczby i jednostki miar. Ogranicza się wykorzystanie przymiotników.
+
+\item Zestawienie w formie tabeli --- rozwiązanie jest prezentowane w formie tabeli/tabel, zwierających kluczowe dane potrzebne do rozwiązania zadania. Poza tabelą zawarty jest krótki opis celu.
+
+Kryteria tworzenia:
+
+- Kluczowe dane liczbowe są przedstawione w formie tabeli z oznaczeniem nagłówków i wierszy.
+
+- Pod tabelą znajdują się dodatkowe sekcje przedstawiające zasoby, które potrzebują dokładniejszego opisu, ograniczenia oraz cel optymalizacyjny w formie wypunktowanej.
+
+- W opisie poniżej tabeli wykorzystuje się rzeczowniki, liczby oraz jednostki miar.
+
+\item Opis z strukturalnym uporządkowaniem --- elementy w opisie są rozdzielane na kategorie, tworząc łatwe przejrzyste i łatwe do analizy segmenty.
+
+Kryteria tworzenia:
+
+- Wszystkie dane i elementy są podzielone na kategorie. Ostatnią kategorią jest cel optymalizacyjny.
+
+- Każda kategoria posiada należące do niej elementy zapisane w formie podpunktów.
+
+- Średnia długość podpunktu wynosi 4 słowa.
+
+- W opisie wykorzystywane są rzeczowniki, liczby oraz jednostki miar.
+
+\end{enumerate}
+\item Weryfikacja poprawności zadania - zadanie musi posiadać pełny opis, na podstawie którego można stworzyć docelowy model w \akronim{ZIMPL}. Usuwane są zadania, w których niespełniane są wymagania pozafunkcjonalne.
+\item Proces zostaje powtórzony dla kolejnych zadań.
+\end{enumerate}
+% TP: TODO ^ Czy można bardziej konkretnie opisać te modyfikacje? To brzmi bardzo arbitralnie/subiektywnie i nieweryfikowalnie. Czy można określić konkretne warunki, które te zmodyfikowane opisy miały spełniać? Czy były nałożone jakieś wymagania pozafunkcjonalne, np. max. długość, poziom skomplikowania tekstu np. z użyciem którejś ze standardowych miar https://en.wikipedia.org/wiki/Readability#Readability_formulas - DONE, na tyle ile dało radę, średnia długość zdań została uwzględniona, ewentualnie mogę jeszcze policzyć poziom skomplikowania tekstu jeżeli będzie taka potrzeba.
+
+Decyzję o takim zwielokrotnianiu posiadanych podjęto z kilku powodów. Pierwszym z nich była potrzeba weryfikacji, czy stworzony model generatora kodu \akronim{ZIMPL} poradzi sobie z każdym rodzajem zadania, niezależnie od jego formuły i kolejności przekazywanych danych. Drugim kluczowym argumentem była mała dostępność do treści zagadnień optymalizacyjnych i modeli PL połączona z zapotrzebowaniem na dużą ilość danych do testów.
 
 \section{Podział i wykorzystanie zbioru danych}
 
-\begin{table}
+\begin{table}[H]
 \caption{Podział zbioru danych na podzbiory.}\label{tab:dataset:stats}
 \centering%
 \begin{tabular}{|l|c|c|c|}
@@ -166,26 +282,20 @@ Testowy & 2275 & 2025 & 4300\\
 \end{tabular}
 \end{table}
 
-Łącznie stworzono około 4800 przykładów zagadnień optymalizacyjnych wraz z modelami PL w języku  \akronim{ZIMPL}. Po ponownej analizie zadań i automatycznym sprawdzeniu rozwiązań, zdecydowano się usunąć niekonkretne lub trudne do interpretacji przykłady, a także przykłady, dla których rozwiązanie dostarczone przez Solving Constraint Integer Programs zostało oznaczone jako `niepoprawne'. Przy takiej selekcji zadań, zbiór pomniejszył się do 4380 przykładów. Tak utworzony zbiór danych został podzielony na następujące podzbiory: treningowy, walidacyjny oraz testowy. Statystyki podzbiorów podano w Tabeli~\ref{tab:dataset:stats}. 
-% TP: TODO: dość nietypowo wygląda, że zbiór testowy jest znacznie większy od treningowego i walidacyjnego (razem wziętych). To wymaga wyjaśnienia. Pewnym argumentem jest, że tutaj nie ma w zasadzie uczenia automatycznego - jedynie ręczne strojenie podpowiedzi (promptów).
+Łącznie stworzono około 4800 przykładów zagadnień optymalizacyjnych wraz z modelami PL w języku  \akronim{ZIMPL}. Po ręcznej analizie zadań i automatycznym sprawdzeniu rozwiązań, zdecydowano się usunąć niekonkretne lub trudne do interpretacji przykłady, a także przykłady, dla których rozwiązanie dostarczone przez SCIP zostało oznaczone jako `niepoprawne'. Przy takiej selekcji zadań, zbiór pomniejszył się do 4380 przykładów. Tak utworzony zbiór danych został podzielony na następujące podzbiory: treningowy, walidacyjny oraz testowy. Z racji, że generator nie wymagał bezpośredniego uczenia automatycznego, a ręcznego strojenia zapytań do DMJ, liczebność poszczególnych zbiorów znacząco się różniła. Do trenowania potrzebne było 20 przykładów, tak aby nie zapełniać zapytań powtarzającymi się schematami odpowiedzi. Zbiór walidacyjny został dobrany z bazowych przykładów w taki sposób, aby uruchamianie generatora było nisko kosztowne i pozwalało na realizacje walidacji w krótkim czasie (około 20 minut). Dla porównania, wygenerowanie odpowiedzi \akronim{ZIMPL} dla zbioru testowego trwało ponad 16 godzin. Dokładne statystyki podzbiorów podano w Tabeli~\ref{tab:dataset:stats}. 
+% TP: TODO: dość nietypowo wygląda, że zbiór testowy jest znacznie większy od treningowego i walidacyjnego (razem wziętych). To wymaga wyjaśnienia. Pewnym argumentem jest, że tutaj nie ma w zasadzie uczenia automatycznego - jedynie ręczne strojenie podpowiedzi (promptów). - DONE
 
 \subsection{Zbiór treningowy}
 
-Pierwszy zbiór nazwany treningowym, jest najmniejszym z utworzonych zbiorów i został wykorzystany bezpośrednio do tworzenia zapytań do dużego modelu językowego. Zbiór treningowy nie jest używany w walidacji i testach, bo model językowy posiada dokładne odpowiedzi do zawartych treści. Przykłady zostały dobrane w sposób różnorodny, tak aby jak najlepiej przedstawić DMJ oczekiwane rezultaty generacji kodu \akronim{ZIMPL}. % TP: TODO: w jaki sposób została zapewniona dywersyfikacja? Czy każdy przykład pochodził od innego przykładu bazowego? W jaki sposób wybrano przykłady do zbioru treningowego? Jeśli losowo to z jakim rozkładem?
+Pierwszy zbiór nazwany treningowym, jest najmniejszym z utworzonych zbiorów i został wykorzystany bezpośrednio do tworzenia zapytań do dużego modelu językowego. Zbiór treningowy nie jest używany w walidacji i testach, bo model językowy posiada dokładne odpowiedzi do zawartych treści. Przykłady zostały dobrane w sposób różnorodny, tak aby jak najlepiej przedstawić DMJ oczekiwane rezultaty generacji kodu \akronim{ZIMPL}. Wybór tego zbioru odbył się w sposób ręcznego przeglądu 40 bazowych przykładów i wyboru po 10 najbardziej zdywersyfikowanych pod względem składni kodu \akronim{ZIMPL} modeli programowania sztywnego i parametryzowanego.  % TP: TODO: w jaki sposób została zapewniona dywersyfikacja? Czy każdy przykład pochodził od innego przykładu bazowego? W jaki sposób wybrano przykłady do zbioru treningowego? Jeśli losowo to z jakim rozkładem? - DONE, pracowaliśmy wybierając ręcznie ze zbioru bazowego
 
-% TP: TODO: poniższy akapit jest w zasadzie o inżynierii podpowiedzi i jako taki bardziej pasuje do opisu metody (Rozdział 3) niż zbioru danych
-
-Zbiór jest mały, aby pomieścić zawartość wszystkich przykładów w pojedynczym zapytaniu do DMJ, którego rozmiar jest ograniczony możliwościami DMJ. % TP: TODO <- napisałem wszystkich przykładów, ale dalej jest, że nie wszystkich; jednak nie jest jasne, które trafiają do jakich zapytań. Jak przykłady są dopasowane?
-Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Do każdego z czterech różnych zapytań dotyczących programowania sztywnego % TP: TODO <- Nie wiadomo skąd się bierze liczba 4, dlaczego akurat tyle i jak te zapytania są wybierane
-dodano wszystkie możliwe treści zadania programowania liniowego % TP: TODO <- chodzi o model czy o opis, bo niejasne?
-wraz z elementem kodu  \akronim{ZIMPL}, którego dotyczy zapytanie. Łącznie uwzględniono 10 takich zapytań. Podobnie zrealizowano zadanie dla programowania z parametryzacją. Dla każdego z sześciu zapytań, wykorzystano 10 zadań wraz z elementami kodu  \akronim{ZIMPL}. % TP: TODO <- dlaczego 6 i jak zostały wybrane?
+Zbiór treningowy jest mały, aby pomieścić zawartość wybranych przykładów w pojedynczym zapytaniu do DMJ, którego rozmiar jest ograniczony możliwościami DMJ.
 
 \subsection{Zbiór walidacyjny}
 
-Do testowania działania generatora kodu  \akronim{ZIMPL} wykorzystano początkowo 60 przykładów, w tym 30 przykładów programowania sztywnego i 30 przykładów programowania parametryzowanego. Przy pomocy tego zbioru sprawdzano jakość generowanego kodu  \akronim{ZIMPL} oraz weryfikowano jego poprawność pod względem posiadanego rozwiązania oraz pokrycia rozwiązania z rozwiązaniem zawartym w bazie.
+Do ręcznej walidacji zapytań podczas prototypowania generatora kodu  \akronim{ZIMPL} wykorzystano początkowo 60 przykładów, w tym 30 przykładów programowania sztywnego i 30 przykładów programowania parametryzowanego. Wybrano pozostałe 30 opisów problemów PL ze zbioru bazowego, uszczuplonego o zbiór treningowy, wraz z modelami \akronim{ZIMPL} w dwóch wersjach. Przy pomocy tego zbioru sprawdzano jakość generowanego kodu  \akronim{ZIMPL} oraz weryfikowano jego poprawność pod względem posiadanego rozwiązania oraz pokrycia rozwiązania z rozwiązaniem zawartym w bazie.
 
-Zdecydowano się na taką liczbę przykładów w zbiorze ze względu na potrzebę szybkiej weryfikacji wyników. Czas generowania odpowiedzi wynosił maksymalnie 7 minut, % TP: TODO: jednej?
- co sprawiło, że można było szybko sprawdzać i naprawiać błędy w logice zapytań. Zbiór celowo zawarł w sobie połowę zadań z wynikami parametryzowanymi oraz połowę zadań z wynikami sztywno zaprogramowanymi, tak aby zapewnić poprawny wgląd do rozwiązań obu problemów. Zadania zostały wyselekcjonowane w różnorodny sposób, tak aby dać możliwie najszerszy wgląd w problemy, z jakimi może się mierzyć generator. % TP: TODO: podobny komentarz jak do zbioru treningowego: jak konkretnie te przykłady zostały wybrane; Myślę, że gdzieś tutaj można napisać, że ten zbiór był używany na etapie "ręcznej walidacji zapytań podczas prototypowania".
+Zdecydowano się na taką liczbę przykładów w zbiorze ze względu na potrzebę szybkiej weryfikacji wyników. Czas generowania wszystkich 60 odpowiedzi wynosił maksymalnie 7 minut, co sprawiło, że można było szybko sprawdzać i naprawiać błędy w logice zapytań. Zbiór celowo zawarł w sobie połowę zadań z wynikami parametryzowanymi oraz połowę zadań z wynikami sztywno zaprogramowanymi, tak aby zapewnić poprawny wgląd do rozwiązań obu problemów. Zadania zostały wyselekcjonowane w różnorodny sposób, tak aby dać możliwie najszerszy wgląd w problemy, z jakimi może się mierzyć generator. % TP: TODO: podobny komentarz jak do zbioru treningowego: jak konkretnie te przykłady zostały wybrane; Myślę, że gdzieś tutaj można napisać, że ten zbiór był używany na etapie "ręcznej walidacji zapytań podczas prototypowania". - DONE
 
 \subsection{Zbiór testowy}
 

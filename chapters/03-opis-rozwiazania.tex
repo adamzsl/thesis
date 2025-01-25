@@ -126,6 +126,15 @@ Rozwiązanie rozpoczyna się od utworzenia bazy danych z parami: \textit{problem
 Jeśli \textit{Walidacja działania kodu} zakończy się sukcesem, wygenerowany kod jest oceniany poprzez niezależny \textit{DMJ}. Aby uniknąć sytuacji, w której model oceniający jest taki sam jak model generujący kod, zdecydowano się na wykorzystanie modelu \texttt{GPT-4} do ewaluacji działania generatora. Jeśli \textit{Ocena jakości modelu} zwróci \textit{niesatysfakcjonujące rozwiązanie} jest ono zwracane do \textit{Ekspertów} w celu refaktoryzacji \textit{Szablonu zapytania}. Modele wynikowe \textit{ZIMPL} oraz walidator punktujący poszczególne zadania są poddawane sprawdzeniu i czyszczeniu z ewentualnych nieścisłości wywołanych przez halucynacje \textit{DMJ}, poprzez usuwanie i modyfikację częstych błędów.
 
 
+\textbf{TODO - dodaje opis zbioru treningowego do przerobienia}
+% Jagoda: Dodaje akapit do wrzucenia do rozdziału 3 (tego co uważacie za słuszne)
+% TP: TODO: poniższy akapit jest w zasadzie o inżynierii podpowiedzi i jako taki bardziej pasuje do opisu metody (Rozdział 3) niż zbioru danych
+
+Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Do każdego z czterech różnych zapytań dotyczących programowania sztywnego % TP: TODO <- Nie wiadomo skąd się bierze liczba 4, dlaczego akurat tyle i jak te zapytania są wybierane - Jagoda: w przypadku sztywnego kodowania wysyłane są 4 zapytania, warto to uwzględnić w opisie w rozdziale 3 % Adam x2
+dodano wszystkie wybrane opisy zadania programowania liniowego
+wraz z elementem kodu  \akronim{ZIMPL}, którego dotyczy zapytanie. Łącznie uwzględniono 10 takich zapytań. Podobnie zrealizowano zadanie dla programowania z parametryzacją. Dla każdego z sześciu zapytań, wykorzystano 10 zadań wraz z elementami kodu  \akronim{ZIMPL}. % TP: TODO <- dlaczego 6 i jak zostały wybrane? - Jagoda: tutaj podobnie dla parametryzowanego wysyłamy 6 zapytań, warto dopisac w rodziale % Adam x2
+
+
 \section{Graficzny interfejs użytkownika}\label{sec:generation:gui}
 
 %Zakładając możliwość komercyjnego wykorzystania generatora modeli, s
@@ -139,7 +148,7 @@ Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite
 \item Obszar wypisywania wygenerowanych wyników z możliwością edycji.
 \end{enumerate}
 
-\begin{figure}
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[
     app/.style={draw, thick, rectangle, rounded corners, minimum width=\textwidth, minimum height=14cm, fill=gray!10},
@@ -163,9 +172,16 @@ Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite
 \label{fig:application-diagram}
 \end{figure}
 
-Na Rysunku \ref{fig:application-diagram} przedstawiono wizualizację ekranu generatora wraz z układem jego funkcjonalności.
+Na Rysunku \ref{fig:application-diagram} przedstawiono wizualizację ekranu generatora wraz z układem jego funkcjonalności. Poniżej znajduje się obraz \ref{fig:gui} zrzutu ekranu interfejsu użytkownika.
 
-% TP: TODO: dla kompletności pokażcie też zrzut ekranu z GUI
+% TP: TODO: dla kompletności pokażcie też zrzut ekranu z GUI - DONE
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{thesis-main/figures/app.png}
+    \caption{Wygląd interfejsu generatora kodu ZIMPL}
+    \label{fig:gui}
+\end{figure}
 
 
 
