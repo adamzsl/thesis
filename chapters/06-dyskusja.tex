@@ -1,43 +1,33 @@
 
-\chapter{Dyskusja}\label{ch:discussion}
+\chapter{Dyskusja}
 
-\section{Zalety opracowanego generatora}
+\section{Zalety rozwiązania}
 
-Opracowany generator ma potencjał do wspierania ekspertów w modelowaniu zagadnień optymalizacyjnych poprzez generowanie modeli PL z~relatywnie prostych i łatwo dostępnych opisów słownych. Potwierdzają to wyniki eksperymentalne do opisów w języku angielskim w Rozdziale~\ref{ch:experiment}. Natomiast wykorzystany DMJ \textit{GPT-4o-mini} oferuje wsparcie dla innych języków, w tym języka polskiego i w nieformalnych testach generuje modele PL o zadowalającej jakości.
-%Umożliwia to korzystanie z zalet \textit{PL} dla użytkowników, usprawniając tym samym proces optymalizacji rozwiązań. 
-Modele PL utworzone przez generator mogą zostać bez modyfikacji użyte do optymalizacji odpowiadających sobie zagadnień, problemów i systemów lub zmodyfikowane przez eksperta w celu lepszego dostosowania do modelowanej rzeczywistości. Użycie wygenerowanego modelu PL sprowadza się do załadowania go przez solver PL.
+Przedstawione rozwiązanie usprawnia proces generacji modeli \textit{PL}, korzystając z \textit{DMJ} na podstawie opisów słownych. Umożliwia to korzystanie z zalet \textit{PL} dla użytkowników oraz przedsiębiorców, usprawniając tym samym proces optymalizacji rozwiązań. Korzystanie z narzędzia nie wymaga wiedzy eksperckiej z dziedziny optymalizacji. Zaletą tego rozwiązania jest solidne podejście do generacji modeli wykorzystując \textit{DMJ} oraz wiedze ekspercką, zmniejszając tym zauważalnie ilość błędów generowanych przez \textit{DMJ} niekorzystających z powyższych udogodnień. Przekłada się to bezpośrednio na mniejsze koszta uzyskania rozwiązania oraz braku konieczności posiadania wykwalifikowanego personelu w tej dziedzinie. Umożliwia to na rozpowszechnienie ogólnodostępnego rozwiązania w dziedzinie \textit{PL}. 
 
-Korzystanie z narzędzia nie wymaga wiedzy eksperckiej z dziedziny optymalizacji. Zaletą tego rozwiązania jest solidne podejście do generacji modeli wykorzystując \textit{DMJ} oraz wiedzę ekspercką, zmniejszając tym zauważalnie liczbę błędów generowanych przez \textit{DMJ} niekorzystających z powyższych udogodnień. Przekłada się to bezpośrednio na mniejsze koszta uzyskania rozwiązania oraz braku konieczności posiadania wykwalifikowanego personelu w~tej dziedzinie. Umożliwia to na rozpowszechnienie ogólnodostępnego rozwiązania w dziedzinie \textit{PL}. 
+\section{Wady rozwiązania}
+Stworzone narzędzie jest najbardziej wydajne dla prostych instancji problemów \textit{PL} z małą do średniej ilości danych. Przy większej ilości danych \textit{DMJ} może nie działać na satysfakcjonującym poziomie. Wydajność \textit{DMJ} znacząco spada, w miarę wzrostu wielkości kontekstu wejściowego, nawet w przypadku modeli zaprojektowanych do obsługi dużych kontekstów. Rozmiar kontekstu \textit{DMJ}, jest bardzo ograniczony w porównaniu do problemów optymalizacyjnych korzystających z dużej ilości danych wejściowych. \cite{10.1162/tacl_a_00638} Kolejnym ograniczeniem jest zależność pomiędzy jakością generowanego kodu \textit{PL}, a niską różnorodnością dostępnych przykładów w literaturze. Im większa różnorodność dostępnych przykładów w literaturze, tym większa jakość generowanego kodu \textit{PL}.
 
-% TP: TODO: do zalet dopiszcie
-% - zbiór danych i jego możliwe zastosowania, nawet poza tą pracą; to jest super wynik, o którym tutaj zapomnieliście
-
-\section{Wady opracowanego generatora}
-
-Stworzone narzędzie jest najbardziej wydajne dla prostych instancji zagadnień optymalizacyjnych z małą do średniej ilości danych. % TP: TODO: <- nie wiadomo o co chodzi z tą ilością danych? Wejściem generatora jest tekst, więc jak rozumieć małą albo średnią ilość. Czy da się te określenia zastąpić wartościami mierzalnymi. Nie ma już za bardzo czasu, ale chciałoby się zweryfikować eksperymentalnie jak długi/dokładny opis zagadnienia jest potrzebny, aby wygenerować wiernie mu odopowiadający model PL. Bez takiego eksperymentu pozostaje tylko stawiać hipotezy.
- Przy większej ilości danych \textit{DMJ} może nie działać na satysfakcjonującym poziomie. % TP: TODO <- zwykle jak jest więcej danych to metody AI/ML/Statystyka działają lepiej/z mniejszym błędem, więc ta myśl wymaga wyjaśnienia; A może jednak nie chodzi o "dane"?
- Wydajność \textit{DMJ} znacząco spada, w miarę wzrostu wielkości kontekstu wejściowego, nawet w przypadku modeli zaprojektowanych do obsługi dużych kontekstów. Rozmiar kontekstu \textit{DMJ}, jest bardzo ograniczony w porównaniu do problemów optymalizacyjnych korzystających z dużej ilości danych wejściowych~\cite{10.1162/tacl_a_00638}. Kolejnym ograniczeniem jest zależność pomiędzy jakością generowanego kodu \textit{PL}, a niską różnorodnością dostępnych przykładów w literaturze. Im większa różnorodność dostępnych przykładów w literaturze, tym większa jakość generowanego kodu \textit{PL}.
- 
-% TP: TODO: do wad można jeszcze dopisać:
-% - ZIMPL - nie jest szczególnie popularny; wbudowaną obsługę ma 1 solver: SCIP, ale interpreter potrafi przekonwertować model ZIMPL do formatów LP i MPS obsługiwanych przez większość solverów; tj. dochodzi dodatkowy krok
-% - DMJ i ogólnie głębokie sieci neuronowe nie dają żadnych gwarancji - mogą generować modele PL z bardzo wyrafinowanymi błędami, które trudno zauważyć nawet ekspertom; Wasz generator nie nadaje się do zastosowań krytycznych, wymagających gwarancji bezpieczeństwa, poprawności, itd.
-% - DMJ może halucyjnować i dla niedokładnego opisu zagadnienia "dopowiedzieć sobie" albo założyć pewne zależności, które nie zachodzą.
-% - inżynieria podpowiedzi (o której niżej piszecie, że jest uczeniem przez wzmacnianie) to jest robotą ręczna, więc trudno ją przeprowadzić na większej liczbie zagadnień, problemów i dla wszystkich możliwych przypadków (brzegowych)
-% - potencjalne obciążenie zbioru danych - opracowany zbiór zawiera tylko pewne specyficzne zagadnienia optymalizacyjne; nie wiadomo jak generator zachowałby się na zagadnieniach innego typu
-
-\section{Możliwe kierunki poprawy opracowanego generatora}
-Niewątpliwie automatyzacja procesu \textit{uczenia przez wzmacnianie} pozwoliłaby uzyskać bardziej satysfakcjonujące wyniki, pozwalając modelowi dostosować się do bardziej różnorodnych problemów na podstawie nowych oraz wykorzystanych danych. Rozwiązanie zautomatyzowane zostało przedstawione w sekcji \ref{sec:optimus}. % TP: TODO <- raczej napiszcie, że konkurencyjne rozwiązanie zautomatyzowało proces, który Wy wykonaliście ręcznie i co z tego wyniknęło
+\section{Poprawa rozwiązania}
+Niewątpliwie automatyzacja procesu \textit{uczenia przez wzmacnianie} pozwoliłaby uzyskać bardziej satysfakcjonujące wyniki, pozwalając modelowi dostosować się do bardziej różnorodnych problemów na podstawie nowych oraz wykorzystanych danych. Rozwiązanie zautomatyzowane zostało przedstawione w sekcji \ref{sec:optimus}. 
 
 Zwiększenie ilości oraz różnorodności przykładów również przyczyniłoby się do zwiększenia jakości generowanych modeli \textit{PL}. Jest to rozwiązanie czasochłonne, ponieważ ilość powszechnie dostępnych, profesjonalnych źródeł jest ograniczona.
 Hipoteza: Automatyzacja procesu \textit{uczenia przez wzmacnianie} oraz zwiększenie bazy przykładów przyczyniłoby się do poprawy wyników programu.
 
-\section{Napotkane trudności}
+\section{Trudności}
 
-Początkowo zaczęto tworzyć własny DMJ na jednym z niekomercyjnych DMJ metodą douczania \english{fine-tuning}. Uzyskane efekty okazały się niesatysfakcjonujące, a zwiększanie zbioru danych uczących nie przynosiło znaczącej poprawy.
+Początkowo zaczęto tworzyć własny model na jednym z rozwiązań niekomercyjnych metodą \textit{ang. fine-tuningu}. Wydajność tego rozwiązania okazała się niesatysfakcjonująca. Wydajność nie poprawiła się, pomimo zwielokrotnienia bazy przykładów uczących.
 
-% TP: TODO: to chyba nie powinno być w tekście pracy; to jest notatka z naszego spotaknia: :)
-% Spojrzeć na rozwiązanie wysokopoziomowe, co jest dobre, co jest złe, co można poprawić (postawić hipotezy jak postawić), dlaczego pewnych rzeczy nie da się zrobić (np. duże problemy PL, ograniczenia językowe, etc), odnieść się do innych projektów – co nam nie pomogło, co pomogło, czemu wykorzystaliśmy dane rzeczy
+Spojrzeć na rozwiązanie wysokopoziomowe, co jest dobre, co jest złe, co można poprawić (postawić hipotezy jak postawić), dlaczego pewnych rzeczy nie da się zrobić (np. duże problemy PL, ograniczenia językowe, etc), odnieść się do innych projektów – co nam nie pomogło, co pomogło, czemu wykorzystaliśmy dane rzeczy
 
-Rozpatrzono użycie różnych \textit{DMJ}, biorąc przy tym pod uwagę najlepszą jakość, przy jak najmniejszym koszcie. % TP: TODO: co to jest jakość?
-Zdecydowano się na DMJ \texttt{GPT-4o}, odrzucając przy tym DMJ bardziej wydajne, % TP: TODO: wydajne? wydajne brzmi jakby działały szybciej/taniej, a tutaj pewnie chodzi o zgodność generowanego modelu PL z opisem zagadnienia albo wzorcowym modelem PL.
-ze względu na zbyt wysokie koszta obliczeniowe. Skutkiem tej decyzji była konieczność zmiany struktury generatora na bardziej złożoną, co prowadzi do obniżenia przejrzystości oraz zwiększeniu stopniu skomplikowania implementacji.
+Rozpatrzono użycie różnych \textit{DMJ}, biorąc przy tym pod uwagę najlepszą jakość, przy jak najmniejszym koszcie. Zdecydowaliśmy się na model \texttt{GPT-4o}, odrzucając przy tym modele bardziej wydajne, ze względu na zbyt wysokie koszta obliczeniowe. Skutkiem tej decyzji była konieczność zmiany struktury rozwiązania na bardziej złożoną, co nie jest optymalnym podejściem, gdyż prowadzi do obniżenia przejrzystości oraz zwiększeniu stopniu skomplikowania implementacji.
+
+
+%Jagoda: Dorzucam do dyskusji, może chcecie gdzieś zawrzeń w ramach wniosków elementy wypowiedzi
+Jaki procent modeli stworzonych przez generator ZIMPL
+kompiluje się poprawnie?
+
+Test jest istotny, bo pokazuje, że system radzi sobie z formułowaniem możliwych do rozwiązania modeli LP. Zwłaszcza przy modelach LP ze sztywno zapisanym kodem wynikowym, rezultaty pokazują, że generator potrafi w większości wypadków tworzyć prawidłowo składniowe wyniki. % TP: TODO: <- nie jestem przekonany do tego akapitu. W zasadzie powtarza i rozmywa to co zostało powiedziane wczesniej. Takie ogólnikowe stwierdzenia bardziej pasują do dyskusji.
+
+%Jagoda: dorzucam rekomendacje na podstawie wyników eksperymentów:
+Na podstawie przeprowadzonych analiz zaleca się dalsze doskonalenie wersji parametryzowanej w celu zwiększenia jej efektywności. Wersja sztywna aktualnie jest rekomendowana jako bardziej niezawodna opcja.
