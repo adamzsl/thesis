@@ -13,16 +13,6 @@
 \section{Wstęp teoretyczny}
 
 % TP: Po co to? Przecież nie rozwiązujecie modeli PL, ani nie korzystacie w żaden sposób z tych twierdzeń; one też nie pasują do ogólniejszej klasy -> MILP, którą Wasza metoda obsługuje
-%Programowanie liniowe (\textit{PL}) jest metodą minimalizacji wieloaspektowej z funkcją kosztu. Metodę opisują poniższe twierdzenia\footnote{Definicja i twierdzenia pochodzą częściowo z Metod Podejmowania Decyzji Waldemara Rebizanta~\cite{rebizant2012metody}.}:
-%\begin{itemize}
-%\item Tw1: Zbiór wypukły \textit{W} to zbiór, w którym odcinek łączący dwa dowolne punkty zawierające się w zbiorze \textit{W}, również zawiera się w zbiorze \textit{W}.
-
-%\item Tw2: Zbiór rozwiązań dopuszczalnych \textit{D} jest zbiorem wypukłym.
-
-%\item Tw3: Warunki ograniczające tworzą wierzchołek zbioru wypukłego \textit{D}, gdzie funkcja osiąga wartość optymalną.
-
-%\item Tw4: Przy co najmniej dwóch rozwiązaniach optymalnych, każda liniowa kombinacja tych rozwiązań, jest rozwiązaniem optymalnym danego modelu decyzyjnego.
-%\end{itemize}
 
 % TP: TODO: Tutaj też sugeruję nie rozwodzić się nad zapisami, które są istotne z punktu widzenia metod rozwiązywania modeli PL; z punktu widzenia modelowania rozróżnienie postaci ogólnej i standardowej nie ma większego znaczenia. Z drugiej strony brakuje definicji modelu PL takiego, który Wy generujecie. 
 % Dlatego sugeruję tutaj wprowadzić 3 sekcje:
@@ -133,6 +123,23 @@ Jeśli \textit{Walidacja działania kodu} zakończy się sukcesem, wygenerowany 
 Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Do każdego z czterech różnych zapytań dotyczących programowania sztywnego % TP: TODO <- Nie wiadomo skąd się bierze liczba 4, dlaczego akurat tyle i jak te zapytania są wybierane - Jagoda: w przypadku sztywnego kodowania wysyłane są 4 zapytania, warto to uwzględnić w opisie w rozdziale 3 % Adam x2
 dodano wszystkie wybrane opisy zadania programowania liniowego
 wraz z elementem kodu  \akronim{ZIMPL}, którego dotyczy zapytanie. Łącznie uwzględniono 10 takich zapytań. Podobnie zrealizowano zadanie dla programowania z parametryzacją. Dla każdego z sześciu zapytań, wykorzystano 10 zadań wraz z elementami kodu  \akronim{ZIMPL}. % TP: TODO <- dlaczego 6 i jak zostały wybrane? - Jagoda: tutaj podobnie dla parametryzowanego wysyłamy 6 zapytań, warto dopisac w rodziale % Adam x2
+
+
+\section{Inżynieria podpowiedzi}
+% - Inżynieria podpowiedzi - np. na podstawie https://pl.wikipedia.org/wiki/Inżynieria_podpowiedzi
+Inżynieria podpowiedzi (ang. \textit{prompt engineering}) to proces projektowania i iteracyjnego doskonalenia instrukcji przekazywanych \textit{DMJ} w celu uzyskania satysfakcjonujących wyników. Poprawnie zaprojektowane podpowiedzi mogą znacząco wpłynąć na jakość generowanych wyników, szczególnie w kontekście złożonych modeli \textit{PL}.
+
+W niniejszej pracy inżynieria podpowiedzi została zastosowana do automatycznego generowania modeli \textit{PL} w języku \textit{ZIMPL}. Proces ten polegał na iteracyjnym dostosowywaniu treści podpowiedzi na podstawie wyników uzyskanych w poprzednich iteracjach. Pozwoliło to usprawnić proces generowania modeli \textit{PL} oraz poprawa ich jakości.
+
+W pracy wykorzystano inżynierie podpowiedzi, której kroki opisano poniżej:
+\begin{itemize} 
+\item Model językowy (\textit{DMJ}) generuje model \textit{PL} w języku \textit{ZIMPL} na podstawie opisu problemu w języku naturalnym. 
+\item Wygenerowany model jest oceniany przez niezależny moduł lub specjalistę. Ocena opiera się na: 
+    \begin{itemize} 
+        \item zgodności wyników z wymaganiami i specyfikacją problemu, 
+        \item porównaniu z ręcznie opracowaną wersją kodu, która służy jako punkt odniesienia. 
+    \end{itemize} 
+\item Na podstawie tej analizy, instrukcje generacji są modyfikowane i dostosowywane, aby poprawić jakość wyników w kolejnych iteracjach.\end{itemize}
 
 
 \section{Graficzny interfejs użytkownika}\label{sec:generation:gui}

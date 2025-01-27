@@ -66,6 +66,61 @@ Ze względu na specyfikę zbioru danych, skupiono się na przeszukaniu źródeł
 Do źródeł tych należą publikacje, dokumentacja związana z programowaniem liniowym\cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical} oraz zbiorów Politechniki Poznańskiej. % TP: TODO: co to za zbiory? Jak piszecie o repo GECS, to sugeruję zamiast tego stwierdzenia dokleić wyżej cytowanie na https://www.sciencedirect.com/science/article/pii/S2210650221000572  - Adam x2?
 Głównym źródłem zagadnień optymalizacyjnych i modeli PL jest dokumentacja języka  \akronim{ZIMPL} \cite{zimpl_manual}, która została napisana w formie przypominającej instrukcję. Zaczerpnięto także dane z przykładowych zadań publikowanych przez prowadzących zajęcia na Politechnice Poznańskiej. Zadania są zapisane w języku angielskim. Ich formuła jest zróżnicowana. Zadania są przedstawiane w formie długich opisów, punktowania problemu, tabelek, bądź są połączeniem tych form. Łącznie stworzono 40 unikalnych przykładów.
 
+
+% Obecna sekcja "Przeszukanie literatury" brzmi opis, w jaki sposób pozyskaliście wiedzę o PL/jak sami się uczyliście. To nie o to chodzi. Sugeruję usunąć; jeśli w ten sposób były pozyskiwane dane do bazy zagadnień optymalizacyjch (problemów), to raczej należy z tamtym opisem zintegrować tę informację.
+%A: Dodać do sekcji dane
+
+%A: Stary opis
+%A: Literaturą, którą wykorzystano do przygotowywania modeli \textit{PL} są powszechnie dostępne artykuły edukacyjne. Owe artykuły edukacyjne wyjaśniają zagadnienie \textit{PL} korzystając z przystępnych oraz łatwych w analizie przykładów. Artykuły etapowo wyjaśniają tworzenie modelu \textit{PL}, omawiając go parami: \textit{tekst problemu -- model}. Taka forma jest szczególnie korzystna do nauki \textit{DJM}. 
+
+Poniżej przedstawiono przykład wzorcowego modelu \textit{PL} wraz z opisem problemu \cite{cimt}:
+
+\subsubsection*{Opis problemu:} \label{sec:model_example}
+\begin{quote}
+Mała firma zajmuje się budowaniem altan ogrodowych.
+
+Typ A wymaga nakładu 2 godzin pracy maszyny oraz 5 godzin pracy robotnika.  
+
+Typ B wymaga nakładu 3 godzin pracy maszyny oraz 5 godzin pracy robotnika. 
+
+Każdego dnia firma dysponuje łącznie 30 godzinami pracy maszyn oraz 60 godzinami pracy robotników. Zysk z każdej altany typu A to 60 funtów, a z każdej altany B to 80 funtów. Celem jest maksymalizacja profitu firmy.
+
+\end{quote}
+
+\subsubsection*{Zmienne decyzyjne}
+
+$x$ – liczba altan typu A wyprodukowanych każdego dnia,
+
+$y$ – liczba altan typu B wyprodukowanych każdego dnia.
+
+\subsubsection*{Ograniczenia}
+
+Czas pracy maszyn: $2x + 3y \leq 30$
+
+Czas pracy robotników: $5x + 5y \leq 60$
+
+oraz $x \geq 0, \ y \geq 0$
+
+
+\subsubsection*{Funkcja celu}
+\[
+    P = 60x + 80y
+\]
+
+\subsubsection*{Gotowy model problemu \textit{PL}}
+    Zmaksymalizuj $P = 60x + 80y$
+
+przy ograniczeniach:
+
+    $2x + 3y \leq 30$
+    
+    $x + y \leq 12$
+    
+    $x  \geq 0$
+    
+    $y \geq 0$
+
+
 \subsection{Tworzenie modeli PL w języku \akronim{ZIMPL}}
 
 Dla wyszukanych i sprawdzonych modeli PL stworzono ich reprezentacje w języku \akronim{ZIMPL} opisujące zagadnienie. %, rozwiązujące przedstawiony problem. % TP: model nic nie rozwiązuje, model opisuje zagadnienie - DONE

@@ -14,20 +14,11 @@ Niewątpliwie automatyzacja procesu \textit{uczenia przez wzmacnianie} pozwolił
 Zwiększenie ilości oraz różnorodności przykładów również przyczyniłoby się do zwiększenia jakości generowanych modeli \textit{PL}. Jest to rozwiązanie czasochłonne, ponieważ ilość powszechnie dostępnych, profesjonalnych źródeł jest ograniczona.
 Hipoteza: Automatyzacja procesu \textit{uczenia przez wzmacnianie} oraz zwiększenie bazy przykładów przyczyniłoby się do poprawy wyników programu.
 
+Na podstawie przeprowadzonych analiz zaleca się dalsze doskonalenie wersji parametryzowanej w celu zwiększenia jej efektywności. Wersja sztywna aktualnie jest rekomendowana jako bardziej niezawodna opcja.
+
 \section{Trudności}
 
 Początkowo zaczęto tworzyć własny model na jednym z rozwiązań niekomercyjnych metodą \textit{ang. fine-tuningu}. Wydajność tego rozwiązania okazała się niesatysfakcjonująca. Wydajność nie poprawiła się, pomimo zwielokrotnienia bazy przykładów uczących.
 
-Spojrzeć na rozwiązanie wysokopoziomowe, co jest dobre, co jest złe, co można poprawić (postawić hipotezy jak postawić), dlaczego pewnych rzeczy nie da się zrobić (np. duże problemy PL, ograniczenia językowe, etc), odnieść się do innych projektów – co nam nie pomogło, co pomogło, czemu wykorzystaliśmy dane rzeczy
 
 Rozpatrzono użycie różnych \textit{DMJ}, biorąc przy tym pod uwagę najlepszą jakość, przy jak najmniejszym koszcie. Zdecydowaliśmy się na model \texttt{GPT-4o}, odrzucając przy tym modele bardziej wydajne, ze względu na zbyt wysokie koszta obliczeniowe. Skutkiem tej decyzji była konieczność zmiany struktury rozwiązania na bardziej złożoną, co nie jest optymalnym podejściem, gdyż prowadzi do obniżenia przejrzystości oraz zwiększeniu stopniu skomplikowania implementacji.
-
-
-%Jagoda: Dorzucam do dyskusji, może chcecie gdzieś zawrzeń w ramach wniosków elementy wypowiedzi
-Jaki procent modeli stworzonych przez generator ZIMPL
-kompiluje się poprawnie?
-
-Test jest istotny, bo pokazuje, że system radzi sobie z formułowaniem możliwych do rozwiązania modeli LP. Zwłaszcza przy modelach LP ze sztywno zapisanym kodem wynikowym, rezultaty pokazują, że generator potrafi w większości wypadków tworzyć prawidłowo składniowe wyniki. % TP: TODO: <- nie jestem przekonany do tego akapitu. W zasadzie powtarza i rozmywa to co zostało powiedziane wczesniej. Takie ogólnikowe stwierdzenia bardziej pasują do dyskusji.
-
-%Jagoda: dorzucam rekomendacje na podstawie wyników eksperymentów:
-Na podstawie przeprowadzonych analiz zaleca się dalsze doskonalenie wersji parametryzowanej w celu zwiększenia jej efektywności. Wersja sztywna aktualnie jest rekomendowana jako bardziej niezawodna opcja.
