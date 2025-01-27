@@ -1,12 +1,29 @@
 
-\chapter{Podstawy teoretyczne}
+\chapter{Przegląd literatury}\label{ch:review}
 
-\section{Struktura Pracy}
+% TP: TODO: Ten rozdział powinien być przeglądem literatury na tematy związane z pracą. Sugeruję utworzyć sekcje poświęcone następującym tematom:
+% W przeglądzie literatury powinniście porównać przeglądane prace z Waszą, w szczególności krótko napiszcie jakie są różnice, w czym Wasze podejście jest lepsze/inne. Im bardziej odległa tematycznie praca, tym to porównanie może być krótsze, albo nawet pominięte (np. przy odkrywaniu z przykładów rozwiązań)
 
-Struktura pracy jest następująca. W rozdziale 2 przedstawiono przegląd literatury na temat programowania liniowego oraz podanie przykładu rozwiązania. Rozdział 3 jest poświęcony opisowi naszego rozwiązania oraz poglądowym schematem struktury rozwiązania. Rozdział 4 zawiera opis zbioru danych. Tłumaczy on strukturę pracy, tworzenie odpowiedzi w formacie kodu \textit{ZIMPL} oraz opisuje przebieg rozwoju oraz przetwarzania zbioru danych. W rozdziale 5 przedstawiono pytania eksperymentalne oraz odpowiedzi na nie, wraz ze statystykami przebiegu eksperymentów. Rozdział 6 omawia zalety oraz wady rozwiązania, proces poprawy rozwiązania jak i napotkane trudności związane z przebiegiem pracy. W rozdziale 7 znajduje się podsumowanie zawierające wnioski oraz dalszy kierunek prac.
+\section{Generowanie modeli \textit{PL} z opisów zagadnień -- \\ alternatywne systemy działające na podobnej zasadzie --- \textit{OptiMUS}}\label{sec:optimus}
+% - Generowanie modeli PL z opisów zagadnień - alternatywne systemy działające na podobnej zasadzie -> OptiMUS
+% Obecna sekcja "Podobne narzędzia - OptiMUS" może być zalążkiem dla Sekcji Generowanie modeli PL z opisów zagadnień, o której piszę wyżej. Trochę przerobiłem tekst, który tam jest. To musi być bardzo konkretnie napisane, bez nieistotnych informacji i lania wody.
+\textit{OptiMUS} \cite{ahmaditeshnizi2023optimus} jest systemem opartym o \akronim{DMJ}, który generuje modele PL w języku Python, którego kod jest zgodny z API solwerów takich jak Gurobi\cite{gurobi2023}, na podstawie opisu słownego zagadnienia w języku angielskim.
+Główną różnicą między systemami jest to, że \textit{OptiMUS} obsługuje modele \english{mixed-integer linear programming, MILP} oraz wykorzystuje system automatycznej iteracji w celu identyfikacji i naprawy błędów w generowanych modelach.
+OptiMUS, w przypadku wygenerowania niepoprawnego rozwiązania lub błędnego kodu, ponawia zapytanie do \akronim{DMJ}, dołączając treść wygenerowanego błędu przez solver lub kod wynikowy. Dzięki temu system może iteracyjnie poprawiać model, identyfikując i eliminując błędy wynikające z niezgodności składni, braków w ograniczeniach lub innych problemów logicznych.
+Program generuje wtedy poprawiony kod --- operacja jest wykonywana do momentu uzyskania poprawnej odpowiedzi, bądź do momentu osiągnięcia maksymalnej liczby iteracji.
+
+\section{Odkrywanie modeli PL z innego rodzaju danych}
+% - Odkrywanie modeli PL z innego rodzaju danych - metody/algorytmy syntezy/odkrywania/generowania modeli PL (i innych PM) na podstawie danych/przykładów/rozwiązań/informacji zwrotnej/uczenia aktywnego/itd.
+metody/algorytmy syntezy/odkrywania/generowania modeli PL (i innych PM) na podstawie danych/przykładów/rozwiązań/informacji zwrotnej/uczenia aktywnego/itd.
+
+\section{Duże modele językowe dla generowania kodu}
+% - Duże modele językowe dla generowania kodu - w szczególności modele dedykowane pod generowanie modeli PL, np. AMPL ma taką nakładkę na ChatGPT https://ampl.com/guide-to-using-chatgpt-for-ampl-models-and-streamlit-apps/ Warto referować jakiś benchmark, który pozwoli wskazać, który model generalnie lepiej się sprawdza w szczególności modele dedykowane pod generowanie modeli PL, np. AMPL ma taką nakładkę na ChatGPT https://ampl.com/guide-to-using-chatgpt-for-ampl-models-and-streamlit-apps/ Warto referować jakiś benchmark, który pozwoli wskazać, który model generalnie lepiej się sprawdza
+
 
 \section{Przeszukanie literatury}
-
+% W przeglądzie literatury powinniście porównać przeglądane prace z Waszą, w szczególności krótko napiszcie jakie są różnice, w czym Wasze podejście jest lepsze/inne. Im bardziej odległa tematycznie praca, tym to porównanie może być krótsze, albo nawet pominięte (np. przy odkrywaniu z przykładów rozwiązań)
+% Obecna sekcja "Przeszukanie literatury" brzmi opis, w jaki sposób pozyskaliście wiedzę o PL/jak sami się uczyliście. To nie o to chodzi. Sugeruję usunąć; jeśli w ten sposób były pozyskiwane dane do bazy zagadnień optymalizacyjch (problemów), to raczej należy z tamtym opisem zintegrować tę informację.
+%Dodać do sekcji dane
 Literaturą, którą wykorzystano do przygotowywania modeli \textit{PL} są powszechnie dostępne artykuły edukacyjne. Owe artykuły edukacyjne wyjaśniają zagadnienie \textit{PL} korzystając z przystępnych oraz łatwych w analizie przykładów. Artykuły etapowo wyjaśniają tworzenie modelu \textit{PL}, omawiając go parami: \textit{tekst problemu -- model}. Taka forma jest szczególnie korzystna do nauki \textit{DJM}. Poniżej przedstawiono przykład z jednego z artykułów edukacyjnych\cite{cimt}:
 
 \subsubsection*{Opis problemu:} \label{sec:model_example}
@@ -54,20 +71,7 @@ przy ograniczeniach:
     
     $y \geq 0$
 
-forma wyroczni (uczenie ze wzmocnieniem); poszukać prace
 
-\section{Uczenie przez wzmacnianie}
-Uczenie przez wzmacnianie jest jednym głównych typów uczenia maszynowego, który polega na interakcji ze środowiskiem. Uczenie przez wzmacnianie jest problemem, z którym musi zmierzyć się agent. Zadaniem agenta jest nauka zachowania poprzez interakcje z otoczeniem, metodą prób i błędów.\cite{kaelbling1996reinforcement}
 
-W pracy wykorzystano uczenie przez wzmacnianie, którego kroki opisano poniżej:
-\begin{itemize}
-    \item \textit{DMJ} generuje model \textit{PL} w języku \textit{ZIMPL} na podstawie opisu słownego opisu problemu \textit{PL},
-    \item Niezależny \textit{DMJ} ocenia jakość wygenerowanego modelu \textit{PL} na podstawie ścisłych wytycznych oraz poprawnej wersji kodu sporządzonej przez programistów
-    \item Na podstawie oceny wygenerowanego modelu \textit{PL}, instrukcja generacji modelu jest poprawiana
-\end{itemize}
-
-\section{Podobne narzędzia -- \textit{OptiMUS}\cite{ahmaditeshnizi2023optimus}}
-
-Podczas przeglądu literatury natrafiono na podobne narzędzia wykonane przez Wydział Nauk o Zarządzaniu i Inżynierii na Uniwersytecie Stanforda -- \textit{OptiMUS}. Głównymi różnicami między narzędziami jest możliwość obsługi problemów \textit{ang. mixed-integer linear programming (MILP)} oraz system automatycznej iteracji w celu naprawy błędów (\textit{OptiMUS}). Program w razie uzyskania niepoprawnej odpowiedzi wysyła zapytanie do \textit{DMJ} dodatkowo z treścią otrzymanego błedu. Program generuje wtedy poprawiony kod --- operacja jest wykonywana do momentu uzyskania poprawnej odpowiedzi bądź do momentu osiągnięcia maksymalnej liczby iteracji. Dodatkowo \textit{OptiMUS} zapisuje dane z tekstu do pliku w określonym formacie, co ułatwia przetwarzanie. \label{sec:optimus}
 
 

@@ -1,5 +1,5 @@
 
-\chapter{Eksperymenty}
+\chapter{Eksperymenty}\label{ch:experiment}
 
 \section{Pytania eksperymentalne}
 
@@ -11,28 +11,38 @@ Badanie zdolności generatora do tworzenia kodu, który spełni podstawowe wymag
 
     \item \textbf{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?}
 
- Określenie średniego poziomu poprawności generowanych rozwiązań na pełnym zbiorze testowym. Poprawność odpowiedzi jest mierzona na podstawie pokrycia generowanego kodu z oczekiwanym wynikiem dla danego zadania.
+ Określenie średniego poziomu poprawności generowanych rozwiązań na pełnym zbiorze testowym. Poprawność odpowiedzi jest mierzona na podstawie pokrycia generowanego kodu z~oczekiwanym wynikiem dla danego zadania.
     
-    \item \textbf{Czy istnieje poprawa w jakości wygenerowanego rozwiązania, w stosunku do rozwiązania za pomocą pojedynczego zapytania?}
+    \item \textbf{Czy opracowany system generuje modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
 
-Porównanie wyników i przy użyciu stworzonego generatora kodu  \textit{ZIMPL} i wyników generowanych przez model na podstawie standardowego, pojedynczego zapytania. Brana pod uwagę jest liczba poprawnie wygenerowanych odpowiedzi za pomocą pojedynczego zapytania w porównaniu do liczby odpowiedzi stworzonego generatora.
+Porównanie wyników i przy użyciu stworzonego generatora kodu  \textit{ZIMPL} i wyników generowanych przez model na podstawie standardowego, kontrolnego DMJ. Brana pod uwagę jest liczba poprawnie wygenerowanych odpowiedzi za pomocą kontrolnego DMJ w~porównaniu do liczby odpowiedzi stworzonego generatora.
     
-    \item \textbf{Jaką poprawę zapewnia zaawansowane generowanie kodu pod względem jakości składni w stosunku do pojedynczego zapytania?}
+    \item \textbf{Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?}
 
 Ocena jakości składni dla poszczególnych zapytań pod względem poprawnego zdefiniowania odpowiednich elementów generowanego kodu. Ilość ocenianiach elementów zależy od parametryzacji lub jej braku w stworzonym modelu  \textit{ZIMPL}. Oceny są porównywane między podstawowym zapytaniem, a stworzonym generatorem.
     
 \end{itemize}
 
+% TP: TODO: tutaj można dopisać parametry, które są stałe w trakcie eksperymentów (temperatura?) oraz inne założenia - DONE
+
+W generatorze oraz kontrolnym DMJ wykorzystano GPT-4o-mini. Dla każdego zapytania do DMJ ustawiono temperaturę na wartość 0, aby uniknąć halucynacji i zapewnić większą przewidywalność odpowiedzi. Maksymalna liczba tokenów wynikowych została ustawiona na 512. Nie było potrzeby na ustawianie większej wartości, największe wygenerowane modele potrzebowały do 400 tokenów. W przypadku większych zadań, niż te wykorzystywane w ramach testów lub zmiany języka, należałoby przeanalizować zwiększenie maksymalnej liczby tokenów.
+
+% TP: TODO: tutaj też można zdefiniować "kontrolnego DMJ", jako GPT-4 (czy jakiś inny DMJ) z prostym promptem, tj. to co obecnie jest zdefiniowane w Sekcji 5.4; ten kontrolny DMJ jest wykorzystywany w Sekcjach 5.4 i 5.5 - DONE
+
+Kontrolnym DMJ nazywamy pojedyncze zapytanie skierowane do DMJ w wersji GPT-4o-mini. Zapytanie nie zawiera w sobie żadnych informacji nakierowujących DMJ na składnię języka \akronim{ZIMPL}. Zapytanie kontrolnego DMJ posiada takie same parametry, co stworzony generator. Zapytanie składa się z:
+
+\begin{itemize}
+    \item Prośba o dostarczenie kodu \akronim{ZIMPL} dla podanego zadania.
+    \item Wprowadzony opis problemu PL.
+    \item Prośba o odpowiedź tylko i wyłącznie w formie kodu, bez dodawania zbędnych elementów, takich jak wprowadzenie tekstowe.
+\end{itemize}
+
+Dla kontrolnego DMJ, tak jak dla generatora kodu ZIMPL, stosowane jest przetwarzanie końcowe, tak aby usunąć zbędne elementy, w tym nawiasy rozpoczynające i kończące kod. Wynika to z potrzeby oceny zdolności modelu do generacji kodu, a nie całościowej odpowiedzi.
+
 \section{Jaki procent modeli stworzonych przez generator  \textit{ZIMPL} kompiluje się poprawnie?}
 
-Do odpowiedzi na to pytanie został wykorzystany zbiór testowy oraz algorytm SCIP sprawdzający możliwość stworzenia rozwiązania dla podanego zadania. Algorytm dla rozwiązania nadaje status \texttt{VALID} (poprawny) lub \texttt{NOT VALID} (niepoprawny). Do weryfikacji i udzielenia odpowiedzi na to pytanie należy zliczyć liczbę poprawnie i niepoprawnie zweryfikowanych kodów oraz obliczyć ich procentową wartość.
-
-Posługując się zbiorem testowym, zweryfikowane zostały odpowiedzi generatora \textit{ZIMPL}, oraz otrzymały konkretne statusy. \textbf{Procentową wartością, jaka została osiągnięta przy sprawdzaniu poprawnej kompilacji to 88.07\%}. Poniżej zostały przedstawione dokładne wyniki.
-
-Łączne wyniki generatora \textit{ZIMPL} dla całego zbioru testowego:
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla całego zbioru testowego.}\label{tab:tabela1}
+\begin{table}[H]
+\caption{Tabela sprawdzenia poprawności dla całego zbioru testowego.}\label{tab:experiment:compilation}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
@@ -47,113 +57,67 @@ Niepoprawne & 513 & 11,93\% \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=4200,
-]
-\addplot coordinates {(Poprawne,3787) (Niepoprawne,513)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla całego zbioru testowego.}\label{rys:plama2a}
-\end{figure}
-
-Ze względu na różnice w procesie generacji kodu, zależnie od potrzeby parametryzacji lub stworzenia sztywnego (tzw. hardcoded) modelu  \textit{ZIMPL}, wyniki różnią się od siebie, a co za tym idzie, proces tworzenia parametryzowanego kodu wymaga wykorzystania większej ilości zapytań i struktury o większej złożoności. W związku z tym należy uwzględnić również wyniki dla obu wersji wygenerowanych modeli  \textit{ZIMPL}.
-
-Łączne wyniki generatora  \textit{ZIMPL} dla zbioru testowego posiadającego odpowiedzi dla wyników kodowanych w formule sztywnej:
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla sztywnych odpowiedzi.}\label{tab:tabela2}
+% TP: połączyłem te dwie tabele w jedną z 5 kolumnami i dodatkowym wierszem nagłówka,
+\begin{table}[H]
+\caption{Tabela sprawdzenia poprawności w rozbiciu na sztywne i parametryzowane modele}\label{tab:experiment:compilation:breakdown}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
+\hline%
+	&\multicolumn{2}{c|}{Wersja sztywna}&\multicolumn{2}{c|}{Wersja parametryzowana}\\
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+\textbf{Status} & \textbf{Suma} & \textbf{Procent} & \textbf{Suma} & \textbf{Procent} \\
 \hline
-Poprawne & 2129 & 93,58\% \\
+Poprawne & 2129 & 93,58\% & 1658 & 81,88\% \\
 \hline
-Niepoprawne & 146 & 6,42\% \\
+Niepoprawne & 146 & 6,42\% & 367 & 18,12\%\\
 \hline
-\textbf{Razem} & \textbf{2275} & \textbf{100\%} \\
+\textbf{Razem} & \textbf{2275} & \textbf{100\%} &\textbf{2025} & \textbf{100\%} \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=2400,
-]
-\addplot coordinates {(Poprawne,2129) (Niepoprawne,146)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla sztywnych odpowiedzi.}\label{rys:plama2b}
-\end{figure}
+% TP: Poniżej moja propozycja krótko i na temat:
+Kompiluje się 88,07\% wygenerowanych modeli PL, w tym 93,58\% dla wersji sztywnej i 81,88\% dla wersji parametryzowanej. Tabela~\ref{tab:experiment:compilation} prezentuje liczbę i odsetek przykładów ze zbioru testowego, dla których DMJ wygenerował kompilujący i niekompilujący się kod. Tabela~\ref{tab:experiment:compilation:breakdown} zawiera analogiczne dane w~rozbiciu na wersje sztywną i parametryzowaną problemu.
 
-Podobna weryfikacja została przeprowadzona dla części odpowiedzi, stworzonych w formule parametryzowanej:
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla parametryzowanych odpowiedzi.}\label{tab:tabela3}
+\begin{table}[H]
+\caption{Estymacja przedziału ufności  wraz z testem z}\label{tab:experiment:analysis1}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+\textbf{Kategoria} & \textbf{Całość} & \textbf{Wersja sztywna} & \textbf{Wersja parametryzowana} \\
 \hline
-Poprawne & 1658 & 81,88\% \\
+\textbf{Liczba modeli ($n$)} & 4300 & 2275 & 2025 \\
 \hline
-Niepoprawne & 367 & 18,12\% \\
+\textbf{Poprawne modele ($m$)} & 3787 & 2129 & 1658 \\
 \hline
-\textbf{Razem} & \textbf{2025} & \textbf{100\%} \\
+\textbf{Proporcja (\%)} & 88,07 & 93,58 & 81,88 \\
+\hline
+\textbf{Przedział ufności (95\%)} & [87,10 ; 89,04] & [92,58 ; 94,59] & [80,20 ; 83,55] \\
+\hline
+\multicolumn{4}{|c|}{Wartość statystyki \( z \): 12,47}\\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=2000,
-]
-\addplot coordinates {(Poprawne,1658) (Niepoprawne,367)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla parametryzowanych odpowiedzi.}\label{rys:plama2c}
-\end{figure}
+Opracowany system generuje poprawne modele z prawdopodobieństwem ponad 80\% niezależnie od przyjętej formy wynikowego modelu PL. Wyniki przedstawione w powyższej tabeli~\ref{tab:experiment:analysis1} przedstawiają przedziały ufności przy uwzględnieniu estymacji 95\% przedziałów  ufności. Wartość statystyki z wynosi 12,47, co wskazuje na istotność statystyczną wskazanych wyników. Różnice w proporcjach poprawnych modeli pomiędzy wersją sztywną a parametryzowaną są statystycznie istotne.
 
-Sumaryczne wyniki, niezależnie od różnicy w formule kodu, dają ponad 80\% skuteczności. Test jest istotny, bo pokazuje, że model radzi sobie z formułowaniem możliwych do rozwiązania zadań. Zwłaszcza przy zadaniach z sztywno zapisanym kodem wynikowym, rezultaty pokazują, że generator potrafi w większości wypadków tworzyć prawidłowo składniowe wyniki.
+% TP: TODO: Bardzo ważne: wykonajcie proszę analizy statystyczne:
+% - estymacja 95% przedziałów ufności dla prawdopodobieństwa zwrócenia poprawnego modelu: slajd 12 stąd https://theta.edu.pl/wp-content/uploads/2014/02/W11EP.pdf - możecie dopisać do tabel wyżej jako $procent \pm połowa szerokości przedziału$
+% - test t lub Z na różnice między prawdopodobieństwami zwrócenia poprawnych modeli w wersj sztywnej i parametryzowanej dla alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych - DONE
 
-\section{Jaki jest średni procent poprawności odpowiedzi generatora na zbiorze testowym?}
+\section{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?}
 
-Do uzyskania średniego procenta poprawności odpowiedzi, potrzebne są konkretne rezultaty pozyskane z algorytmu rozwiązującego SCIP. Takie wyniki zostały porównane z wynikami poprawnych rozwiązań i na podstawie porównania otrzymywały status poprawnego lub niepoprawnego rozwiązania. Do takiej weryfikacji brane pod uwagę były jedynie rozwiązania, które uzyskały status poprawnego (VALID) podczas poprzedniego eksperymentu.
+% TP: TODO: Bardzo proszę, przeróbcie ten tekst w stylu poprzedniej sekcji: krótka odpowiedź na pytanie z nagłówka + wyrzucić wykresy + zagregować tabele 5.4 i 5.5  oraz 5.7 i 5.8 + analiza statystyczna. - DONE
 
-\textbf{Procent poprawności odpowiedzi względem poprawnych wyników, przeanalizowany na zbiorze testowym, wynosi 60,93\%.} Ten sam wynik analizowany na \textbf{zbiorze testowym wyłączając wyniki, które nie zostały poprawnie skompilowane w poprzednim etapie, procent poprawności wynosi 69,18\%}. Poniżej przedstawiona jest tabela uwzględniająca wszystkie dane testowe wraz z wynikiem analizy rozwiązań.
 
-\begin{table}[ht]
+% Tutaj trzeba jeszcze wyjaśnić jak jest weryfikowana poprawność odpowiedzi, bo z poniższego tekstu to nie wynika. - DONE
+Do oceny poprawności zastosowano porównanie wyniku poprawnego modelu \akronim{ZIMPL} dla danego przykładu ze zbioru w porównaniu do wyniku wygenerowanego modelu \akronim{ZIMPL}. Zastosowany jest program napisany w języku \akronim{Python} porównujący obie wartości. Przy ocenie poprawności brane pod uwagę były przykłady, dla których wygenerowany model posiada status \textbf{poprawny}.
+
+%Do uzyskania procenta poprawności odpowiedzi, potrzebne są konkretne rezultaty pozyskane z algorytmu rozwiązującego SCIP. Takie wyniki zostały porównane z wynikami poprawnych rozwiązań i na podstawie porównania otrzymywały status poprawnego lub niepoprawnego rozwiązania. Do takiej weryfikacji brane pod uwagę były jedynie rozwiązania, które uzyskały status poprawnego (VALID) podczas poprzedniego eksperymentu.
+
+%\textbf{Procent poprawności odpowiedzi względem poprawnych wyników, przeanalizowany na zbiorze testowym, wynosi 60,93\%.} Ten sam wynik analizowany na \textbf{zbiorze testowym wyłączając wyniki, które nie zostały poprawnie skompilowane w poprzednim etapie, procent poprawności wynosi 69,18\%}. Poniżej przedstawiona jest tabela uwzględniająca wszystkie dane testowe wraz z wynikiem analizy rozwiązań.
+
+\begin{table}[H]
 \caption{Tabela sprawdzenia wygenerowanego kodu względem poprawnych wyników dla wszystkich danych testowych.}\label{tab:tabela4}
 \centering%
 \begin{tabular}{|l|c|c|}
@@ -171,104 +135,57 @@ Nieuwzględnione & 513 & 11,93\% \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Zgadzające się, Niezgadzające się, Nieuwzględnione},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    bar width=15pt,
-    ymin=0,
-    ymax=2900,
-]
-\addplot coordinates {(Zgadzające się,2620) (Niezgadzające się,1167) (Nieuwzględnione,513)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia wygenerowanego kodu względem poprawnych wyników dla wszystkich danych testowych.}\label{rys:plama2d}
-\end{figure}
+%Tak jak w pierwszym pytaniu eksperymentalnym, przeprowadzono również analizę ze względu na formułę wygenerowanego kodu. Uwzględniono przy tym procent ominiętych rezultatów. Dla wyników sztywnego kodowania poprawne wartości wynosiły 60\%, podczas gdy dla wyników parametryzowanego kodu wyniosły one 61,98\%. Sumaryczne wyniki prezentują się jak poniżej.
 
-Tak jak w pierwszym pytaniu eksperymentalnym, przeprowadzono również analizę ze względu na formułę wygenerowanego kodu. Uwzględniono przy tym procent ominiętych rezultatów. Dla wyników sztywnego kodowania poprawne wartości wynosiły 60\%, podczas gdy dla wyników parametryzowanego kodu wyniosły one 61,98\%. Sumaryczne wyniki prezentują się jak poniżej.
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia wygenerowanego kodu względem poprawnych wyników dla sztywnych odpowiedzi.}\label{tab:tabela5}
+\begin{table}[H]
+\caption{Tabela sprawdzenia wygenerowanego kodu względem poprawnych wyników dla sztywnych i parametryzowanych odpowiedzi.}\label{tab:experiment:combined2}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+ & \multicolumn{2}{c|}{\textbf{Wersja sztywna}} & \multicolumn{2}{c|}{\textbf{Wersja parametryzowana}} \\
 \hline
-Zgadzające się & 1365 & 60,00\% \\
+\textbf{Status} & \textbf{Suma} & \textbf{Procent} & \textbf{Suma} & \textbf{Procent} \\
 \hline
-Niezgadzające się & 764 & 33,58\% \\
+Zgadzające się & 1365 & 60,00\% & 1255 & 61,98\% \\
 \hline
-Nieuwzględnione & 146 & 6,42\% \\
+Niezgadzające się & 764 & 33,58\% & 403 & 19,90\% \\
 \hline
-\textbf{Razem} & \textbf{2275} & \textbf{100\%} \\
+Nieuwzględnione & 146 & 6,42\% & 367 & 18,12\%\\
+\hline
+\textbf{Razem} & \textbf{2275} & \textbf{100\%} & \textbf{2025} & \textbf{100\%} \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Zgadzające się, Niezgadzające się, Nieuwzględnione},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    bar width=15pt,
-    ymin=0,
-    ymax=1600,
-]
-\addplot coordinates {(Zgadzające się,1365) (Niezgadzające się,764) (Nieuwzględnione,146)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia wygenerowanych wyników względem poprawnych wyników dla sztywnych odpowiedzi.}\label{rys:plama2e}
-\end{figure}
+W przypadku całego zbioru testowego DMJ wygenerował poprawny kod w 60,93\% przypadków, a 27,14\% wygenerowanych przykładów nie pokrywało się z wynikiem wygenerowanym przez SCIP. Dodatkowo, 11,93\% wyników zostało nieuwzględnionych w analizie, ze względu na status \textbf{niepoprawny}. W tabeli~\ref{tab:tabela4} przedstawiono szczegółowe dane na temat wygenerowanego kodu względem poprawnych wyników dla całego zbioru testowego.
 
-\begin{table}[ht]
-\caption{Tabela sprawdzenia wygenerowanych wyników względem poprawnych wyników dla parametryzowanych odpowiedzi.}\label{tab:tabela6}
+W przypadku rozbicia na wersje sztywną i parametryzowaną, wyniki są zróżnicowane. Dla wersji sztywnej 60,00\% wyników było poprawnych, 33,58\% niepoprawnych, a 6,42\% zostało nieuwzględnionych. Dla wersji parametryzowanej, 61,98\% wyników było poprawnych, 19,90\% niepoprawnych, a 18,12\% zostało nieuwzględnionych. Szczegółowe dane na temat tych wyników zawiera tabela~\ref{tab:experiment:combined2}.
+
+\begin{table}[H]
+\caption{Estymacja przedziału ufności wraz z testem z}\label{tab:experiment:analysis2}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+\textbf{Kategoria} & \textbf{Całość} & \textbf{Wersja sztywna} & \textbf{Wersja parametryzowana} \\
 \hline
-Zgadzające się & 1255 & 61,98\% \\
+\textbf{Liczba modeli ($n$)} & 4300 & 2275 & 2025 \\
 \hline
-Niezgadzające się & 403 & 19,90\% \\
+\textbf{Poprawne modele ($m$)} & 2620 & 1365 & 1255 \\
 \hline
-Nieuwzględnione & 367 & 18,12\% \\
+\textbf{Proporcja (\%)} & 60,93 & 60,00 & 61,98 \\
 \hline
-\textbf{Razem} & \textbf{2025} & \textbf{100\%} \\
+\textbf{Przedział ufności (95\%)} & [59,47 ; 62,39] & [57,99 ; 62,01] & [59,86 ; 64,09] \\
+\hline
+\multicolumn{4}{|c|}{Wartość statystyki \( z \): -1,33} \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Zgadzające się, Niezgadzające się, Nieuwzględnione},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    bar width=15pt,
-    ymin=0,
-    ymax=1500,
-]
-\addplot coordinates {(Zgadzające się,1255) (Niezgadzające się,403) (Nieuwzględnione,367)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia wygenerowanych wyników względem poprawnych wyników dla parametryzowanych odpowiedzi.}\label{rys:plama2f}
-\end{figure}
+Wartość statystyki \( z \) przedstawiona w powyższej tabeli~\ref{tab:experiment:analysis2} wynosi -1,33, co sugeruje, że różnice między wersją parametryzowaną a sztywną nie są statystycznie istotne.
 
-Dla porównania, taka sama analiza została przeprowadzona dla wszystkich wyników, ale nie uwzględniając wartości, które zostały wykluczone jako niepoprawne, przy odpowiedzi na poprzednie pytanie eksperymentalne. Dzięki temu lepiej widoczne są wyniki poprawności generowanego kodu i podziału ze względu na pokrywające się wyniki. Wnioskiem z tego eksperymentu jest skuteczność w okolicy 70\% dla kodu zweryfikowanego jako możliwy do kompilacji.
+Dla porównania, taka sama analiza została przeprowadzona dla wszystkich wyników, ale nie uwzględniając wartości, które zostały wykluczone jako niepoprawne. Wnioskiem z tego eksperymentu jest skuteczność w okolicy 70\% dla kodu zweryfikowanego jako możliwy do kompilacji. Wyniki dla całego zbioru zostały przedstawione w poniższej tabeli~\ref{tab:tabela7}.
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania.}\label{tab:tabela7}
 \centering%
 \begin{tabular}{|l|c|c|}
@@ -284,119 +201,76 @@ Niezgadzające się & 1167 & 30,82\% \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Zgadzające się, Niezgadzające się},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=0.5,
-    bar width=15pt,
-    ymin=0,
-    ymax=2900,
-]
-\addplot coordinates {(Zgadzające się,2620) (Niezgadzające się,1167)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania.}\label{rys:plama2g}
-\end{figure}
-
-Podobna weryfikacja możliwa jest dla wyników sformułowanych jako sztywne oraz parametryzowane. W tym przypadku wynik parametryzowanych odpowiedzi jest lepszy od wyniku sztywnego kodowania i wynosi 75,69\%. W związku z tym generator posiada lepszą zdolność do tworzenia kodów możliwych do kompilacji w przypadku sztywnego kodowania, natomiast gdy kod jest poprawnie skompilowany, parametryzowany kod jest częściej tym poprawnym pod względem wyniku.
-
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania oraz kodowanego w sposób sztywny.}\label{tab:tabela8}
+\begin{table}[H]
+\caption{Tabela sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania dla wersji sztywnej i parametryzowanej.}\label{tab:experiment:combined_check}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+ & \multicolumn{2}{c|}{\textbf{Wersja sztywna}} & \multicolumn{2}{c|}{\textbf{Wersja parametryzowana}} \\
 \hline
-Zgadzające się & 1365 & 64,11\% \\
+\textbf{Status} & \textbf{Suma} & \textbf{Procent} & \textbf{Suma} & \textbf{Procent} \\
 \hline
-Niezgadzające się & 764 & 35,89\% \\
+Zgadzające się & 1365 & 64,11\% & 1255 & 75,69\% \\
 \hline
-\textbf{Razem} & \textbf{2129} & \textbf{100\%} \\
+Niezgadzające się & 764 & 35,89\% & 403 & 24,31\% \\
+\hline
+\textbf{Razem} & \textbf{2129} & \textbf{100\%} & \textbf{1658} & \textbf{100\%} \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Zgadzające się, Niezgadzające się},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=0.5,
-    bar width=15pt,
-    ymin=0,
-    ymax=1600,
-]
-\addplot coordinates {(Zgadzające się,1365) (Niezgadzające się,764)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania oraz kodowanego w sposób sztywny.}\label{rys:plama2h}
-\end{figure}
+Podobna weryfikacja możliwa jest dla wyników sformułowanych jako sztywne oraz parametryzowane. Dla wersji sztywnej 64,11\% wygenerowanych przykładów było poprawnych, podczas gdy 35,89\% nie zgadzało się z oczekiwanym wynikiem. Dla wersji parametryzowanej 75,69\% wyników było poprawnych, a 24,31\% niepoprawnych. W obu przypadkach analizowane dane zostały uwzględnione w tabeli~\ref{tab:experiment:combined_check}.
 
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania oraz kodowanego w sposób parametryzowany.}\label{tab:tabela9}
+%Przy interpretowaniu tych wyników należy uwzględnić czynniki, które mogły powodować szumy. Jednym z nich jest niepoprawna interpretacja zadania przez generator. W przypadku, gdy model językowy zrozumie zadanie w inny sposób niż autor bazy, wynik automatycznie jest klasyfikowany jako niepoprawny, mimo że nie zawsze będzie błędny względem treści zadania.
+
+\begin{table}[H]
+\caption{Estymacja przedziału ufności wraz z testem z}\label{tab:experiment:analysis3}
 \centering%
-\begin{tabular}{|l|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Status} & \textbf{Suma} & \textbf{Procent} \\
+\textbf{Kategoria} & \textbf{Całość} & \textbf{Wersja sztywna} & \textbf{Wersja parametryzowana} \\
 \hline
-Zgadzające się & 1255 & 75,69\% \\
+\textbf{Liczba modeli ($n$)} & 3787 & 2129 & 1658 \\
 \hline
-Niezgadzające się & 403 & 24,31\% \\
+\textbf{Poprawne modele ($m$)} & 2620 & 1365 & 1255 \\
 \hline
-\textbf{Razem} & \textbf{1658} & \textbf{100\%} \\
+\textbf{Proporcja (\%)} & 69,18 & 64,11 & 75,69 \\
+\hline
+\textbf{Przedział ufności (95\%)} & [67,71 ; 70,65] & [62,08 ; 66,15] & [73,63 ; 77,76] \\
+\hline
+\multicolumn{4}{|c|}{Wartość statystyki \( z \): -7,66} \\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Zgadzające się, Niezgadzające się},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=0.5,
-    bar width=15pt,
-    ymin=0,
-    ymax=1500,
-]
-\addplot coordinates {(Zgadzające się,1255) (Niezgadzające się,403)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania oraz kodowanego w sposób parametryzowany.}\label{rys:plama2i}
-\end{figure}
+Wartość \( z \) z tabeli~\ref{tab:experiment:analysis3} wynosi -7,66, zatem wynik między wersją sztywną i parametryzowaną jest statystycznie istotny.
 
-Przy interpretowaniu tych wyników należy uwzględnić czynniki, które mogły powodować szumy. Jednym z nich jest niepoprawna interpretacja zadania przez generator. W przypadku, gdy model językowy zrozumie zadanie w inny sposób niż autor bazy, wynik automatycznie jest klasyfikowany jako niepoprawny, mimo że nie zawsze będzie błędny względem treści zadania.
+\section{Czy opracowany system generuje modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
+% TP: TODO: Tutaj też sugeruję skrócić odpowiedź i usunąć rysunek 5.7; 5.8 może zostać
+% To co nazywacie "pojedynczym zapytaniem" lepiej nazwać "kontrolnym DMJ" i trzeba krótko napisać co to dokładnie jest, tj. GPT-4o-mini? - DONE
+% Pilnujcie nazewnictwa; nie "rozwiązanie", a "model" - DONE
+% W tej sekcji chciałoby się zobaczyć test statystystyczny na różnice między metodami, chociaż wynik jest jasny na oko. - DONE
 
-\section{Czy istnieje poprawa w jakości wygenerowanego rozwiązania, w stosunku do rozwiązania za pomocą pojedynczego zapytania?}
+Weryfikacja modelu, poza sprawdzeniem poprawności generowanego kodu, odbywa się również poprzez porównanie jego wyników do wyników kontrolnego DMJ. Jako kontrolny DMJ rozumiane jest zapytanie do modelu GPT 4o-mini w formacie:
 
-Weryfikacja rozwiązania, poza sprawdzeniem poprawności generowanego kodu, odbywa się również poprzez porównanie jego wyników do wyników standardowego zapytania skierowanego do modelu językowego. Jako standardowe zapytanie rozumiane jest zapytanie w formacie:
+\begin{lstlisting}[language=zimpl]
+<Zapytanie o napisanie kodu  ZIMPL> <zadanie, dla którego oczekiwane jest roziwązanie>
+\end{lstlisting}
 
-\begin{quote}
-\begin{verbatim}
-<Zapytanie o napisanie kodu  ZIMPL> <zadanie, dla którego oczekiwane jest
-roziwązanie>
-\end{verbatim}
-\end{quote}
+Kod generowany poprzez takie zapytanie przechodzi jeszcze obróbce końcowej --- usuwaniu zbędnych, często generowanych łańcuchów znaków wywołujących niepotrzebne zakłócenia w interpretacji kodu:
+\begin{lstlisting}[language=zimpl]
+```zimpl
+```
+\end{lstlisting}
 
-Kod generowany poprzez takie zapytanie przechodzi jeszcze obróbce końcowej, w tym usuwaniu zbędnych znaków wywołujących niepotrzebne zakłócenia w interpretacji kodu. Zdecydowano się na taki krok ze względu na brak skuteczności, w celu faktycznego sprawdzenia, czy kod jest poprawny, niezależnie od dodatkowych informacji przekazywanych w odpowiedzi.
+Zdecydowano się na taki krok ze względu w celu faktycznego sprawdzenia, czy kod jest poprawny, niezależnie od dodatkowych informacji przekazywanych w odpowiedzi.
 
-\textbf{Istnieje znacząca poprawa w jakości wygenerowanego rozwiązania w stosunku do rozwiązania za pomocą pojedynczego zapytania.} Testy poprowadzone na jednorazowym zapytaniu, wykorzystując model językowy GPT-4o-mini oraz temperaturę = 0, czyli dokładnie takie parametry, jakie zostały zastosowane w przypadku stworzonego generatora, jasno wskazują na zerową skuteczność. Rezultaty nigdy nie osiągają statusu poprawnego, a tym samym nie są rozważane przy porównywaniu rozwiązań. Model nie zna składni języka  \textit{ZIMPL}, w związku z czym dodaje do niego niepoprawne elementy kodu, zwłaszcza w przypadku deklaracji ograniczeń. Nie jest świadomy wszystkich koniecznych do kompilacji elementów kodu, a także generuje podstawowe błędy przy odczytywaniu wartości z polecenia. Wynik sprawdzania poprawności uwzględnia jedynie sprawdzenie możliwości kompilacji kodu. Nie ma potrzeby przeprowadzania dalszych testów, albowiem musiałyby przebiegać na pustym zbiorze rozwiązań.
+%\textbf{Istnieje znacząca poprawa w jakości wygenerowanego modelu w stosunku do modelu stworzonego za pomocą kontrolnego DMJ.} Testy poprowadzone na jednorazowym zapytaniu, wykorzystując model językowy GPT-4o-mini oraz temperaturę = 0, czyli dokładnie takie parametry, jakie zostały zastosowane w przypadku stworzonego generatora, jasno wskazują na zerową skuteczność. Rezultaty nigdy nie osiągają statusu poprawnego, a tym samym nie są rozważane przy porównywaniu rozwiązań. DMJ nie zna składni języka  \textit{ZIMPL}, w związku z czym dodaje do niego niepoprawne elementy kodu, zwłaszcza w przypadku deklaracji ograniczeń. Nie jest świadomy wszystkich koniecznych do kompilacji elementów kodu, a także generuje podstawowe błędy przy odczytywaniu wartości z polecenia. Wynik sprawdzania poprawności uwzględnia jedynie sprawdzenie możliwości kompilacji kodu. Nie ma potrzeby przeprowadzania dalszych testów, albowiem musiałyby przebiegać na pustym zbiorze rozwiązań.
 
-\begin{table}[ht]
-\caption{Tabela sprawdzenia poprawności dla zbioru testowego przy zastosowaniu pojedynczego zapytania.}\label{tab:tabela10}
+W przypadku zbioru testowego przy zastosowaniu kontrolnego DMJ, wszystkie wygenerowane modele (100\%) były niepoprawne, co oznacza, że żaden z testowanych przykładów nie został oznaczony przez SCIP jako \textbf{poprawny}. Wyniki zostały przedstawione w tabeli~\ref{tab:tabela10}. W związku z nimi, nie było potrzeby dokonywania dalszej analizy, pod względem porównania wyników kontrolnego DMJ z poprawnym rozwiązaniem zawartym w zbiorze przykładów.
+
+\begin{table}[H]
+\caption{Tabela sprawdzenia poprawności dla zbioru testowego przy zastosowaniu kontrolnego DMJ.}\label{tab:tabela10}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
@@ -411,34 +285,14 @@ Niepoprawne & 4300 & 100,00\% \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={Poprawne, Niepoprawne},
-    xtick=data,
-    ylabel={Liczba},
-    nodes near coords,
-    enlarge x limits=1,
-    bar width=15pt,
-    ymin=0,
-    ymax=4800,
-]
-\addplot coordinates {(Poprawne,0) (Niepoprawne,4300)};
-\end{axis}
-\end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego przy zastosowaniu pojedynczego zapytania.}\label{rys:plama2j}
-\end{figure}
+Ostateczne zestawienie wyników generatora z jednym zapytaniem w formie tablicy kontyngencji, uwzględniając przy tym weryfikację możliwości kompilacji kodu przedstawione zostało w tabeli~\ref{tab:tabela11}.
 
-Ostateczne zestawienie wyników generatora z jednym zapytaniem w formie tablicy kontyngencji, uwzględniając przy tym weryfikację możliwości kompilacji kodu wygląda w tym przypadku następująco:
-
-\begin{table}[ht]
-\caption{Tablica kontyngencji dla zbioru testowego przy zastosowaniu pojedynczego zapytania oraz generatora kodu.}\label{tab:tabela11}
+\begin{table}[H]
+\caption{Tablica kontyngencji dla zbioru testowego przy zastosowaniu kontrolnego DMJ oraz generatora kodu.}\label{tab:tabela11}
 \centering%
 \begin{tabular}{|l|l|c|c|}
 \hline
-\textbf{Generator} & \textbf{Pojedyncze zapytanie} & \textbf{Suma} & \textbf{Procent} \\
+\textbf{Generator} & \textbf{Kontrolny DMJ} & \textbf{Suma} & \textbf{Procent} \\
 \hline
 Poprawne & Poprawne & 0 & 0,00\% \\
 \hline
@@ -453,7 +307,7 @@ Niepoprawne & Niepoprawne & 513 & 11,93\% \\
 \end{tabular}
 \end{table}
 
-Dla wykresu zastosowano skrócone nazewnictwo, w którym komplementarnie do powyższej tabeli, prawy znak dotyczy wyników stworzonego generatora podczas gdy lewy znak dotyczy wyników pojedynczego zapytania.
+Dla wykresu~\ref{rys:plama2k} zastosowano skrócone nazewnictwo, w którym komplementarnie do powyższej tabeli, prawy znak dotyczy wyników stworzonego generatora podczas gdy lewy znak dotyczy wyników kontrolnego DMJ.
 
 \begin{figure}[H]
 \centering
@@ -473,34 +327,64 @@ Dla wykresu zastosowano skrócone nazewnictwo, w którym komplementarnie do powy
 \addlegendentry{P - Poprawne, N - Niepoprawne}
 \end{axis}
 \end{tikzpicture}
-\caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego przy zastosowaniu pojedynczego zapytania oraz generatora kodu.}\label{rys:plama2k}
+\caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego przy zastosowaniu kontrolnego DMJ oraz generatora kodu.}\label{rys:plama2k}
 \end{figure}
 
-\section{Jaką poprawę zapewnia zaawansowane generowanie kodu pod względem jakości składni w stosunku do pojedynczego zapytania?}
+Dla lepszej wizualizacji wyników zestawiono liczbowo wartości modeli sklasyfikowanych jako \textbf{poprawne} dla generatora \akronim{ZIMPL} oraz kontrolnego DMJ. Wartość \( z \) przedstawiona w poniższej tablicy~\ref{tab:experiment:analysis4} wynosi -82,26 zatem różnica jest statystycznie istotna.
 
-Do sprawdzenia jakości modelu pod względem jego składni i jakości zrozumienia zadania wykorzystano model GPT-4o. Po otrzymaniu wyników, dla większej wiarygodności, wykonano oczyszczanie rezultatów i naprawę oczywistych błędów halucynowanych przez model. Zależnie od funkcjonalności kodu, wykorzystano inne mierniki jakości. Dla wyników parametryzowanych zastosowano skalę sześciostopniową, podczas gdy dla sztywnego kodowania - czterostopniową.
+\begin{table}[H]
+\caption{Estymacja przedziału ufności wraz z testem z}\label{tab:experiment:analysis4}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Kategoria} & \textbf{Generator} & \textbf{Kontrolny DMJ} \\
+\hline
+\textbf{Liczba modeli ($n$)} & 4300 & 4300 \\
+\hline
+\textbf{Poprawne modele ($m$)} & 3787 & 0 \\
+\hline
+\textbf{Proporcja (\%)} & 88,07 & 0,00 \\
+\hline
+\textbf{Przedział ufności (95\%)} & [87,10 ; 89,04] & [0,00 ; 0,00] \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z \): -82,26} \\
+\hline
+\end{tabular}
+\end{table}
 
-Wynikiem eksperymentu jest punktacja \textbf{3,31/4,00} dla wygenerowanych wyników, w porównaniu do \textbf{1,81/4,00} dla standardowego zapytania, dla wszystkich wyników sztywnego kodowania. Tak samo, dla parametryzowanych wyników powstałych w wyniku wykorzystania generatora oceną jest \textbf{4,75/6,00}, podczas gdy dla pojedynczego zapytania wynosi \textbf{2,78/6,00}. Sumaryczna poprawa względem standardowego zapytania \textbf{wzrosła o średnio 1,74} punktu.
+\section{Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?}
+% TP: TODO: sugeruję zmienić na "Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?" i dalej pisać o kontrolnym DMJ - DONE
 
-\subsection{Wyniki dla modelu zapisanego w sztywnej formule.}
+Dla modeli PL w formule sztywnej generator uzyskał \textbf{3,31p}, a kontrolny DMJ \textbf{1,81p} na 4-punktowej skali jakości zdefiniowanej poniżej. Dla modeli PL w formule parametryzowanej, generator uzyskał \textbf{4,75p}, a kontrolny DMJ \textbf{2,78p} na 6-punktowej skali jakości zdefiniowanej poniżej.
 
-Aby poprawnie zweryfikować wyniki, rozpatrzone zostały poszczególne elementy modelu wynikowego. Na początku rozważony zostanie model kodu zapisanego w \textbf{sztywnej formule}. Wszystkie wyniki są porównywane z poprawnym kodem zawartym w danych testowych. W tej skali punktowane były poszczególne elementy:
+% TP: TODO: tutaj wypadałoby zrobić 2 testy statystyczne na różnice generator vs kontrolny DMJ; ta skala punktowa jest arbitralna, więc rozkład wartości może być nietypowy i byłbym ostrożny w stosowaniu testów parametrycznych; raczej sugeruję użyć np. Wilcoxona dla alpha=0,05 https://pl.wikipedia.org/wiki/Test_Wilcoxona_dla_par_obserwacji
+
+Do sprawdzenia jakości modelu PL pod względem jego składni i jakości zrozumienia zadania zastosowano ocenę ekspercką, w~której ekspert przyznawał punkty dla czterech (formuła sztywna) lub sześciu (formuła parametryzowana) kryteriów. W~roli eksperta wykorzystano DMJ \textit{GPT-4o} \cite{TODO}, który jest niezależny od DMJ stosowanych w generatorze i kontrolnym DMJ. Po otrzymaniu wyników, dla większej wiarygodności, wykonano oczyszczanie rezultatów i naprawę oczywistych błędów halucynowanych przez DMJ. % TP: TODO <- opiszcie dokładnie procedurę czyszczenia i naprawy; jak dobrze rozumiem, w Sekcji 5.4 nie było takiej procedury; gdyby jednak była też tam stosowana, to wtedy możecie to czyszczenie dodać do opisu kontrolengo DMJ z sekcji 5.1
+% TP: TODO: tutaj brakuje też dokładnego udokumentowania procedury odpytania DMJ, tzn. jakiego prompta dostał? Czy to była sekwencja pytań i odpowiedzi? itd. Jako, że prompty są pewnie dedykowane pod formułę poniżej, to możecie je pokazać w poniższych sekcjach.
+
+%Zależnie od funkcjonalności kodu, wykorzystano inne mierniki jakości. Dla wyników parametryzowanych zastosowano skalę sześciostopniową, podczas gdy dla sztywnego kodowania - czterostopniową.
+
+%Wynikiem eksperymentu jest punktacja \textbf{3,31/4,00} dla wygenerowanych wyników, w porównaniu do \textbf{1,81/4,00} dla standardowego zapytania, dla wszystkich wyników sztywnego kodowania. Tak samo, dla parametryzowanych wyników powstałych w wyniku wykorzystania generatora oceną jest \textbf{4,75/6,00}, podczas gdy dla pojedynczego zapytania wynosi \textbf{2,78/6,00}. Sumaryczna poprawa względem standardowego zapytania \textbf{wzrosła o średnio 1,74} punktu.
+
+\subsection{Modele PL w sztywnej formule.}
+
+Dla wynikowych modeli PL w \textbf{sztywnej formule} poddano ocenie poniższe kryteria binarne w odniesieniu do wzorcowego modelu PL zawartego w danych testowych:
 
 \begin{enumerate}
-\item (1 punkt) \textbf{Definiowanie zmiennych} -- aby uzyskać punkt w tej kategorii, zmienne i typy muszą być zgodne ze sobą. Ich nazwy i komentarze mogą się od siebie różnić, ale logika musi pozostać taka sama. Brak zgodności powoduje utratę punktu.
-\item (1 punkt) \textbf{Funkcja celu} -- punkt przyznawany jest za poprawne zdefiniowanie funkcji celu. Musi być zgodna w strukturze, współczynnikach oraz poprawnie zdefiniowana za pomocą uwzględnienia minimalizacji lub maksymalizacji. Brak nazwy lub niezgodna struktura powodują utratę punktu.
-\item (1 punkt) \textbf{Ograniczenia} -- aby otrzymać punkt, ograniczenia muszą być zdefiniowane zgodnie z poprawnym kodem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje odjęcie punktu.
-\item (1 punkt) \textbf{Inne wymagania} -- punkt przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}).
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich typy są zgodne z modelem wzorcowym. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: <- zmieniłem, zweryfikujcie; czy jeśli generator _zadeklaruje_ wiecej zmiennych niż potrzeba, ale dobrze użyje tylko części zmiennych to dostanie punkt czy nie?
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). % TP: TODO: To trzeba doprecyzować - czy tutaj każdy czynnik jest oceniany 0,25p i razem sumuje się do 1p? Czy jeśli jeden komentarzb będzie zaczynać się od \#, a drugi nie to punkt zostanie przyznany? Czy puste linie dyskwalifikują przyznanie punktu? Czy długie ograniczenie rozpisane na wiele linii dyskwalifikuje przyznanie punktu?
 \end{enumerate}
 
-Poniżej przedstawiona została analiza wyników generatora oraz pojedynczego zapytania dla poszczególnych kategorii.
+Poniżej przedstawiona została analiza wyników generatora oraz kontrolnego DMJ dla poszczególnych kategorii.
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennych}.}\label{tab:tabela12}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1832 & 1418 \\
 \hline
@@ -511,67 +395,16 @@ Poniżej przedstawiona została analiza wyników generatora oraz pojedynczego za
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1832) (0,443)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1418) (0,857)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}
-\end{figure}
+% TP: TODO: test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych
 
-Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczym zapytaniem. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba.
+Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczym zapytaniem. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. % TP: TODO: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania?
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela13}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1882 & 1469 \\
 \hline
@@ -582,67 +415,18 @@ Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczy
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1882) (0,393)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2100,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1469) (0,806)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Funkcja celu}.}
-\end{figure}
+% TP: TODO: test statystyczny jw.
 
-W powyższym przykładzie widać całkowitą przewagę w ocenie obu wyników, która wskazuje na przewagę modelu  \textit{ZIMPL} stworzonego przez dostosowany do tego generator. Znacznie większą różnicę prezentują wygenerowane ograniczenia, co zostało przedstawione w wizualizacji poniżej. Pojedyncze zapytanie w każdym z przypadków testowych generuje kod zwierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny.
+Generator tworzy poprawne funkcje celu %TP: TODO: zależnie od wyników testu statystycznego: jeśli wyjdzie różnica to "znacząco", jeśli brak różnicy to "nieznacznie"
+częściej od kontrolnego DMJ. 
+Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z przypadków testowych generuje kod zwierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny. % TP: TODO: w tabeli jednak widać, że zdobywa jedyniki - chyba błąd w danych; zobaczcie, że średnie też nie pasują do danych.
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela14}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 2140 & 1754 \\
 \hline
@@ -653,67 +437,16 @@ W powyższym przykładzie widać całkowitą przewagę w ocenie obu wyników, kt
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2600,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,2140) (0,135)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2600,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,0) (0,2275)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Ograniczenia}.}
-\end{figure}
+% TP: TODO: test statystyczy jw.
 
-Największą trudnością dla obu modeli jest uzyskanie pozytywnej punktacji w kategorii \textbf{Inne wymagania}. Wpływa na to fakt, iż jest to kategoria sprawdzająca wszystkie, wcześniej nieuwzględnione błędy, a zatem łatwo w niej stracić punkt. Również w tym przypadku generator okazał się nieco lepszy.
+Największą trudnością dla obu DMJ jest uzyskanie pozytywnej punktacji w kategorii \textbf{Inne wymagania}. Wpływa na to fakt, iż jest to kategoria sprawdzająca wszystkie, wcześniej nieuwzględnione błędy, a zatem łatwo w niej stracić punkt. Również w tym przypadku generator okazał się nieco lepszy.
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela15}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1665 & 1229 \\
 \hline
@@ -724,68 +457,17 @@ Największą trudnością dla obu modeli jest uzyskanie pozytywnej punktacji w k
 \end{tabular}
 \end{table}
 
+% TP: TODO: test statystyczny
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=1900,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1665) (0,610)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=1900,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1229) (0,1046)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Inne wymagania}.}
-\end{figure}
+% TP: TODO: sugeruje to przenieść na początek 5.5; tzn. zintegrować z tamtym tekstem i umieścić tam tabele 5.15 oraz wykresy
+Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniają poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych danych. W średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla kontrolnego DMJ ten wynik zmniejsza się o 1,50 punktu (średnio 1,81).
 
-Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniają poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych danych. W średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla pojedynczego zapytania ten wynik zmniejsza się o 1,50 punktu (średnio 1,81).
-
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela sumarycznej oceny wyników dla kodowanych sztywno modeli.}\label{tab:tabela16}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 0 & 103 & 509 \\
 \hline
@@ -846,34 +528,42 @@ Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniaj�
     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
 ]
 \addplot coordinates {(4,0) (3,1026) (2,298) (1,442) (0,509)};
-\addlegendentry{Pojedyncze zapytanie}
+\addlegendentry{Kontrolny DMJ}
 \end{axis}
 \end{tikzpicture}
 \end{minipage}
-\caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.}
+\caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.} % TP: TODO: ...dla modeli w sztywnej formule?
 \end{figure}
 
-\subsection{Wyniki dla parametryzowanych modeli.}
+\subsection{Modele PL w parametryzowanej formule.}
 
-Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
+Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poniższe kryteria binarne w~odniesieniu do wzorcowych modeli PL zawartych w danych testowych: 
+%Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
 
 \begin{enumerate}
-\item (1 punkt) \textbf{Definiowanie zbiorów} -- aby uzyskać punkt w tej kategorii, zbiory muszą być poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. Każde odstępstwo od składni, powoduje utratę punktu.
-\item (1 punkt) \textbf{Definiowanie parametrów} -- punkt jest przyznawany gdy parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]} i logicznie zgodne z poprawnym kodem. Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie i strukturę.
-\item (1 punkt) \textbf{Definiowanie zmiennych} -- aby uzyskać punkt w tej kategorii, zmienne i typy muszą być zgodne ze sobą. Zmienne muszą być zgodne z odpowiednimi zbiorami. Ich nazwy i komentarze mogą się od siebie różnić, ale logika musi pozostać taka sama. Brak zgodności powoduje utratę punktu.
-\item (1 punkt) \textbf{Funkcja celu} -- punkt przyznawany jest za poprawne zdefiniowanie funkcji celu. Musi być zgodna w strukturze, współczynnikach oraz poprawnie zdefiniowana za pomocą uwzględnienia minimalizacji lub maksymalizacji. Brak nazwy lub niezgodna struktura powodują utratę punktu.
-\item (1 punkt) \textbf{Ograniczenia} -- aby otrzymać punkt, ograniczenia muszą być zdefiniowane zgodnie z poprawnym kodem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje odjęcie punktu.
-\item (1 punkt) \textbf{Inne wymagania} -- punkt przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}).
+\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. % TP: TODO: a jeśli wartościami zbioru są liczby?
+ Każde odstępstwo od składni, powoduje utratę punktu. % TP: TODO: czy nie ma tutaj weryfikacji semantycznej? Wcześniejsze kryteria to uwzględniały
+ W przeciwnym wypadku $0$p.
+\item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]} % TP: TODO: co jeśli wzorcowy parametr jest skalarem, a nie wektorem?
+i logicznie zgodne z poprawnym kodem. % TP: TODO: co to dokładnie znaczy, że są logicznie zgodne?
+Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie. W przeciwnym wypadku $0$p.
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich typy % TP: TODO: dziedziny?
+są zgodne z modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). % TP: TODO: To trzeba doprecyzować - czy tutaj każdy czynnik jest oceniany 0,25p i razem sumuje się do 1p? Czy jeśli jeden komentarzb będzie zaczynać się od \#, a drugi nie to punkt zostanie przyznany? Czy puste linie dyskwalifikują przyznanie punktu? Czy długie ograniczenie rozpisane na wiele linii dyskwalifikuje przyznanie punktu?
 \end{enumerate}
 
-Już w pierwszej kategorii widać znaczącą różnicę w wynikach między generowanymi wynikami. Pojedyncze zapytanie nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu, co jest najwyższym dotąd uzyskanym wynikiem.
+% TP: TODO: poprawcie proszę niżej analogicznie do sekcji 5.5.1 -> ja kontynuuję sprawdzanie w Rozdziale 6
 
-\begin{table}[ht]
+Już w pierwszej kategorii widać znaczącą różnicę w wynikach między generowanymi wynikami. Kontrolny DMJ nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu, co jest najwyższym dotąd uzyskanym wynikiem.
+
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zbiorów}.}\label{tab:tabela17}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1783 & 914 \\
 \hline
@@ -884,68 +574,14 @@ Już w pierwszej kategorii widać znaczącą różnicę w wynikach między gener
 \end{tabular}
 \end{table}
 
+Tworzenie parametrów prezentuje znacznie lepsze wyniki, zapewniając prawie 100\% skuteczności w tworzeniu przez generator. Wyniki kontrolnego DMJ również utrzymują się na poziomie powyżej 80\%.
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2000,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1783) (0,242)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2000,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,914) (0,1111)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Definiowanie zbiorów}.}
-\end{figure}
-
-Tworzenie parametrów prezentuje znacznie lepsze wyniki, zapewniając prawie 100\% skuteczności w tworzeniu przez generator. Wyniki pojedynczego zapytania również utrzymują się na poziomie powyżej 80\%.
-
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie parametrów}.}\label{tab:tabela18}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 2008 & 1663 \\
 \hline
@@ -956,67 +592,14 @@ Tworzenie parametrów prezentuje znacznie lepsze wyniki, zapewniając prawie 100
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2300,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,2008) (0,17)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2300,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1663) (0,362)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Definiowanie parametrów}.}
-\end{figure}
-
 Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyniku kodu, przez co nie zostaje osiągnięta 100\% poprawność, tak jak w przypadku sztywnego formatu kodu. Wyniki generatora w tym przypadku są nieznacznie wyższe.
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}\label{tab:tabela19}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1713 & 1473 \\
 \hline
@@ -1027,66 +610,15 @@ Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyni
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2000,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1713) (0,312)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    xlabel={Punktacja},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2000,
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1473) (0,552)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}
-\end{figure}
 
 Generowanie funkcji celu na podstawie wcześniej zdeklarowanych zmiennych działa bardzo dobrze, a wyniki posiadają poprawnie zdefiniowaną minimalizację/maksymalizację, a także prawidłowe sumowanie na zbiorach.
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela20}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 2002 & 2000 \\
 \hline
@@ -1097,67 +629,14 @@ Generowanie funkcji celu na podstawie wcześniej zdeklarowanych zmiennych dział
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2300,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,2002) (0,23)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2300,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,2000) (0,25)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Funkcja celu}.}
-\end{figure}
+Znacząca różnica pojawia się przy porównywaniu ograniczeń. Kontrolny DMJ nie zna składni kodu  \textit{ZIMPL}, w związku z czym każdorazowo deklaruje niepoprawne ograniczenia, używając takich elementów jak \texttt{s.t.} lub \texttt{subject to}.
 
-Znacząca różnica pojawia się przy porównywaniu ograniczeń. Pojedyncze zapytanie nie zna składni kodu  \textit{ZIMPL}, w związku z czym każdorazowo deklaruje niepoprawne ograniczenia, używając takich elementów jak \texttt{s.t.} lub \texttt{subject to}.
-
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela21}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 1790 & 0 \\
 \hline
@@ -1168,67 +647,15 @@ Znacząca różnica pojawia się przy porównywaniu ograniczeń. Pojedyncze zapy
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2300,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,1790) (0,235)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2300,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,0) (0,2025)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Ograniczenia}.}
-\end{figure}
 
 W przypadku ostatniej z ocenianych kategorii, modele osiągnęły niskie oceny. Wynikało to ponownie z ogólności kategorii. Wszelkie błędy, które nie zostały wyłapane w pozostałych kategoriach, zostały rozliczone w tym miejscu. Modele  \textit{ZIMPL} straciły najwięcej punktów na tworzeniu niepotrzebnych i niezwiązanych z problemem komend. 
 
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela22}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 1 & 658 & 259 \\
 \hline
@@ -1240,67 +667,14 @@ W przypadku ostatniej z ocenianych kategorii, modele osiągnęły niskie oceny. 
 \end{table}
 
 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2000,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,658) (0,1367)};
-\addlegendentry{Generator ZIMPL}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}%
-\hspace{0.05\textwidth}
-\begin{minipage}{0.45\textwidth}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar,
-    symbolic x coords={1, 0},
-    xtick=data,
-    %ylabel={Liczba},
-    width=1.1\textwidth,
-    height=1.1\textwidth,
-    ytick = \empty,
-    nodes near coords,
-    bar width=15pt,
-    enlarge x limits=1,
-    ymin=0,
-    ymax=2000,
-    xlabel={Punktacja},
-    legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
-]
-\addplot coordinates {(1,259) (0,1766)};
-\addlegendentry{Pojedyncze zapytanie}
-\end{axis}
-\end{tikzpicture}
-\end{minipage}
-\caption{Wykres ocenionych wyników dla kategorii \textbf{Inne wymagania}.}
-\end{figure}
+W poniższym zestawieniu sumarycznych rezultatów widać, że stworzony generator kodu  \textit{ZIMPL} został znacznie lepiej oceniony, niż kontrolny DMJ. W większości wypadków utrzymuje on wynik w okolicy 5 punktów (średnio 4,75), co świadczy o wysokiej jakości. Ta różnica jest znacząca w porównaniu do wyniku kontrolnego DMJ, który jest niższy o 1,97 punktu utrzymując średni poziom 2,78 punktu.
 
-W poniższym zestawieniu sumarycznych rezultatów widać, że stworzony generator kodu  \textit{ZIMPL} został znacznie lepiej oceniony, niż pojedyncze zapytanie. W większości wypadków utrzymuje on wynik w okolicy 5 punktów (średnio 4,75), co świadczy o wysokiej jakości. Ta różnica jest znacząca w porównaniu do wyniku pojedynczego zapytania, który jest niższy o 1,97 punktu utrzymując średni poziom 2,78 punktu.
-
-\begin{table}[ht]
+\begin{table}[H]
 \caption{Tabela sumarycznej oceny wyników dla parametryzowanych modeli.}\label{tab:tabela23}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Pojedyncze zapytanie}\\
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
 \hline
 0 & 3 & 3 \\
 \hline
@@ -1365,7 +739,7 @@ W poniższym zestawieniu sumarycznych rezultatów widać, że stworzony generato
     legend style={at={(0.5,-0.20)}, anchor=north, legend columns=-1}
 ]
 \addplot coordinates {(6,0) (5,39) (4,789) (3,650) (2,464) (1,80) (0,3)};
-\addlegendentry{Pojedyncze zapytanie}
+\addlegendentry{Kontrolny DMJ}
 \end{axis}
 \end{tikzpicture}
 \end{minipage}

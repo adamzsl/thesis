@@ -15,11 +15,57 @@
 \usepackage[OT4]{fontenc}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
-\usepackage{float}  % Dodaj ten pakiet w preambule
+\usepackage{float}
 \usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage{listings}
+\usepackage[table]{xcolor}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
 \usetikzlibrary{shapes.geometric, positioning}
+
+
+
+\lstdefinelanguage{zimpl} {keywords={set, param, var, maximize, minimize, subto},%
+morekeywords=[2]{in, do, forall, real, integer, binary, sum, and, else, if, vif, then, end, read, as, print, with, inter, xor, or},%
+sensitive=false,%
+basicstyle=\ttfamily\small,%
+basewidth=0.50em,%
+tabsize=2,
+comment=[l][\color{green!50!black}]{\#},%
+%morecomment=[l][\color{green}]\#,%
+%morecomment=[l]\#,%
+morecomment=[s]{/*}{*/},%
+keywordstyle=\color{red!50!black}\bfseries,%
+keywordstyle=[2]\color{blue!50!black}\bfseries,%
+commentstyle=\color{gray!50!black}\bfseries,%
+string=[b]",%
+showstringspaces=false,%
+stringstyle=\color{green!50!black},%
+breaklines=false,%
+numbers=left,%
+numbersep=0.5em,%
+numberstyle=\tiny%
+}
+
+\lstset{
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={ą}{{\k{a}}}1
+             {ć}{{\'c}}1
+             {ę}{{\k{e}}}1
+             {ł}{{\l{}}}1
+             {ń}{{\'n}}1
+             {ó}{{\'o}}1
+             {ś}{{\'s}}1
+             {ź}{{\'z}}1
+             {ż}{{\.z}}1,
+    language=zimpl,
+    basicstyle=\ttfamily,
+    commentstyle=\itshape,
+}
+
 
 %--------------------------------------
 % Strona tytułowa

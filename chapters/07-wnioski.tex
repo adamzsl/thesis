@@ -1,22 +1,27 @@
 
-\chapter{Wnioski i dalszy kierunek prac}
+\chapter{Wnioski i dalszy kierunek prac}\label{ch:conclusions}
 
 \section{Wnioski}
-Na początku pracy postawiono hipotezę badawczą:
-\begin{quote}
-\textit{Można wykorzystać duże modele językowe do generowania modeli PL zapisanych w języku naturalnym.}
-\end{quote}
+%Na początku pracy postawiono hipotezę badawczą:
+%\begin{quote}
+%\textit{Można wykorzystać duże modele językowe do generowania modeli PL zapisanych w języku naturalnym.}
+%\end{quote}
 
-Analizując przedstawione rozwiązanie i wspomagając się eksperymentami założono poprawność powyższej hipotezy. Przy odpowiednio przygotowanym zapytaniu można z dużą pewnością założyć, że duże modele językowe można wykorzystać do generowania modeli PL otrzymując na wejściu jedynie problem zapisany w języku naturalnym. Istnieje znacząca poprawa w jakości wygenerowanego rozwiązania w stosunku do rozwiązania za pomocą pojedynczego, prostego zapytania. Zaobserwowano wzrost skuteczności dużych modeli językowych przy generowaniu modeli \textit{PL}. Przekłada się to na usprawnienie procesu modelowania optymalizacyjnego. 
+W ramach pracy przygotowano unikalny zbiór danych zawierający 4380 przykładów opisów zagadnień optymalizacyjnych oraz związanych z~nimi wzorcowych modeli PL w języku ZIMPL i~udostępniono go publicznie.$^\text{\ref{fn:dataset:link}}$ Drugim przyczynkiem jest generator modeli Programowania Liniowego (PL) z opisów zagadnień optymalizacyjnych w~języku angielskim bazujący na Dużym Modelu Językowym (DMJ). % TP: świadomie powtarzam definicję skrótów PL i DMJ, bo czytelnik może czasem przeczytać wstęp i koniec i nie będzie się wgłębiać w szczegóły w środku
+Wyniki przeprowadzonych eksperymentów w~Rozdziale~\ref{ch:experiment} potwierdzają empirycznie główną hipotezę badawczą z Rozdziału~\ref{sec:intro:aim}: generator bazujący na DMJ tworzy poprawne modele PL z opisów tekstowych z~prawdopodobieństwem ponad 60\%. % TP: mam na myśli tabelę 5.4 - bo jednak chodzi tutaj o globalny wskaźnik sukcesu - 60 prób na 100 powiedzie się.
+
+%Analizując przedstawione rozwiązanie i wspomagając się eksperymentami założono poprawność powyższej hipotezy. Przy odpowiednio przygotowanym zapytaniu można z dużą pewnością założyć, że duże modele językowe można wykorzystać do generowania modeli PL otrzymując na wejściu jedynie problem zapisany w języku naturalnym. 
+Uzyskane wyniki są zależne od informacji kontekstowej dostarczonej do DMJ w zapytaniu. Zagadnienie inżynierii zapytań nie jest trywialne i możliwe, że istnieją inne, bardziej skuteczne zapytania od zaproponowanych, z~dużą pewnością zależne od użytego DMJ. 
+Dla opracowanych zapytań, istnieje znacząca poprawa w~jakości wygenerowanego modelu PL w~stosunku do modeli PL generowanych za pomocą pojedynczego prostego zapytania. Zaobserwowano wzrost skuteczności DMJ przy generowaniu modeli \textit{PL}. Przekłada się to na usprawnienie procesu modelowania optymalizacyjnego. 
 
 Wyniki eksperymentu pokazały, iż bardziej precyzyjne oraz szczegółowo sformułowane zapytania, przekładają się bezpośrednio na wzrost jakości wygenerowanego modelu \textit{PL} przez \textit{DMJ}. Redukuje to konieczność kosztownej w zasobach i czasie pracy ekspertów. Rozwiązanie to zmniejsza liczbę błędów oraz redukuje niedoskonałości wykonania wynikające z czynnika ludzkiego. 
 
-Zauważono również, iż zwiększenie różnorodności przykładów przyczyniłoby się do poprawy jakości generowanych modeli \textit{PL} przez duże modele językowe. Tworzy to dodatkowe adaptacje dla dużych modeli językowych oraz polepsza ich elastyczność.
+Zauważono również, iż zwiększenie różnorodności przykładów w zapytaniach przyczyniłoby się do poprawy jakości generowanych modeli \textit{PL} przez DMJ.
 
 \section{Dalszy kierunek prac}
 
-Kolejnym etapem rozwoju sytemu generującego modele \textit{PL} byłoby wzbogacenie bazy danych o bardziej różnorodne przykłady. Dodanie większej ilości niestandardowych problemów może istotnie poprawić jakość generowanych rozwiązań.
+Kolejnym etapem rozwoju sytemu generującego modele \textit{PL} byłoby wzbogacenie zbioru danych o~bardziej różnorodne przykłady. Dodanie większej liczby niestandardowych zagadnień optymalizacyjnych może istotnie poszerzyć klasę generowany poprawnie modeli PL.
 
-Istotnym rozważenia jest również adaptacja alternatywnych narzędzi typu \textit{solver} takich jak \textit{Gurobi}. Poszerzyłoby to horyzonty w implementacji użytego rozwiązania na nowe obszary dziedziny optymalizacji. Istnieje również możliwość opracowania narzędzi do wizualizacji, pozwalających na graficzną reprezentację problemów \textit{PL}, co ułatwiłoby odbiór oraz interpretacje wygenerowanego rozwiązania. 
+Istotnym rozważenia jest również adaptacja alternatywnych narzędzi typu \textit{solver} takich jak \textit{Gurobi} \cite{gurobi2023}. Poszerzyłoby to horyzonty w implementacji użytego rozwiązania na nowe obszary dziedziny optymalizacji. Istnieje również możliwość opracowania narzędzi do wizualizacji, pozwalających na graficzną reprezentację problemów \textit{PL}, co ułatwiłoby odbiór oraz interpretacje wygenerowanego rozwiązania. 
 
 Skoncentrowanie się na poszerzeniu zakresu zbioru danych, również może zwiększyć dokładność generowanych modeli \textit{PL} przez \textit{DMJ}. 
