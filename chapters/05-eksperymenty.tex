@@ -356,111 +356,9 @@ Dla lepszej wizualizacji wyników zestawiono liczbowo wartości modeli sklasyfik
 % TP: TODO: sugeruję zmienić na "Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?" i dalej pisać o kontrolnym DMJ - DONE
 
 Dla modeli PL w formule sztywnej generator uzyskał \textbf{3,31p}, a kontrolny DMJ \textbf{1,81p} na 4-punktowej skali jakości zdefiniowanej poniżej. Dla modeli PL w formule parametryzowanej, generator uzyskał \textbf{4,75p}, a kontrolny DMJ \textbf{2,78p} na 6-punktowej skali jakości zdefiniowanej poniżej.
+% !!! TP: TODO: tutaj wypadałoby zrobić 2 testy statystyczne na różnice generator vs kontrolny DMJ; ta skala punktowa jest arbitralna, więc rozkład wartości może być nietypowy i byłbym ostrożny w stosowaniu testów parametrycznych; raczej sugeruję użyć np. Wilcoxona dla alpha=0,05 https://pl.wikipedia.org/wiki/Test_Wilcoxona_dla_par_obserwacji
 
-% TP: TODO: tutaj wypadałoby zrobić 2 testy statystyczne na różnice generator vs kontrolny DMJ; ta skala punktowa jest arbitralna, więc rozkład wartości może być nietypowy i byłbym ostrożny w stosowaniu testów parametrycznych; raczej sugeruję użyć np. Wilcoxona dla alpha=0,05 https://pl.wikipedia.org/wiki/Test_Wilcoxona_dla_par_obserwacji
-
-Do sprawdzenia jakości modelu PL pod względem jego składni i jakości zrozumienia zadania zastosowano ocenę ekspercką, w~której ekspert przyznawał punkty dla czterech (formuła sztywna) lub sześciu (formuła parametryzowana) kryteriów. W~roli eksperta wykorzystano DMJ \textit{GPT-4o} \cite{TODO}, który jest niezależny od DMJ stosowanych w generatorze i kontrolnym DMJ. Po otrzymaniu wyników, dla większej wiarygodności, wykonano oczyszczanie rezultatów i naprawę oczywistych błędów halucynowanych przez DMJ. % TP: TODO <- opiszcie dokładnie procedurę czyszczenia i naprawy; jak dobrze rozumiem, w Sekcji 5.4 nie było takiej procedury; gdyby jednak była też tam stosowana, to wtedy możecie to czyszczenie dodać do opisu kontrolengo DMJ z sekcji 5.1
-% TP: TODO: tutaj brakuje też dokładnego udokumentowania procedury odpytania DMJ, tzn. jakiego prompta dostał? Czy to była sekwencja pytań i odpowiedzi? itd. Jako, że prompty są pewnie dedykowane pod formułę poniżej, to możecie je pokazać w poniższych sekcjach.
-
-%Zależnie od funkcjonalności kodu, wykorzystano inne mierniki jakości. Dla wyników parametryzowanych zastosowano skalę sześciostopniową, podczas gdy dla sztywnego kodowania - czterostopniową.
-
-%Wynikiem eksperymentu jest punktacja \textbf{3,31/4,00} dla wygenerowanych wyników, w porównaniu do \textbf{1,81/4,00} dla standardowego zapytania, dla wszystkich wyników sztywnego kodowania. Tak samo, dla parametryzowanych wyników powstałych w wyniku wykorzystania generatora oceną jest \textbf{4,75/6,00}, podczas gdy dla pojedynczego zapytania wynosi \textbf{2,78/6,00}. Sumaryczna poprawa względem standardowego zapytania \textbf{wzrosła o średnio 1,74} punktu.
-
-\subsection{Modele PL w sztywnej formule.}
-
-Dla wynikowych modeli PL w \textbf{sztywnej formule} poddano ocenie poniższe kryteria binarne w odniesieniu do wzorcowego modelu PL zawartego w danych testowych:
-
-\begin{enumerate}
-\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich typy są zgodne z modelem wzorcowym. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: <- zmieniłem, zweryfikujcie; czy jeśli generator _zadeklaruje_ wiecej zmiennych niż potrzeba, ale dobrze użyje tylko części zmiennych to dostanie punkt czy nie?
-\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
-\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
-\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). % TP: TODO: To trzeba doprecyzować - czy tutaj każdy czynnik jest oceniany 0,25p i razem sumuje się do 1p? Czy jeśli jeden komentarzb będzie zaczynać się od \#, a drugi nie to punkt zostanie przyznany? Czy puste linie dyskwalifikują przyznanie punktu? Czy długie ograniczenie rozpisane na wiele linii dyskwalifikuje przyznanie punktu?
-\end{enumerate}
-
-Poniżej przedstawiona została analiza wyników generatora oraz kontrolnego DMJ dla poszczególnych kategorii.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennych}.}\label{tab:tabela12}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 1832 & 1418 \\
-\hline
-0 & 443 & 857 \\
-\hline
-Średnia ocena & 0,81 & 0,62 \\
-\hline
-\end{tabular}
-\end{table}
-
-% TP: TODO: test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych
-
-Już pierwszy wynik pokazuje większą skuteczność generatora ponad pojedynczym zapytaniem. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. % TP: TODO: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania?
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela13}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 1882 & 1469 \\
-\hline
-0 & 393 & 806 \\
-\hline
-Średnia ocena & 0,83 & 0,65 \\
-\hline
-\end{tabular}
-\end{table}
-
-% TP: TODO: test statystyczny jw.
-
-Generator tworzy poprawne funkcje celu %TP: TODO: zależnie od wyników testu statystycznego: jeśli wyjdzie różnica to "znacząco", jeśli brak różnicy to "nieznacznie"
-częściej od kontrolnego DMJ. 
-Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z przypadków testowych generuje kod zwierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny. % TP: TODO: w tabeli jednak widać, że zdobywa jedyniki - chyba błąd w danych; zobaczcie, że średnie też nie pasują do danych.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela14}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 2140 & 1754 \\
-\hline
-0 & 0 & 2275 \\
-\hline
-Średnia ocena & 0,94 & 0,00 \\
-\hline
-\end{tabular}
-\end{table}
-
-% TP: TODO: test statystyczy jw.
-
-Największą trudnością dla obu DMJ jest uzyskanie pozytywnej punktacji w kategorii \textbf{Inne wymagania}. Wpływa na to fakt, iż jest to kategoria sprawdzająca wszystkie, wcześniej nieuwzględnione błędy, a zatem łatwo w niej stracić punkt. Również w tym przypadku generator okazał się nieco lepszy.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela15}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 1665 & 1229 \\
-\hline
-0 & 610 & 1046 \\
-\hline
-Średnia ocena & 0,73 & 0,54 \\
-\hline
-\end{tabular}
-\end{table}
-
-% TP: TODO: test statystyczny
-
-% TP: TODO: sugeruje to przenieść na początek 5.5; tzn. zintegrować z tamtym tekstem i umieścić tam tabele 5.15 oraz wykresy
-Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniają poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych danych. W średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla kontrolnego DMJ ten wynik zmniejsza się o 1,50 punktu (średnio 1,81).
+Wyniki zapewnianie dla \textbf{sztywnego formułowania} modeli  \textit{ZIMPL} zapewniają poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych danych. W średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla kontrolnego DMJ ten wynik zmniejsza się o 1,50 punktu (średnio 1,81). Do testów statystycznych zastosowano test Wilcoxona dla par obserwacji. Dla alfa = 0,05 poziom istotności p-wartość wynosi w zaokrągleniu \textbf{\( 3{,}40 \times 10^{-260} \)}. Można zatem stwierdzić, że różnica między wynikami jest \textbf{istotna statystycznie}.
 
 \begin{table}[H]
 \caption{Tabela sumarycznej oceny wyników dla kodowanych sztywno modeli.}\label{tab:tabela16}
@@ -480,6 +378,10 @@ Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniaj�
 4 & 1481 & 0 \\
 \hline
 \textbf{Średnia ocena} & \textbf{3,31} & \textbf{1,81} \\
+\hline
+\multicolumn{3}{|c|}{Statystyka testu: \(145788,5\)} \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \(p-value = 3{,}40 \times 10^{-260} \)} \\
 \hline
 \end{tabular}
 \end{table}
@@ -535,139 +437,7 @@ Wyniki zapewnianie dla sztywnego formułowania modeli  \textit{ZIMPL} zapewniaj�
 \caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.} % TP: TODO: ...dla modeli w sztywnej formule?
 \end{figure}
 
-\subsection{Modele PL w parametryzowanej formule.}
-
-Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poniższe kryteria binarne w~odniesieniu do wzorcowych modeli PL zawartych w danych testowych: 
-%Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
-
-\begin{enumerate}
-\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. % TP: TODO: a jeśli wartościami zbioru są liczby?
- Każde odstępstwo od składni, powoduje utratę punktu. % TP: TODO: czy nie ma tutaj weryfikacji semantycznej? Wcześniejsze kryteria to uwzględniały
- W przeciwnym wypadku $0$p.
-\item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]} % TP: TODO: co jeśli wzorcowy parametr jest skalarem, a nie wektorem?
-i logicznie zgodne z poprawnym kodem. % TP: TODO: co to dokładnie znaczy, że są logicznie zgodne?
-Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie. W przeciwnym wypadku $0$p.
-\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich typy % TP: TODO: dziedziny?
-są zgodne z modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
-\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
-\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
-\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). % TP: TODO: To trzeba doprecyzować - czy tutaj każdy czynnik jest oceniany 0,25p i razem sumuje się do 1p? Czy jeśli jeden komentarzb będzie zaczynać się od \#, a drugi nie to punkt zostanie przyznany? Czy puste linie dyskwalifikują przyznanie punktu? Czy długie ograniczenie rozpisane na wiele linii dyskwalifikuje przyznanie punktu?
-\end{enumerate}
-
-% TP: TODO: poprawcie proszę niżej analogicznie do sekcji 5.5.1 -> ja kontynuuję sprawdzanie w Rozdziale 6
-
-Już w pierwszej kategorii widać znaczącą różnicę w wynikach między generowanymi wynikami. Kontrolny DMJ nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu, co jest najwyższym dotąd uzyskanym wynikiem.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zbiorów}.}\label{tab:tabela17}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 1783 & 914 \\
-\hline
-0 & 242 & 1111 \\
-\hline
-Średnia ocena & 0,88 & 0,45 \\
-\hline
-\end{tabular}
-\end{table}
-
-Tworzenie parametrów prezentuje znacznie lepsze wyniki, zapewniając prawie 100\% skuteczności w tworzeniu przez generator. Wyniki kontrolnego DMJ również utrzymują się na poziomie powyżej 80\%.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie parametrów}.}\label{tab:tabela18}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 2008 & 1663 \\
-\hline
-0 & 17 & 362 \\
-\hline
-Średnia ocena & 0,99 & 0,82 \\
-\hline
-\end{tabular}
-\end{table}
-
-Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyniku kodu, przez co nie zostaje osiągnięta 100\% poprawność, tak jak w przypadku sztywnego formatu kodu. Wyniki generatora w tym przypadku są nieznacznie wyższe.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}\label{tab:tabela19}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 1713 & 1473 \\
-\hline
-0 & 312 & 552 \\
-\hline
-Średnia ocena & 0,85 & 0,73 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-Generowanie funkcji celu na podstawie wcześniej zdeklarowanych zmiennych działa bardzo dobrze, a wyniki posiadają poprawnie zdefiniowaną minimalizację/maksymalizację, a także prawidłowe sumowanie na zbiorach.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela20}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 2002 & 2000 \\
-\hline
-0 & 23 & 25 \\
-\hline
-Średnia ocena & 0,83 & 0,65 \\
-\hline
-\end{tabular}
-\end{table}
-
-Znacząca różnica pojawia się przy porównywaniu ograniczeń. Kontrolny DMJ nie zna składni kodu  \textit{ZIMPL}, w związku z czym każdorazowo deklaruje niepoprawne ograniczenia, używając takich elementów jak \texttt{s.t.} lub \texttt{subject to}.
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela21}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 1790 & 0 \\
-\hline
-0 & 235 & 2025 \\
-\hline
-Średnia ocena & 0,88 & 0,00 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-W przypadku ostatniej z ocenianych kategorii, modele osiągnęły niskie oceny. Wynikało to ponownie z ogólności kategorii. Wszelkie błędy, które nie zostały wyłapane w pozostałych kategoriach, zostały rozliczone w tym miejscu. Modele  \textit{ZIMPL} straciły najwięcej punktów na tworzeniu niepotrzebnych i niezwiązanych z problemem komend. 
-
-\begin{table}[H]
-\caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela22}
-\centering%
-\begin{tabular}{|l|c|c|}
-\hline
-\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
-\hline
-1 & 658 & 259 \\
-\hline
-0 & 1367 & 1766 \\
-\hline
-Średnia ocena & 0,32 & 0,13 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-W poniższym zestawieniu sumarycznych rezultatów widać, że stworzony generator kodu  \textit{ZIMPL} został znacznie lepiej oceniony, niż kontrolny DMJ. W większości wypadków utrzymuje on wynik w okolicy 5 punktów (średnio 4,75), co świadczy o wysokiej jakości. Ta różnica jest znacząca w porównaniu do wyniku kontrolnego DMJ, który jest niższy o 1,97 punktu utrzymując średni poziom 2,78 punktu.
+W przypadku zestawienia wyników dla modeli parametryzowanych widać, że stworzony generator kodu \textit{ZIMPL} ponownie został lepiej oceniony niż kontrolny DMJ. W większości wypadków utrzymuje on wynik w okolicy 5 punktów (średnio 4,75). Ta różnica jest znacząca w porównaniu do wyniku kontrolnego DMJ, który jest niższy o 1,97 punktu utrzymując średni poziom 2,78 punktu. Do testów statystycznych ponownie zastosowano test Wilcoxona dla par obserwacji. Dla alfa = 0,05 poziom istotności p-wartość wynosi w zaokrągleniu \textbf{\( 3{,}37 \times 10^{-285} \)}. Jest to znacznie mniejsza wartość od typowego poziomu istotności. Można stwierdzić, że różnica między wynikami jest \textbf{istotna statystycznie}.
 
 \begin{table}[H]
 \caption{Tabela sumarycznej oceny wyników dla parametryzowanych modeli.}\label{tab:tabela23}
@@ -691,6 +461,10 @@ W poniższym zestawieniu sumarycznych rezultatów widać, że stworzony generato
 6 & 564 & 0 \\
 \hline
 \textbf{Średnia ocena} & \textbf{4,75} & \textbf{2,78} \\
+\hline
+\multicolumn{3}{|c|}{Statystyka testu: \(45382,0\)} \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \(p-value = 3{,}37 \times 10^{-285} \)} \\
 \hline
 \end{tabular}
 \end{table}
@@ -745,3 +519,286 @@ W poniższym zestawieniu sumarycznych rezultatów widać, że stworzony generato
 \end{minipage}
 \caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.}
 \end{figure}
+
+
+
+Do sprawdzenia jakości modelu PL pod względem jego składni i jakości zrozumienia zadania zastosowano ocenę ekspercką, w~której ekspert przyznawał punkty dla czterech (formuła sztywna) lub sześciu (formuła parametryzowana) kryteriów. W~roli eksperta wykorzystano DMJ \textit{GPT-4o}, który jest niezależny od DMJ stosowanych w generatorze i kontrolnym DMJ. Po otrzymaniu wyników, dla większej wiarygodności, wykonano oczyszczanie rezultatów i naprawę oczywistych błędów halucynowanych przez DMJ. % TP: TODO <- opiszcie dokładnie procedurę czyszczenia i naprawy; jak dobrze rozumiem, w Sekcji 5.4 nie było takiej procedury; gdyby jednak była też tam stosowana, to wtedy możecie to czyszczenie dodać do opisu kontrolengo DMJ z sekcji 5.1
+
+Tak jak w przypadku generowania, zastosowano wartość temperatury równą 0 oraz maksymalną liczbę tokenów równą 512. Dokładna procedura uruchomienia DMJ i oczyszczania odpowiedzi wyglądała następująco:
+
+\begin{enumerate}
+\item Do skryptu w języku \akronim{Python} wprowadzano poprawny model PL, model stworzony przez generator \akronim{ZIMPL}, model stworzony przez kontrolny DMJ oraz wartość 1, jeżeli kod był parametryzowany lub 0, jeżeli kod był w sztywnej formule.
+\item Zależnie od wprowadzonej wartości uruchamiany był DMJ wraz z odpowiednim zapytaniem. DMJ dla pojedynczego problemu PL uruchamiany był dwukrotnie, tak aby zweryfikować i nadać punktację dla modelu generatora oraz modelu kontrolnego DMJ.
+
+Zapytania do oceny posiadają podobny schemat. Różnią się jedynie ilością kryteriów oceny. Schemat zapytania wygląda następująco:
+
+\begin{lstlisting}[language=zimpl]
+<Określenie celu zapytania>
+<Określenie kryteriów zapytania i sposobu interpretacji wyników oraz liczby nadawanych
+punktów>
+<Schemat odpowiedzi w formie kategoria: punkty; wyjaśnienie>
+<Przykładowy rezultat działania zapytania>
+\end{lstlisting}
+
+Dokładny przebieg analizy wyglądał następująco:
+
+\begin{enumerate}
+\item \textbf{Zapytanie dla wartości 0} --- sprawdzało podany kod względem poprawnego kodu PL i oceniało go w 4. kategoriach szczegółowo opisanych w rozdziale~\ref{ch:experiment:hardcoded}.
+\item \textbf{Zapytanie dla wartości 1} --- sprawdzało podany kod względem poprawnego kodu PL i oceniało go w 6. kategoriach szczegółowo opisanych w rozdziale~\ref{ch:experiment:parameters}.
+\end{enumerate}
+\item Otrzymane wyniki zapisane zostały w arkuszu kalkulacyjnym, gdzie po analizie odpowiedzi dokonano oczyszczenia rezultatów z widocznych błędów, których nie dało się wykluczyć w procesie tworzenia zapytań.
+\begin{enumerate}
+\item Zmieniono punktacje na 0 dla wszystkich modeli, które przy tworzeniu ograniczeń zastosowały nazwę \textit{s.t.} lub \textit{subject}, zamiast \textit{subto}.
+\item Zmieniono punktacje na 1 dla wszystkich modeli, które posiadały komentarz o braku problemów w kategorii innych wymagań, jak brak zbędnych poleceń, poprawne rozpoczęcie linii od kluczowych słów oraz poprawne użycie prefiksu \textit{\#} komentarzy, a w wyniku halucynacji modelu otrzymały 0 punktów.
+\item Zmieniono punktację na 1 dla wszystkich modeli, dla których w kategorii innych wymagań niesłusznie dano 0 punktów za stawianie średników na końcu wierszy kodu.
+\end{enumerate}
+\end{enumerate}
+
+% TP: TODO: tutaj brakuje też dokładnego udokumentowania procedury odpytania DMJ, tzn. jakiego prompta dostał? Czy to była sekwencja pytań i odpowiedzi? itd. Jako, że prompty są pewnie dedykowane pod formułę poniżej, to możecie je pokazać w poniższych sekcjach. - DONE
+
+%Zależnie od funkcjonalności kodu, wykorzystano inne mierniki jakości. Dla wyników parametryzowanych zastosowano skalę sześciostopniową, podczas gdy dla sztywnego kodowania - czterostopniową.
+
+%Wynikiem eksperymentu jest punktacja \textbf{3,31/4,00} dla wygenerowanych wyników, w porównaniu do \textbf{1,81/4,00} dla standardowego zapytania, dla wszystkich wyników sztywnego kodowania. Tak samo, dla parametryzowanych wyników powstałych w wyniku wykorzystania generatora oceną jest \textbf{4,75/6,00}, podczas gdy dla pojedynczego zapytania wynosi \textbf{2,78/6,00}. Sumaryczna poprawa względem standardowego zapytania \textbf{wzrosła o średnio 1,74} punktu.
+
+\subsection{Modele PL w sztywnej formule.}\label{ch:experiment:hardcoded}
+
+Dla wynikowych modeli PL w \textbf{sztywnej formule} poddano ocenie poniższe kryteria binarne w odniesieniu do wzorcowego modelu PL zawartego w danych testowych. Kryteria oceniano, przyznając $1$ lub $0$ punktów. Nie stosowano punktów połówkowych.
+
+\begin{enumerate}
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli \textbf{wszystkie} zmienne i ich typy są zgodne z modelem wzorcowym. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p.
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń (\texttt{solve}, \texttt{subject to}) oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}).
+\end{enumerate}
+
+Poniżej przedstawiona została analiza wyników generatora oraz kontrolnego DMJ dla poszczególnych kategorii.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennych}.}\label{tab:tabela12}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 1832 & 1418 \\
+\hline
+0 & 443 & 857 \\
+\hline
+Średnia ocena & 0,81 & 0,62 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,59} \\
+\hline
+\end{tabular}
+\end{table}
+
+% TP: !!! TODO: test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych - DONE
+
+Już pierwszy wynik pokazuje większą skuteczność generatora ponad kontrolnym DMJ. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. Problem posiadają oba modele, natomiast kontrolny DMJ zmaga się również częściowo z błędną deklaracją zmiennych. Dla testu statystycznego na różnice średnich dla alpha = 0,05, z-score wynosi \textbf{13,59}. W związku z tym różnica między proporcjami wyników \textbf{jest istotna}.
+
+% TP: TODO: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania? - DONE
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela13}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 1882 & 1469 \\
+\hline
+0 & 393 & 806 \\
+\hline
+Średnia ocena & 0,83 & 0,65 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,90} \\
+\hline
+\end{tabular}
+\end{table}
+
+% TP: TODO: test statystyczny jw.
+
+Generator tworzy poprawne funkcje celu częściej od kontrolnego DMJ. 
+Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z przypadków testowych generuje kod zawierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny. Dla testu statystycznego na różnice średnich dla alpha = 0,05, z-score wynosi \textbf{13,90}, zatem zwiększył się w stosunku do poprzedniego przykładu. Różnica między proporcjami wyników \textbf{jest istotna}.
+% TP: TODO: w tabeli jednak widać, że zdobywa jedyniki - chyba błąd w danych; zobaczcie, że średnie też nie pasują do danych. - done, poprawione
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela14}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 2140 & 0 \\
+\hline
+0 & 135 & 2275 \\
+\hline
+Średnia ocena & 0,94 & 0,00 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 63,56} \\
+\hline
+\end{tabular}
+\end{table}
+
+% TP: TODO: test statystyczy jw.
+
+Największą trudnością kontrolnego DMJ jest uzyskanie pozytywnej punktacji w kategorii \textbf{Ograniczenia}. Dzieje się tak przez niepoprawny zapis początku linii deklarującej ograniczenie. W związku z tymi problemami, test statystyczny na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{63,56}, znacząco odstając od wcześniejszych wyników. Różnica między proporcjami wyników \textbf{jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela15}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 1665 & 1229 \\
+\hline
+0 & 610 & 1046 \\
+\hline
+Średnia ocena & 0,73 & 0,54 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,43} \\
+\hline
+\end{tabular}
+\end{table}
+
+% TP: TODO: test statystyczny - DONE
+
+Kategoria \textbf{Inne wymagania} zwraca rezultaty zbliżone do pierwszych dwóch kategorii. Dla testu statystycznego na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{13,43}, co jest najniższym z dotychczasowych wyników. Mimo tego, jest na tyle znaczący, że różnica między proporcjami wyników \textbf{jest istotna}.
+
+\subsection{Modele PL w parametryzowanej formule.}\label{ch:experiment:parameters}
+
+Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poniższe kryteria binarne w~odniesieniu do wzorcowych modeli PL zawartych w danych testowych. Kryteria oceniano przyznając $1$ lub $0$ punktów. Nie stosowano punktów połówkowych. Punktacja w tym przypadku wygląda następująco:
+%Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
+
+\begin{enumerate}
+\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: TODO: a jeśli wartościami zbioru są liczby? - w naszych zbiorach nadal są definiowane zgodnie z tym schematem
+\item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]}, schematu \texttt{<klucz> wartość} lub tablicy i logicznie zgodne z celem zadania. Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie. Każde odstępstwo od reguły skutkuje przyznaniem $0$ punktów.
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich dziedziny są zgodne z modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodnieniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). 
+\end{enumerate}
+
+% TP: TODO: poprawcie proszę niżej analogicznie do sekcji 5.5.1 -> ja kontynuuję sprawdzanie w Rozdziale 6
+
+Już w pierwszej kategorii przedstawionej w tabeli~\ref{tab:tabela17} widać znaczącą różnicę w wynikach między generowanymi wynikami. Kontrolny DMJ nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu. Dla testu statystycznego na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{28,95}. W związku z tym wynikiem, można stwierdzić, że różnica między proporcjami wyników \textbf{jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zbiorów}.}\label{tab:tabela17}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 1783 & 914 \\
+\hline
+0 & 242 & 1111 \\
+\hline
+Średnia ocena & 0,88 & 0,45 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 28,95} \\
+\hline
+\end{tabular}
+\end{table}
+
+Tworzenie parametrów przedstawione w tabeli~\ref{tab:tabela18} prezentuje lepsze wyniki, zapewniając prawie 100\% skuteczności w tworzeniu przez generator. Wyniki kontrolnego DMJ również utrzymują się na poziomie powyżej 80\%. Mimo tego z-score jest równy \textbf{18,61}, co w dalszym ciągu pokazuje, że różnica między proporcjami wyników \textbf{jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie parametrów}.}\label{tab:tabela18}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 2008 & 1663 \\
+\hline
+0 & 17 & 362 \\
+\hline
+Średnia ocena & 0,99 & 0,82 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 28,95} \\
+\hline
+\end{tabular}
+\end{table}
+
+Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyniku kodu, przez co nie zostaje osiągnięta 100\% poprawność, tak jak w przypadku sztywnego formatu kodu. Poniższa tabela~\ref{tab:tabela19} przedstawia \textbf{z}, którego wartość wynosi \textbf{9,20}, co w dalszym ciągu wskazuje, że różnica między proporcjami wyników \textbf{jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}\label{tab:tabela19}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 1713 & 1473 \\
+\hline
+0 & 312 & 552 \\
+\hline
+Średnia ocena & 0,85 & 0,73 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 9,20} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+W przypadku definiowania funkcji celu, wyniki obu modeli są zbliżone do siebie. Poza wynikiem procentowym równym 99\%, jako jedyna kategoria, posiada \textit{z} = \textbf{0,29}, które mieści się w zakresie i wskazuje, że różnica między proporcjami wyników \textbf{nie jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela20}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 2002 & 2000 \\
+\hline
+0 & 23 & 25 \\
+\hline
+Średnia ocena & 0,99 & 0,99 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 0,29} \\
+\hline
+\end{tabular}
+\end{table}
+
+Znacząca różnica pojawia się przy porównywaniu ograniczeń. Kontrolny DMJ nie zna składni kodu  \textit{ZIMPL}, w związku z czym każdorazowo deklaruje niepoprawne ograniczenia, używając takich elementów jak \texttt{s.t.} lub \texttt{subject to}. \textit{z-score} jest równy \textbf{56,64}, zatem różnica między proporcjami wyników \textbf{jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela21}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 1790 & 0 \\
+\hline
+0 & 235 & 2025 \\
+\hline
+Średnia ocena & 0,88 & 0,00 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 56,64} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+W przypadku ostatniej z ocenianych kategorii przedstawionej na tablicy~\ref{tab:tabela22}, modele osiągnęły niskie oceny. Wynikało to ponownie z ogólności kategorii. Wszelkie błędy, które nie zostały wyłapane w pozostałych kategoriach, zostały rozliczone w tym miejscu. Wygenerowane modele straciły najwięcej punktów na tworzeniu niepotrzebnych i niezwiązanych z problemem komend. Dla testu statystycznego na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{14,98}. W związku z tym wynikiem, można stwierdzić, że różnica między proporcjami wyników \textbf{jest istotna}.
+
+\begin{table}[H]
+\caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela22}
+\centering%
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Punktacja} & \textbf{Generator} & \textbf{Kontrolny DMJ}\\
+\hline
+1 & 658 & 259 \\
+\hline
+0 & 1367 & 1766 \\
+\hline
+Średnia ocena & 0,32 & 0,13 \\
+\hline
+\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 14,98} \\
+\hline
+\end{tabular}
+\end{table}
