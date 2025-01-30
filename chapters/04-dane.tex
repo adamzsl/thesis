@@ -61,27 +61,32 @@ Proces tworzenia zbioru danych podzielono na trzy etapy zwizualizowane na Rysunk
 
 \subsection{Wyszukiwanie zagadnień optymalizacyjnych}
 
-% TP: tutaj należy opisać protokół wyszukiwania; obecnie nie wiadomo skąd się wzięły akurat takie źródła - dlaczego je wybraliście. Wybór źródeł powinien być przeprowadzony w jakiś systematyczny sposób, np. na podstawie konkretnych zapytań wrzuconych w wyszukiwarkę google scholar/scopus/web of science/google books i odfiltrowaniu wyników w usystematyzowany sposób. - Adam x2?
+% TP: tutaj należy opisać protokół wyszukiwania; obecnie nie wiadomo skąd się wzięły akurat takie źródła - dlaczego je wybraliście. Wybór źródeł powinien być przeprowadzony w jakiś systematyczny sposób, np. na podstawie konkretnych zapytań wrzuconych w wyszukiwarkę google scholar/scopus/web of science/google books i odfiltrowaniu wyników w usystematyzowany sposób. - Adam x2? - DONE
 
 Ze względu na specyfikę zbioru danych, skupiono się na przeszukaniu źródeł opisów zagadnień optymalizacyjnych zawierających sformułowania wzorcowych modeli PL.
 
-Głównym źródłem zagadnień optymalizacyjnych i modeli PL jest dokumentacja języka  \akronim{ZIMPL}~\cite{zimpl_manual}, która została napisana w formie przypominającej instrukcję. Literaturą, którą wykorzystano do przygotowywania modeli \textit{PL} są powszechnie dostępne artykuły edukacyjne \cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical}. Owe artykuły wyjaśniają zagadnienie \textit{PL} korzystając z przystępnych oraz łatwych w analizie przykładów. Artykuły etapowo wyjaśniają tworzenie modelu \textit{PL}, omawiając go parami: \textit{tekst problemu -- model}. Zadania są zapisane w języku angielskim. Ich formuła jest zróżnicowana. Zadania są przedstawiane w formie długich opisów, punktowania problemu, tabelek, bądź są połączeniem tych form. Łącznie stworzono 40 unikalnych przykładów. 
+Głównym źródłem zagadnień optymalizacyjnych i modeli PL jest dokumentacja języka  \akronim{ZIMPL}~\cite{zimpl_manual}, która została napisana w formie przypominającej instrukcję. Literaturą, którą wykorzystano do przygotowywania modeli \textit{PL} są powszechnie dostępne artykuły edukacyjne \cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical}. Owe artykuły wyjaśniają zagadnienie \textit{PL} korzystając z przystępnych oraz łatwych w analizie przykładów. Artykuły etapowo wyjaśniają tworzenie modelu \textit{PL}, omawiając go parami: \textit{tekst problemu -- model}. Zadania są zapisane w języku angielskim. Ich formuła jest zróżnicowana. Zadania są przedstawiane w formie długich opisów, punktowania problemu, tabelek, bądź są połączeniem tych form.
+Wybór źródeł przeprowadzono w systematyczny sposób, proces polegał na wpisywaniu fraz kluczowych takich jak: \textit{linear programming} w wyszukiwarce internetowej oraz wyszukiwarce scholar. Następnie wyniki wyszukiwania były odfiltrowywane na korzyść źródeł akademickich, popularnonaukowych. Szczególnie skupiono się na źródłach opisujących idee programowania liniowego, z uwagi na liczne przykłady modeli. Następnie do ów modeli, ręcznie konstruowano kod w języku \textit{ZIMPL}. 
+Łącznie stworzono 40 unikalnych przykładów. 
 
-Poniżej przedstawiono przykład wzorcowego modelu \textit{PL} wraz z opisem zagadnienia optymalizacyjnego planowania produkcji~\cite{cimt}:
+Poniżej przedstawiono przykład wzorcowego modelu \textit{PL} wraz z opisem zagadnienia optymalizacyjnego planowania produkcji~\cite{cimt} w języku angielskim:
 
 % TP: TODO: Tutaj jest kilka problemów:
-% 1. Wcześniej piszecie, że opisy problemów są po angielsku, a tutaj jest przykład polski; sugeruję raczej użyć angielski ze zbioru
+% 1. Wcześniej piszecie, że opisy problemów są po angielsku, a tutaj jest przykład polski; sugeruję raczej użyć angielski ze zbioru - DONE
 % 2. Sekcja "Gotowy model problemu PL" jest powtórzeniem trzech wcześniejszych sekcji.
 % Sugeruję zostawić tylko sekcję "Gotowy model problemu PL" i wprowadzić do niej komentarze z wcześniejszych sekcji o elementach tego modelu.
 \subsubsection*{Opis zagadnienia optymalizacyjnego:} \label{sec:model_example}
 \begin{quote}
-Mała firma zajmuje się budowaniem altan ogrodowych.
 
-Typ A wymaga nakładu 2 godzin pracy maszyny oraz 5 godzin pracy robotnika.  
+A small firm builds two types of garden shed.
 
-Typ B wymaga nakładu 3 godzin pracy maszyny oraz 5 godzin pracy robotnika. 
+Type A requires 2 hours of machine time and 5 hours of craftsman time.
 
-Każdego dnia firma dysponuje łącznie 30 godzinami pracy maszyn oraz 60 godzinami pracy robotników. Zysk z~każdej altany typu A to 60 funtów, a~z~każdej altany B to 80 funtów. Celem jest maksymalizacja zysku firmy.
+Type B requires 3 hours of machine time and 5 hours of craftsman time.
+
+Each day there are 30 hours of machine time available and 60 hours of craftsman time. The profit on each type A shed is £60 and on each type B shed is £84. 
+
+Formulate the appropriate linear programming problem.
 \end{quote}
 
 \subsubsection*{Zmienne decyzyjne}

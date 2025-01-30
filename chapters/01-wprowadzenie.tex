@@ -3,26 +3,22 @@
 
 \section{Motywacja}\label{sec:intro:motivation}
 
-Programowanie Liniowe \english{Linear Programmimng, PL} jest popularną metodą modelowania zagadnień optymalizacyjnych, szczególnie w badaniach operacyjnych \cite{williams2013model}. PL ma liczne zastosowania, np.~w logistyce, planowaniu łancuchów dostaw oraz optymalizacji zużycia materiałów~\cite{dantzig2002linear}. % TP: no ok, ale oryginalne prace Dantziga są z lat 1940... - DONE
-% TP: rozszerzam motywację o niezbędne elementy
+Programowanie Liniowe \english{Linear Programmimng, PL} jest popularną metodą modelowania zagadnień optymalizacyjnych, szczególnie w badaniach operacyjnych \cite{williams2013model}. PL ma liczne zastosowania, np.~w logistyce, planowaniu łancuchów dostaw oraz optymalizacji zużycia materiałów~\cite{dantzig2002linear}.
+
 Model PL składa się ze zmiennych odpowiadających zmiennym czynnikom modelowanego zagadnienia i~specyfikowanych wraz z~dziedzinami (ciągłe, całkowitoliczbowe, z określonego przedziału); ograniczeń wyrażających cechy zagadnienia w~kategoriach zależności liniowych pomiędzy zmiennymi; funkcji celu określającej pożądane cechy rozwiązania jako funkcję liniową zmiennych. Na potrzeby tej pracy, definicję modelu PL rozszerzono o~zbiory wartości odpowiadające wymiarom modelowanego zagadnienia oraz parametry odpowiadające stałym wartościom liczbowym. Są to czynniki umożliwiające wysokopoziomowy zapis modelu w~abstrakcji od wartości liczbowych występujących w konkretnej instancji zagadnienia. Wówczas implementację modelu PL dla konkretnej instancji realizuje się poprzez podstawienie wartości pod zbiory i~parametry.
 Wektor wartości zmiennych nazywany jest \emph{rozwiązaniem} modelu PL. Rozwiązanie jest \emph{dopuszczalne} jeśli spełnia wszystkie ograniczenia. Rozwiązanie dopuszczalne jest \emph{optymalne}, jeśli minimalizuje lub maksymalizuje funkcję celu.
 
-Do rozwiązywania modeli PL istnieje wiele solverów, zarówno komercyjnych takich jak Gurobi~\cite{gurobi2023} czy CPLEX~\cite{cplex2019}, jak i otwartoźródłowych, takich jak GLPK~\cite{glpk2023}, COIN-OR CBC~\cite{cbc2023} oraz SCIP~\cite{scip2023}. %Solvery rozwiązują modele programowania liniowego, które mogą być zapisane za pomocą różnych języków programowania z ograniczeniami. 
+Do rozwiązywania modeli PL istnieje wiele solverów, zarówno komercyjnych takich jak Gurobi~\cite{gurobi2023} czy CPLEX~\cite{cplex2019}, jak i otwartoźródłowych, takich jak GLPK~\cite{glpk2023}, COIN-OR CBC~\cite{cbc2023} oraz SCIP~\cite{scip2023}. 
+
 Korzystanie z solwerów jest do pewnego stopnia ustandaryzowane dzięki wsparciu dla wysokopoziomowych języków zapisu modeli PL, np.:~\akronim{AMPL} \cite{fourer2003ampl}, \akronim{GAMS} \cite{gams2019}, \akronim{ZIMPL} \cite{zimpl_manual}, \akronim{MiniZINC} \cite{nethercote2007minizinc}. Wymienione języki obsługują wszystkie wyżej wymienione elementy modelu PL, a~ich interpretery transformują model PL zapisany w danym języku do postaci rozumianej przez solwer, np.~wywołań z API, albo formatów LP i MPS.
 
 Największa trudnością jest sporządzenie ów modeli PL --- aktualnie buduje się je głównie ręcznie, często na podstawie opisu tekstowego zagadnienia optymalizacyjnego wyrażonego w języku naturalnym.  Pomimo, że język naturalny często nie jest tak precyzyjny jak wyrażenia matematyczne stosowane w~modelu PL, eksperci modelowania są w~stanie utworzyć na jego podstawie modele PL o~zadowalającej jakości.
 Ręczne modelowanie jest czasochłonne, a~zmiany w~zagadnieniu optymalizacyjnym wymagają często nietrywialnych modyfikacji modelu PL oraz są potencjalnym źródłem błędów czynnika ludzkiego. Modelowanie wymaga wiedzy na temat składni określonego języka modelowania, sposobów liniowego modelowania nieliniowych zależności, oraz wiedzy dziedzinowej nt.~zagadnienia.
-Ponadto, modele PL muszą być poprawne semantycznie. % TP: logicznie -> semantycznie? - DONE
+Ponadto, modele PL muszą być poprawne semantycznie. 
+
 Dla złożonych zagadnień definiowanych prez duże zbiory danych i skomplikowane zależności, błędy w~semantyce modeli bardzo trudno zidentyfikować. Wymaga to ponownej analizy kodu i nierzadko sporządzenia modelu od nowa.
 
-Opis zagadnienia optymalizacyjnego językiem naturalnym jest przystępną formą stawiania wymagań, nawet dla laików optymalizacji. Dostępność takiego opisu otwiera możliwość użycia Dużego Modelu Językowego (\akronim{DMJ}) \english{Large Language Model, LLM} \cite{TODO} % TP: TODO: sugeruję zacytować np. Brown, Tom B.; Mann, Benjamin; Ryder, Nick; Subbiah, Melanie; Kaplan, Jared; Dhariwal, Prafulla; Neelakantan, Arvind; Shyam, Pranav; Sastry, Girish; Askell, Amanda; Agarwal, Sandhini; Herbert-Voss, Ariel; Krueger, Gretchen; Henighan, Tom; Child, Rewon; Ramesh, Aditya; Ziegler, Daniel M.; Wu, Jeffrey; Winter, Clemens; Hesse, Christopher; Chen, Mark; Sigler, Eric; Litwin, Mateusz; Gray, Scott; Chess, Benjamin; Clark, Jack; Berner, Christopher; McCandlish, Sam; Radford, Alec; Sutskever, Ilya; Amodei, Dario (Dec 2020). Larochelle, H.; Ranzato, M.; Hadsell, R.; Balcan, M.F.; Lin, H. (eds.). "Language Models are Few-Shot Learners". Advances in Neural Information Processing Systems. 33. Curran Associates, Inc.: 1877–1901.
-jako narzędzia generowania modeli PL wspomagającego ekspertów optymalizacji.
-% w języku \textit{ZIMPL} na podstawie opisów sporządzonych w języku naturalnym.
-
-%\textit{DMJ} wygeneruje kod, który będzie składał się z 5 głównych sekcji: \textit{zbiór danych}, \textit{parametrów}, \textit{zmiennych decyzyjnych}, \textit{funkcji celu} oraz \textit{ograniczeń}. Wyróżniliśmy dwa formaty kodu wynikowego: kod parametryzowany oraz kod tzw. \textit{hardcoded}. 
-
-%Wybrano język \textit{ZIMPL}, ponieważ w przeciwności do wcześniej wymienionych jest on \textit{open source} oraz \textit{DMJ} błędnie generują kod w tym języku. Są to w większości błędy w składni.
+Opis zagadnienia optymalizacyjnego językiem naturalnym jest przystępną formą stawiania wymagań, nawet dla laików optymalizacji. Dostępność takiego opisu otwiera możliwość użycia Dużego Modelu Językowego (\akronim{DMJ}) \english{Large Language Model, LLM} \cite{brown2020language} jako narzędzia generowania modeli PL wspomagającego ekspertów optymalizacji.
 
 \section{Cel i zakres pracy}\label{sec:intro:aim}
 
@@ -30,7 +26,6 @@ W pracy podjęto próbę weryfikacji następującej hipotezy badawczej:
 \begin{quote}
 \textit{Duży model językowy może wygenerować model PL w wysokopioziomowym języku modelowania na podstawie opisu zagadnienia optymalizacyjnego w języku naturalnym.}
 \end{quote}
-
 
 Hipoteza zostanie zweryfikowana poprzez próbę opracowania systemu korzystającego z \textit{DMJ} do automatycznej generacji modeli \textit{PL} na podstawie słownych opisów problemów optymalizacyjnych w~języku angielskim. System analizując dostarczone opisy, będzie generował kod w języku \textit{ZIMPL} identyfikując zbiory danych, parametry, zmienne decyzyjne, funkcje celu oraz ograniczenia. Kody będą generowane na dwa sposoby: tzw.~\textit{hardcoded} oraz parametryzowane. Docelowo narzędzie będzie wspomagało proces generowania modeli problemów optymalizacyjnych, przyczyniając się do usprawnienia pracy specjalistów w dziedzinie optymalizacji, pozwalając na szybsze oraz mniej podatne na błędy generowanie kodu.
 
@@ -43,8 +38,6 @@ Na szczegółowy zakres prac składają się:
     \item Budowa systemu korzystającego z \textit{DMJ} w celu generacji kodu na podstawie dostarczonych instrukcji.
     \item Budowa systemu wykorzystującego solver oraz \textit{DMJ} do oceny kodu \textit{PL}.
 \end{itemize}
-
-
 
 \section{Podział pracy}
 

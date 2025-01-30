@@ -11,7 +11,7 @@
 \chapter{Generowanie modeli PL z~opisów tekstowych zagadnień optymalizacyjnych}\label{ch:generation}
 
 \section{Model Programowania Liniowego}\label{ch:generation:model}
-% - Model Programowania Liniowego - tutaj definicja, która jest zgodna z reprezentacją ZIMPL
+
 \subsection{Definicja}
 \textbf{Zbiór \boldmath$S$.} 
 Niech $S$ będzie zbiorem wszystkich zbiorów. Niech $s\in S$ będzie zbiorem lub wektorem zbiorów, których elementami są liczby, ciągi znakowe (tekstu) albo krotki składające się z liczb i ciągów tekstowych. Jeżeli $s$ jest wektorem, wówczas jego wymiary (indeksy) są określane przez wartości innego zbioru $s' \in S \setminus \{s\}$.
@@ -43,7 +43,7 @@ Model programowania liniowego (\textit{PL}) to krotka
 M \;=\; (\,S,\,P,\,V,\,f,\,G\,).
 \]
 
-Na potrzeby pracy przyjęto, że model PL jest reprezentowany tekstowo w języku modelowania \akronim{ZIMPL}~\cite{zimpl_manual}. \akronim{ZIMPL} jest zgodny z powyższymi definicjami i wprowadza normatywny sposób zapisu zbiorów, parametrów, zmiennych, ograniczeń i funkcji celu. \akronim{ZIMPL} jest natywnie wspierany przez solver \akronim{SCIP} \cite{scip_documentation} i posiada interpreter tłumaczący kod \akronim{ZIMPL} do formatów LP i MPS zrozumiałych inne solwery dostępne na rynku. Dla prostoty przekazu, w tej pracy pominięto sformułowanie gramatyki \akronim{ZIMPL}. Szczegóły języka \akronim{ZIMPL} znajdują się w pracach \cite{zimpl_manual,Koch2005}.
+Na potrzeby pracy przyjęto, że model PL jest reprezentowany tekstowo w języku modelowania \akronim{ZIMPL}~\cite{zimpl_manual}. \akronim{ZIMPL} jest zgodny z powyższymi definicjami i wprowadza normatywny sposób zapisu zbiorów, parametrów, zmiennych, ograniczeń i funkcji celu. \akronim{ZIMPL} jest natywnie wspierany przez solver \akronim{SCIP} \cite{scip2023} i posiada interpreter tłumaczący kod \akronim{ZIMPL} do formatów LP i MPS zrozumiałych inne solwery dostępne na rynku. Dla prostoty przekazu, w tej pracy pominięto sformułowanie gramatyki \akronim{ZIMPL}. Szczegóły języka \akronim{ZIMPL} znajdują się w pracach \cite{zimpl_manual,Koch2005}.
 
 Przykładowy model \akronim{PL} w języku \akronim{ZIMPL} dla problemu optymalnego doboru ilościowego dwóch rodzajów żywności zaprezentowano poniżej.
 \begin{lstlisting}[language=zimpl]
@@ -145,7 +145,6 @@ Powyższy model PL to krotka $M = (S, P, V, f, G)$, gdzie:
 \end{enumerate}
 
 \section{Problem generowania modelu PL z opisu tekstowego}\label{ch:generation:generating}
-% - Problem generowania modelu PL z opisu tekstowego - tutaj poza formalnym postawieniem problemu należy omówić właściwości tego problemu; zdefiniujcie też warianty problem z parametryzacją i bez parametryzacji - tutaj mamy opisac ktore fragmenty kodu oraz w jaki sposob tworza model w zimpl? jesli tak to jest to w rozdziale 4.1.2
 
 Generowanie modelu PL w języku \akronim{ZIMPL} z opisu tekstowego polega na przekształceniu dostarczonego przez użytkownika końcowego zadania w model PL w formie kodu. Zadaniem generatora kodu \akronim{ZIMPL}  umożliwienie precyzyjne odwzorowanie logiki i struktury problemu przedstawionego w rozdziale~\ref{ch:generation:model}. Model musi zawierać wszystkie niezbędne komponenty, takie jak definicje zmiennych, parametrów, funkcji celu oraz ograniczeń, przy równoczesnym zachowaniu semantycznej zgodności z treścią wprowadzonego problemu.
 
@@ -221,7 +220,7 @@ subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
 
 Wejściem problemu jest opis tekstowy zagadnienia PL w języku angielskim. Wyjście problemu stanowi model PL w języku \akronim{ZIMPL} w wybranym przez użytkownika wariancie. Kryterium akceptacji poprawności jest pokrywający się z opisaną powyżej składnią języka \akronim{ZIMPL} oraz dokładność, z jaką model odpowiada na opisany problem PL.
 
-Dla pustego opis zagadnienia optymalizacyjnego oczekiwanym oczekiwane wyjście jest puste. W~przypadku wejścia z brakującymi elementami opisu, oczekiwanym wyjściem jest model zawierający tylko opisane elementy. Założono, że użytkownik, który nie dostarczy pełnego opisu, deklaruje chęć otrzymania zbliżonego schematu kodu. %Generator radzi sobie z dowolnymi miarami. Ograniczona jest ilość tokenów jakie zwraca w czasie odpowiedzi na zapytanie.
+Dla pustego opisu zagadnienia optymalizacyjnego oczekiwane wyjście jest puste. W~przypadku wejścia z brakującymi elementami opisu, oczekiwanym wyjściem jest model zawierający tylko opisane elementy. Założono, że użytkownik, który nie dostarczy pełnego opisu, deklaruje chęć otrzymania zbliżonego schematu kodu.
 
 \section{Problem oceny modelu PL na zgodność z opisem tekstowym}
 
@@ -255,13 +254,11 @@ W przypadku oceny poszczególnych elementów kodu przez DMJ można wyróżnić p
 
 % TP: TODO: Sugeruję takie sekcje:
 % - Architektura systemu - tutaj należy dorobić rysunek architektury i odpowiednio dostosować poniższy opis; w opisie rozdzielcie architekturę od przepływu sterowania. Powinny być osobno omówione dwa przepływy sterowania: generowanie modelu i ocena modelu. Tutaj też odwołajcie się do zbioru danych i napiszcie, że jest on dokładnie omówiony w rozdziale \ref{ch:dataset}. Gdzieś tutaj powinno pojawić się też odniesienie do usług OpenAI, które wykorzystaliście.
-% Adam - mozesz Jagoda napisac o tych uslugach
 % - Inżynieria podpowiedzi - tutaj opiszcie jak powstały prompty używane w poszczególnych problemach, jak były testowane i rozwijane; - DONE w rozdziale 3.5
 
 
 % jeśli są dostępne jakieś wyniki eksperymentalne krótko (np. na jednym wykresie) pokazujące poprawę jakości uzyskiwanych wyników dla kolejnych wersji to też możecie pokazać; Na koniec jako listing kodu możecie pokazać wynikowe prompty, być może mniejszą czcionką. 
 % Te opisy też powinny być bardziej konkretne i zwięzłe. Trzeba napisać np. jak nauczyliście DMJ ZIMPLa.
-% Adam: Masz może te wykresy Jagoda? Możesz też wstawić wynikowe prompty. 
 
 
 \begin{figure}[H]
@@ -297,26 +294,23 @@ W przypadku oceny poszczególnych elementów kodu przez DMJ można wyróżnić p
 \label{fig:workflow}
 \end{figure}
 
-Schemat przepływu sterowania w zaproponowanym systemie dla generowania modeli PL przedstawiono na Rysunku~\ref{fig:workflow}. % TP: łatwiej jest zrozumieć, kiedy od początku jest odwołanie do schematu
-Wykonanie rozpoczyna się od utworzenia bazy danych z parami: \textit{problem} jako opis słowny problemu \textit{PL} oraz \textit{kod modelu} jako poprawny kod w języku \textit{ZIMPL}. Szczegółowy opis bazy danych znajduje się w Rozdziale~\ref{ch:dataset}. Następnie tworzony jest \textit{Szablon zapytania}, który wykorzystuje schemat zaczerpnięty z materiałów edukacyjnych opisanych w rozdziale~\ref{sec:model_example}. \textit{Szablon zapytania} kierowany jest do \textit{DMJ} w celu generacji modelu \textit{PL}. W związku z niskim kosztem i pozytywnymi wynikami, do tworzenia zapytania wykorzystano model \texttt{GPT 4o-mini}. Wygenerowany \textit{model} zostaje poddany procesowi \textit{Walidacji działania kodu}, korzystając z programu \href{https://www.scipopt.org/}{SCIP} \cite{BolusaniEtal2024ZR}. % TP: TODO: SCIP ma oficjalną publikację do cytowania https://www.scipopt.org/index.php#cite - DONE
+Schemat przepływu sterowania w zaproponowanym systemie dla generowania modeli PL przedstawiono na Rysunku~\ref{fig:workflow}. Wykonanie rozpoczyna się od utworzenia bazy danych z parami: \textit{problem} jako opis słowny problemu \textit{PL} oraz \textit{kod modelu} jako poprawny kod w języku \textit{ZIMPL}. Szczegółowy opis bazy danych znajduje się w Rozdziale~\ref{ch:dataset}. Następnie tworzony jest \textit{Szablon zapytania}, który wykorzystuje schemat zaczerpnięty z materiałów edukacyjnych opisanych w rozdziale~\ref{sec:model_example}. \textit{Szablon zapytania} kierowany jest do \textit{DMJ} w celu generacji modelu \textit{PL}. W związku z niskim kosztem i pozytywnymi wynikami, do tworzenia zapytania wykorzystano model \texttt{GPT 4o-mini}. Wygenerowany \textit{model} zostaje poddany procesowi \textit{Walidacji działania kodu}, korzystając z programu \href{https://www.scipopt.org/}{SCIP} \cite{BolusaniEtal2024ZR}. 
 
- Zdecydowano się na \textit{SCIP}, ponieważ jest to darmowe, otwarte oprogramowanie z rozbudowaną dokumentacją. % TP: TODO <- unikajcie niepotwierdzonych stwierdzeń; prawdopodobnie można znależć benchmarki, w których SCIP wypada słabiej od konkurencji; wybór SCIPa wynika z jego dostępności; to jest projekt open-source - DONE
+ Zdecydowano się na \textit{SCIP}, ponieważ jest to darmowe, otwarte oprogramowanie z rozbudowaną dokumentacją.
+ 
  W przypadku wystąpienia błędu w wygenerowanym kodzie, program do \textit{Walidacji działania kodu} powiadamia o tym \textit{Ekspertów}, którzy przystępują do rekonstrukcji szablonu zapytania.
 
 Jeśli \textit{Walidacja działania kodu} zakończy się sukcesem, wygenerowany kod jest oceniany poprzez niezależny \textit{DMJ}. Aby uniknąć sytuacji, w~której model oceniający jest taki sam jak model generujący kod, zdecydowano się na wykorzystanie modelu \texttt{GPT-4} do ewaluacji działania generatora. Jeśli \textit{Ocena jakości modelu} zwróci \textit{niesatysfakcjonujące rozwiązanie} jest ono zwracane do \textit{Ekspertów} w celu refaktoryzacji \textit{Szablonu zapytania}. Modele wynikowe \textit{ZIMPL} oraz walidator punktujący poszczególne zadania są poddawane sprawdzeniu i czyszczeniu z ewentualnych nieścisłości wywołanych przez halucynacje \textit{DMJ}, poprzez usuwanie i modyfikację częstych błędów.
 
-% TP: TODO: poniższy akapit jest w zasadzie o inżynierii podpowiedzi i jako taki bardziej pasuje do opisu metody (Rozdział 3) niż zbioru danych - DONE
-
-Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W~związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Następnie utworzono trzy zapytania, każde odpowiadające określonej części definicji problemu, na które składają się: zmienne decyzyjne, funkcja celu oraz ograniczenia. Do każdego z trzech różnych zapytań dotyczących programowania sztywnego % TP: TODO <- Nie wiadomo skąd się bierze liczba 4, dlaczego akurat tyle i jak te zapytania są wybierane - Jagoda: w przypadku sztywnego kodowania wysyłane są 4 zapytania, warto to uwzględnić w opisie w rozdziale 3 % Adam x2 - sa 3 DONE
+Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W~związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Następnie utworzono trzy zapytania, każde odpowiadające określonej części definicji problemu, na które składają się: zmienne decyzyjne, funkcja celu oraz ograniczenia. Do każdego z trzech różnych zapytań dotyczących programowania sztywnego 
 dodano wszystkie wybrane opisy zadania programowania liniowego
-wraz z elementem kodu  \akronim{ZIMPL}, którego dotyczy zapytanie. Łącznie uwzględniono 10 takich zapytań. Podobnie zrealizowano zadanie dla programowania z parametryzacją. Utworzono pięć różnych zapytań, po jednym na każdą część definicji problemu: zestawy danych, parametry, zmienne decyzyjne, funkcja celu, ograniczenia. Dla każdego z pięciu zapytań, wykorzystano 10 zadań wraz z elementami kodu  \akronim{ZIMPL}. % TP: TODO <- dlaczego 6 i jak zostały wybrane? - Jagoda: tutaj podobnie dla parametryzowanego wysyłamy 6 zapytań, warto dopisac w rodziale % Adam x2 - DONE
+wraz z elementem kodu  \akronim{ZIMPL}, którego dotyczy zapytanie. Łącznie uwzględniono 10 takich zapytań. Podobnie zrealizowano zadanie dla programowania z parametryzacją. Utworzono pięć różnych zapytań, po jednym na każdą część definicji problemu: zestawy danych, parametry, zmienne decyzyjne, funkcja celu, ograniczenia. Dla każdego z pięciu zapytań wykorzystano 10 zadań wraz z elementami kodu  \akronim{ZIMPL}.
 
 
 \section{Inżynieria podpowiedzi}
-% - Inżynieria podpowiedzi - np. na podstawie https://pl.wikipedia.org/wiki/Inżynieria_podpowiedzi
 Inżynieria podpowiedzi (ang. \textit{prompt engineering}) to proces projektowania i iteracyjnego doskonalenia instrukcji przekazywanych \textit{DMJ} w celu uzyskania satysfakcjonujących wyników. Poprawnie zaprojektowane podpowiedzi mogą znacząco wpłynąć na jakość generowanych wyników, szczególnie w kontekście złożonych modeli \textit{PL}.
 
-W niniejszej pracy inżynieria podpowiedzi została zastosowana do automatycznego generowania modeli \textit{PL} w języku \textit{ZIMPL}. Proces ten polegał na iteracyjnym dostosowywaniu treści podpowiedzi na podstawie wyników uzyskanych w poprzednich iteracjach. Pozwoliło to usprawnić proces generowania modeli \textit{PL} oraz poprawa ich jakości.
+W niniejszej pracy inżynieria podpowiedzi została zastosowana do automatycznego generowania modeli \textit{PL} w języku \textit{ZIMPL}. Proces ten polegał na iteracyjnym dostosowywaniu treści podpowiedzi na podstawie wyników uzyskanych w poprzednich iteracjach. Pozwoliło to usprawnić proces generowania modeli \textit{PL} oraz poprawy jakości.
 
 W pracy wykorzystano inżynierię podpowiedzi, której kroki opisano poniżej:
 \begin{itemize} 
@@ -331,8 +325,7 @@ W pracy wykorzystano inżynierię podpowiedzi, której kroki opisano poniżej:
 
 \section{Graficzny interfejs użytkownika}\label{sec:generation:gui}
 
-%Zakładając możliwość komercyjnego wykorzystania generatora modeli, s
-Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite{Streamlit2019} oraz gotowy przepływ zapytań \textit{DML} \cite{TODO}. Jako funkcjonalności narzędzia można wyróżnić:
+Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite{Streamlit2019} oraz stworzony przepływ zapytań \textit{DML}. Jako funkcjonalności narzędzia można wyróżnić:
 
 \begin{enumerate}
 \item Rozwijany pasek boczny z zapisaną historią poprzednich rozwiązań wygenerowanych w czasie sesji oraz możliwością edycji i usuwania.
@@ -373,6 +366,4 @@ Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite
     \label{fig:gui}
 \end{figure}
 
-Na Rysunku \ref{fig:application-diagram} przedstawiono schemat graficzny ekranu generatora wraz z~układem jego funkcjonalności. Na Rysunku~\ref{fig:gui} znajduje się zrzutu ekranu interfejsu użytkownika.
-
-
+Na Rysunku \ref{fig:application-diagram} przedstawiono schemat graficzny ekranu generatora wraz z~układem jego funkcjonalności. Na Rysunku~\ref{fig:gui} znajduje się zrzut ekranu interfejsu użytkownika.
