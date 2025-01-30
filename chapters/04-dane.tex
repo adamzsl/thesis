@@ -121,87 +121,17 @@ przy ograniczeniach:
 \subsection{Tworzenie modeli PL w języku \akronim{ZIMPL}}
 
 Dla wyszukanych i sprawdzonych modeli PL stworzono ich reprezentacje w języku \akronim{ZIMPL} opisujące zagadnienie. %, rozwiązujące przedstawiony problem. % TP: model nic nie rozwiązuje, model opisuje zagadnienie - DONE
-Każdy model PL posiada dwa różne warianty w języku  \akronim{ZIMPL}: wariant w~formule programowania sztywnego oraz w~formule parametryzowanej. % TP: <- sugeruję tutaj wymienić te warianty chociaż z nazwy, bo wariant 2 pojawia się dopiero na kolejnej stronie. - DONE
+Każdy model PL posiada dwa różne warianty w języku  \akronim{ZIMPL}: wariant w~formule programowania sztywnego oraz w~formule parametryzowanej. Dokładny opis specyfiki danego wariantu został przedstawiony w rozdziale~\ref{ch:generation:generating}
 
-Wariant pierwszy stosuje formułę \textbf{sztywnego programowania}. Takim kodem nazwano rozwiązanie, w którym wprowadzone wartości, takie jak liczby i parametry, są zapisane w sposób bezpośredni i statyczny. Utrudnia to wszelkie zmiany i dostosowania bez modyfikacji kodu, sprawiając, że model PL opisuje tylko jedną konkretną instancję zagadnienia. W~tym przypadku przy tworzeniu kodu  \akronim{ZIMPL} należy się skupić na elementach uwzględnionych poniżej.
+Obie wersje kodu poprawnie rozwiązują problemy programowania liniowego. W czasie trenowania, walidacji i testowania generatora wykorzystywane są dane uwzględniające oba rozwiązania. Przy generowaniu modelu \akronim{ZIMPL} użytkownik wybiera formułę, a następnie, zależnie od jego wyboru, proces generacji przechodzi przez ciąg zapytań do DMJ, w wyniku których powstają opisane powyżej elementy kodu. % TP: TODO <- czy generator coś testuje? Tutaj jest chyba pomieszane nazewnictwo. Czy choci o proces tworzenia zbioru danych? Słowo "generować" pojawia się w kontekście problemu generowania modelu PL i metody generownia modelu PL, więc należy go unikać w innych kontekstach - DONE
 
-\begin{enumerate}
-\item Deklaracja zmiennych, których dotyczy zadanie.
-
-\begin{lstlisting}[language=zimpl]
-# Zadeklarowana zmienna
-var <nazwa_zmiennej>: <zakres_wartości>;
-\end{lstlisting}
-
-\item Zapisanie celu funkcji (minimalizacja lub maksymalizacja), wraz z podaniem konkretnych wartości liczbowych.
-
-\begin{lstlisting}[language=zimpl]
-# Cel funkcji
-<minimize/maximize> <nazwa_funkcji>: <wyrażenie matematyczne reprezentujące
-funkcję celu>;
-\end{lstlisting}
-
-\item Zapisanie ograniczeń przedstawionych w treści zadania za pomocą wyrażeń matematycznych.
-
-\begin{lstlisting}[language=zimpl]
-# Ograniczenia
-subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
-\end{lstlisting}
-\end{enumerate}
-
-Drugi sposób programowania polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a~także zwiększa elastyczność pracy z~kodem \akronim{ZIMPL}. Modele parametryzowane można dostosować do różnych problemów, zmieniając tylko parametry wejściowe, co zwiększa ich uniwersalność. Modele są łatwiejsze do skalowania, a~także zwiększona zostaje czytelność kodu. Jest to zalecany sposób modelowania zagadnień, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. % TP: <- skoro jest zalecany, to musi mieć jakieś zalety, a tutaj piszecie tylko o Wadach. - DONE
-Składnia kodu parametryzowanego jest przedstawiona poniżej.
-
-\begin{enumerate}
-\item Deklaracja zbiorów podanych w treści zadania.
-
-\begin{lstlisting}[language=zimpl]
-# Zbiór indeksów
-set <nazwa_zbioru> := {<wartości>};
-\end{lstlisting}
-
-\item Deklaracja wartości wejściowych parametrów, używanych jako dane pomocnicze przy określaniu stałych cech problemu.
-
-\begin{lstlisting}[language=zimpl]
-# Parametry związane z indeksem
-param <nazwa_parametru>[<indeks> w <zbiór>] := <wartość dla każdego elementu>;
-# Parametr globalny
-param <nazwa_parametruo> := <wartość>;
-\end{lstlisting}
-
-\item Deklaracja zmiennych, których dotyczy zadanie.
-
-\begin{lstlisting}[language=zimpl]
-# Zmienna decyzyjna zależna od indeksów w zbiorze
-var <nazwa_zmiennej>[<indeks> w <zbiór>]: <zakres_wartości>;
-\end{lstlisting}
-
-\item Zapisanie celu funkcji (minimalizacja lub maksymalizacja), zależnego od ustalonych zmiennych i parametrów.
-
-\begin{lstlisting}[language=zimpl]
-# Cel funkcji
-<minimize/maximize> <nazwa_funkcji>: <wyrażenie matematyczne reprezentujące
-funkcję celu>;
-\end{lstlisting}
-
-\item Zapisanie ograniczeń przedstawionych w treści zadania za pomocą wyrażeń matematycznych.
-
-\begin{lstlisting}[language=zimpl]
-# Ograniczenia
-subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
-\end{lstlisting}
-\end{enumerate}
-
-Obie wersje kodu poprawnie rozwiązują problemy programowania liniowego. W czasie trenowania, walidacji i testowania generatora wykorzystywane są dane uwzględniające oba rozwiązania. Przy generowaniu modelu \akronim{ZIMPL} użytkownik wybiera formułę, a następnie zależnie od jego wyboru, proces generacji przechodzi przez ciąg zapytań do DMJ, w wyniku których powstają opisane powyżej elementy kodu. % TP: TODO <- czy generator coś testuje? Tutaj jest chyba pomieszane nazewnictwo. Czy choci o proces tworzenia zbioru danych? Słowo "generować" pojawia się w kontekście problemu generowania modelu PL i metody generownia modelu PL, więc należy go unikać w innych kontekstach - DONE
 Przygotowany przykład, zanim trafi do kolejnego etapu poszerzania zbioru danych, jest sprawdzany za pomocą narzędzi do automatycznego sprawdzania jakości kodu oraz ręcznej analizy jakości kodu. Poprawność składniowa oraz semantyczna modelu PL jest weryfikowana poprzez próbę jego rozwiązania solverem SCIP \cite{scip_documentation}. Model PL, dla którego SCIP zwrócił rozwiązanie dopuszczalne, jest uznawany za poprawny składniowo i semantycznie. Weryfikacja przebiegała również poprzez ręczne sprawdzanie przez dwóch niezależnych od siebie ekspertów każdego modelu i weryfikacji, czy poszczególne elementy kodu odpowiadają celowi optymalizacji, zależnościom między modelowanymi wielkościami oraz czynnikom podlegającym optymalizacji. Ponadto eksperci weryfikowali rozwiązanie optymalne modelu PL pod względem zgodności z wiedzą dziedzinową.
-
-% TP: TODO <- wcześniej jest używana nazwa po prostu SCIP, po co ją rozwijać? Na pierwszy rzut oka nie wiadomo co to jest. Dopiero gdy przykład otrzyma status 'poprawny' i zadanie posiada rozwiązanie, może przejść do procesu zwielokrotniania. Ponadto SCIP to nie algorytm, ale oprogramowanie; w oprogramowaniu jest wiele _implementacji_ algorytmów. Algorytm != oprogramowanie. Czy nie lepiej napisać, że: "Poprawność składniowa oraz semantyczna modelu PL jest weryfikowana poprzez próbę jego rozwiązania solverem SCIP \cite{TODO}. Model PL, dla którego SCIP zwrócił rozwiązanie dopuszczalne jest uznawany za poprawny składniowo i semantycznie." Wydaje się, że brakuje fazy weryfikacji zgodności z wiedzą dziedzinową. A może to jest w tych ręcznych kalkulacjach? Nie wiadomo co to znaczy i jak dokładnie ta zgodność była weryfikowana (np. "Dwóch ekspertów niezależnie analizowało każdy model i weryfikowało czy funkcja celu, ograniczenia i zmienne odpowiadają odpowiednio celowi optymalizacji, zależnościom między modelowanym wielkościom oraz czynnikom podlegającym optymalizacji. Ponadto eksperci weryfikowali rozwiązanie optymalne modelu PL pod względem zgodności z wiedzą dziedzinową."). - DONE
 
 \subsection{Zwielokrotnianie przygotowanych przykładów}
 
 Posiadając przygotowane 40 unikalnych przykładów wraz z ich modelami PL w formule sztywnego i parametryzowanego programowania, należało powiększyć zbiór o przykłady podobne, lecz różniące się sformułowaniem i wynikami.
 
-Początkowy proces polegał na tworzeniu przykładów o zbliżonej strukturze, ale z dywersyfikowaną treścią fabularną oraz danymi. Na podstawie jednego przykładu tworzone było do 12 różnych przykładów, w których przekształcana była narracja zadania, mógł zmienić się cel zadania z maksymalizacji na minimalizację i odwrotnie, a także zmieniały się dane i ich ilość. Dzięki temu, z podobnego zadania powstawały zupełnie niezależne i nowe problemy programowania liniowego. Sumarycznie utworzono 800 unikalnych zadań wraz z ich zmodyfikowanym kodem  \textit{ZIMPL}. % TP: TODO: <- Protokół zwielokrotniania mógłby być opisany bardziej algorytmicznie, nawet od punktów. Nie jest jasne kiedy i jakie modyfikacje były wykonywane. Czy to by random czy może wg jakiegoś klucza (jakiego?). Czy dochodziły np. nowe ograniczenia, zmienne? Warto w jednym miejscu wymienić (np. wypunktować) wszystie typy modyfikacji elementarnych, które wykonaliście, a dalej napisać, że zastosowano losowy wybór modyfikacji elementowanych do przykładu bazowego. Protokół zmiany opisów poniżej jest dużo lepiej opisany. - DONE
+Początkowy proces polegał na tworzeniu przykładów o zbliżonej strukturze, ale z dywersyfikowaną treścią fabularną oraz danymi. Na podstawie jednego przykładu tworzone było do 12 różnych przykładów, w których przekształcana była narracja zadania, mógł zmienić się cel zadania z maksymalizacji na minimalizację i odwrotnie, a także zmieniały się dane i ich ilość. Dzięki temu, z podobnego zadania powstawały zupełnie niezależne i nowe problemy programowania liniowego. Sumarycznie utworzono 800 unikalnych zadań wraz z ich zmodyfikowanym kodem  \textit{ZIMPL}.
 Dokładny proces tworzenia nowych wariantów został przedstawiony poniżej:
 
 \begin{enumerate}
@@ -276,7 +206,6 @@ Kryteria tworzenia:
 \item Weryfikacja poprawności zadania - zadanie musi posiadać pełny opis, na podstawie którego można stworzyć docelowy model w \akronim{ZIMPL}. Usuwane są zadania, w których niespełniane są wymagania pozafunkcjonalne.
 \item Proces zostaje powtórzony dla kolejnych zadań.
 \end{enumerate}
-% TP: TODO ^ Czy można bardziej konkretnie opisać te modyfikacje? To brzmi bardzo arbitralnie/subiektywnie i nieweryfikowalnie. Czy można określić konkretne warunki, które te zmodyfikowane opisy miały spełniać? Czy były nałożone jakieś wymagania pozafunkcjonalne, np. max. długość, poziom skomplikowania tekstu np. z użyciem którejś ze standardowych miar https://en.wikipedia.org/wiki/Readability#Readability_formulas - DONE, na tyle ile dało radę, średnia długość zdań została uwzględniona, ewentualnie mogę jeszcze policzyć poziom skomplikowania tekstu jeżeli będzie taka potrzeba.
 
 Decyzję o takim zwielokrotnianiu posiadanych podjęto z kilku powodów. Pierwszym z nich była potrzeba weryfikacji, czy stworzony model generatora kodu \akronim{ZIMPL} poradzi sobie z każdym rodzajem zadania, niezależnie od jego formuły i kolejności przekazywanych danych. Drugim kluczowym argumentem była mała dostępność do treści zagadnień optymalizacyjnych i modeli PL połączona z zapotrzebowaniem na dużą ilość danych do testów.
 
@@ -300,12 +229,11 @@ Testowy & 2275 & 2025 & 4300\\
 \end{tabular}
 \end{table}
 
-Łącznie stworzono około 4800 przykładów zagadnień optymalizacyjnych wraz z~modelami PL w~języku \akronim{ZIMPL}. Po ręcznej analizie zadań i automatycznym sprawdzeniu rozwiązań, zdecydowano się usunąć niekonkretne lub trudne do interpretacji przykłady, a także przykłady, dla których rozwiązanie dostarczone przez SCIP zostało oznaczone jako `niepoprawne'. Przy takiej selekcji zadań, zbiór pomniejszył się do 4380 przykładów. Tak utworzony zbiór danych został podzielony na następujące podzbiory: treningowy, walidacyjny oraz testowy. Z racji, że generator nie wymagał bezpośredniego uczenia automatycznego, a ręcznego strojenia zapytań do DMJ, liczebność poszczególnych zbiorów znacząco się różniła. Do trenowania potrzebne było 20 przykładów, tak aby nie zapełniać zapytań powtarzającymi się schematami odpowiedzi. Zbiór walidacyjny został dobrany z bazowych przykładów w taki sposób, aby uruchamianie generatora było nisko kosztowne i pozwalało na realizacje walidacji w krótkim czasie (około 20 minut). Dla porównania, wygenerowanie odpowiedzi \akronim{ZIMPL} dla zbioru testowego trwało ponad 16 godzin. Dokładne statystyki podzbiorów podano w Tabeli~\ref{tab:dataset:stats}. 
-% TP: dość nietypowo wygląda, że zbiór testowy jest znacznie większy od treningowego i walidacyjnego (razem wziętych). To wymaga wyjaśnienia. Pewnym argumentem jest, że tutaj nie ma w zasadzie uczenia automatycznego - jedynie ręczne strojenie podpowiedzi (promptów). - DONE
+Łącznie stworzono około 4800 przykładów zagadnień optymalizacyjnych wraz z~modelami PL w~języku \akronim{ZIMPL}. Po ręcznej analizie zadań i automatycznym sprawdzeniu rozwiązań, zdecydowano się usunąć niekonkretne lub trudne do interpretacji przykłady, a także przykłady, dla których rozwiązanie dostarczone przez SCIP zostało oznaczone jako `niepoprawne'. Przy takiej selekcji zadań, zbiór pomniejszył się do 4380 przykładów. Tak utworzony zbiór danych został podzielony na następujące podzbiory: treningowy, walidacyjny oraz testowy. Z racji, że generator nie wymagał bezpośredniego uczenia automatycznego, a ręcznego strojenia zapytań do DMJ, liczebność poszczególnych zbiorów znacząco się różniła. Do trenowania potrzebne było 20 przykładów, tak aby nie zapełniać zapytań powtarzającymi się schematami odpowiedzi. Zbiór walidacyjny został dobrany z bazowych przykładów w taki sposób, aby uruchamianie generatora było nisko kosztowne i pozwalało na realizację walidacji w krótkim czasie (około 20 minut). Dla porównania, wygenerowanie odpowiedzi \akronim{ZIMPL} dla zbioru testowego trwało ponad 16 godzin. Dokładne statystyki podzbiorów podano w Tabeli~\ref{tab:dataset:stats}. 
 
 \subsection{Zbiór treningowy}
 
-Pierwszy zbiór nazwany treningowym, jest najmniejszym z utworzonych zbiorów i został wykorzystany bezpośrednio do tworzenia zapytań do dużego modelu językowego. Zbiór treningowy nie jest używany w walidacji i testach, bo model językowy posiada dokładne odpowiedzi do zawartych treści. Przykłady zostały dobrane w sposób różnorodny, tak aby jak najlepiej przedstawić DMJ oczekiwane rezultaty generacji kodu \akronim{ZIMPL}. Wybór tego zbioru odbył się w sposób ręcznego przeglądu 40 bazowych przykładów i wyboru po 10 najbardziej zdywersyfikowanych pod względem składni kodu \akronim{ZIMPL} modeli programowania sztywnego i parametryzowanego.  % TP: w jaki sposób została zapewniona dywersyfikacja? Czy każdy przykład pochodził od innego przykładu bazowego? W jaki sposób wybrano przykłady do zbioru treningowego? Jeśli losowo to z jakim rozkładem? - DONE, pracowaliśmy wybierając ręcznie ze zbioru bazowego
+Pierwszy zbiór nazwany treningowym, jest najmniejszym z utworzonych zbiorów i został wykorzystany bezpośrednio do tworzenia zapytań do dużego modelu językowego. Zbiór treningowy nie jest używany w walidacji i testach, bo model językowy posiada dokładne odpowiedzi do zawartych treści. Przykłady zostały dobrane w sposób różnorodny, tak aby jak najlepiej przedstawić DMJ oczekiwane rezultaty generacji kodu \akronim{ZIMPL}. Wybór tego zbioru odbył się w sposób ręcznego przeglądu 40 bazowych przykładów i wyboru po 10 najbardziej zdywersyfikowanych pod względem składni kodu \akronim{ZIMPL} modeli programowania sztywnego i parametryzowanego.
 
 Zbiór treningowy jest mały, aby pomieścić zawartość wybranych przykładów w pojedynczym zapytaniu do DMJ, którego rozmiar jest ograniczony możliwościami DMJ.
 
@@ -313,7 +241,7 @@ Zbiór treningowy jest mały, aby pomieścić zawartość wybranych przykładów
 
 Do ręcznej walidacji zapytań podczas prototypowania generatora kodu  \akronim{ZIMPL} wykorzystano początkowo 60 przykładów, w tym 30 przykładów programowania sztywnego i 30 przykładów programowania parametryzowanego. Wybrano pozostałe 30 opisów problemów PL ze zbioru bazowego, uszczuplonego o zbiór treningowy, wraz z modelami \akronim{ZIMPL} w dwóch wersjach. Przy pomocy tego zbioru sprawdzano jakość generowanego kodu  \akronim{ZIMPL} oraz weryfikowano jego poprawność pod względem posiadanego rozwiązania oraz pokrycia rozwiązania z rozwiązaniem zawartym w zbiorze.
 
-Zdecydowano się na taką liczbę przykładów w zbiorze ze względu na potrzebę szybkiej weryfikacji wyników. Czas generowania wszystkich 60 odpowiedzi wynosił maksymalnie 7 minut, co sprawiło, że można było szybko sprawdzać i naprawiać błędy w logice zapytań. Zbiór celowo zawarł w sobie połowę zadań z wynikami parametryzowanymi oraz połowę zadań z wynikami sztywno zaprogramowanymi, tak aby zapewnić poprawny wgląd do rozwiązań obu problemów. Zadania zostały wyselekcjonowane w różnorodny sposób, tak aby dać możliwie najszerszy wgląd w problemy, z jakimi może się mierzyć generator. % TP: podobny komentarz jak do zbioru treningowego: jak konkretnie te przykłady zostały wybrane; Myślę, że gdzieś tutaj można napisać, że ten zbiór był używany na etapie "ręcznej walidacji zapytań podczas prototypowania". - DONE
+Zdecydowano się na taką liczbę przykładów w zbiorze ze względu na potrzebę szybkiej weryfikacji wyników. Czas generowania wszystkich 60 odpowiedzi wynosił maksymalnie 7 minut, co sprawiło, że można było szybko sprawdzać i naprawiać błędy w logice zapytań. Zbiór celowo zawarł w sobie połowę zadań z wynikami parametryzowanymi oraz połowę zadań z wynikami sztywno zaprogramowanymi, tak aby zapewnić poprawny wgląd do rozwiązań obu problemów. Zadania zostały wyselekcjonowane w różnorodny sposób, tak aby dać możliwie najszerszy wgląd w problemy, z jakimi może się mierzyć generator.
 
 \subsection{Zbiór testowy}
 
@@ -323,4 +251,4 @@ Zbiór został stworzony tak, aby liczba przykładów odpowiedniego sposobu prog
 
 \section{Przechowywanie i dostępność zbioru}
 
-W związku ze specyficznym formatowaniem zbiory są przechowywane w formie pliku arkusza kalkulacyjnego, a następnie konwertowane do pliku JSON, z którego pobierane są do wykonywania walidacji i testów generatora. Zbiór treningowy znajduje się bezpośrednio w zapytaniach do modelu językowego. Pozostałe dwa zbiory w formacie JSON znajdują się również na platformie Hugging Face\footnote{\label{fn:dataset:link}\url{https://huggingface.co/datasets/Tamiza/test_zimpl_dataset}} na licencji MIT, gdzie można je darmowo wykorzystywać. % TP: Świetnie!
+W związku ze specyficznym formatowaniem zbiory są przechowywane w formie pliku arkusza kalkulacyjnego, a następnie konwertowane do pliku JSON, z którego pobierane są do wykonywania walidacji i testów generatora. Zbiór treningowy znajduje się bezpośrednio w zapytaniach do modelu językowego. Pozostałe dwa zbiory w formacie JSON znajdują się również na platformie Hugging Face\footnote{\label{fn:dataset:link}\url{https://huggingface.co/datasets/Tamiza/test_zimpl_dataset}} na licencji MIT, gdzie można je darmowo wykorzystywać.
