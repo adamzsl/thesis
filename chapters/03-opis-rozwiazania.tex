@@ -224,20 +224,26 @@ Wejściem problemu jest opis tekstowy zagadnienia PL w języku angielskim. Wyjś
 Dla pustego opis zagadnienia optymalizacyjnego oczekiwanym oczekiwane wyjście jest puste. W~przypadku wejścia z brakującymi elementami opisu, oczekiwanym wyjściem jest model zawierający tylko opisane elementy. Założono, że użytkownik, który nie dostarczy pełnego opisu, deklaruje chęć otrzymania zbliżonego schematu kodu. %Generator radzi sobie z dowolnymi miarami. Ograniczona jest ilość tokenów jakie zwraca w czasie odpowiedzi na zapytanie.
 
 \section{Problem oceny modelu PL na zgodność z opisem tekstowym}
-% -  - formalny opis problemu i jego właściwości - powinnismy przedstawic jakie kategorie oceny wybralismy? Pytanie rowniez czym jest formalny opis problemu
 
+Ocena modelu PL ma na celu weryfikację poprawności i użyteczności generowanych rozwiązań dla zadanych opisów PL. Do zadań weryfikacyjnych należy ocena wygenerowanego modelu pod względem:
 
-% TP: Po co to? Przecież nie rozwiązujecie modeli PL, ani nie korzystacie w żaden sposób z tych twierdzeń; one też nie pasują do ogólniejszej klasy -> MILP, którą Wasza metoda obsługuje
+\begin{enumerate}
+    \item Sprawdzenia, czy zadanie posiada rozwiązanie.
+    \item Sprawdzenia, czy zadanie posiada rozwiązanie pokrywające się z rozwiązaniem bazowym (rozwiązaniem zawartym w zbiorze rozwiązań).
+    \item Oceny poszczególnych elementów wygenerowanego kodu, wyprowadzoną przez niezależny DMJ.
+\end{enumerate}
 
-% TP: TODO: Tutaj też sugeruję nie rozwodzić się nad zapisami, które są istotne z punktu widzenia metod rozwiązywania modeli PL; z punktu widzenia modelowania rozróżnienie postaci ogólnej i standardowej nie ma większego znaczenia. Z drugiej strony brakuje definicji modelu PL takiego, który Wy generujecie. 
-% Dlatego sugeruję tutaj wprowadzić 3 sekcje:
-% - Model Programowania Liniowego - tutaj definicja, która jest zgodna z reprezentacją ZIMPL
-% - Problem generowania modelu PL z opisu tekstowego - tutaj poza formalnym postawieniem problemu należy omówić właściwości tego problemu; zdefiniujcie też warianty problem z parametryzacją i bez parametryzacji
-% - Problem oceny modelu PL na zgodność z opisem tekstowym - formalny opis problemu i jego właściwości
-% W załączeniu do maila dołączam przykładową pracę mgr, w której autor definiuje model PL i problem odkrywania modelu PL z danych (rozdział 2). Możecie się zasugerować, ale proszę nie przepisywać żywcem bo to byłby plagiat!
+Elementami wejściowymi dla procesu oceny są: model PL w formie kodu \akronim{ZIMPL}, poprawny kod bazowy, będący poprawnym rozwiązaniem oraz określenie rodzaju kodu (sztywny lub parametryzowany). Elementy wyjściowe są zależne od opisanych powyżej sposobów weryfikacji. Możliwym wyjściem procesu jest:
 
+\begin{enumerate}
+    \item W przypadku sprawdzania posiadanego rozwiązania --- określenie statusu poprawny (VALID) bądź niepoprawny (NOT VALID). W ten sposób weryfikowane jest czy stworzony przepływ generatora potrafi utworzyć kod posiadający rozwiązanie niezależnie od zrozumienia opisu wejściowego.
+    \item W przypadku sprawdzania wyników rozwiązania z rozwiązaniem bazowym --- określenie czy wygenerowane wyniki rozwiązania dla obu modeli pokrywają się ze sobą.
+    \item W przypadku oceny poszczególnych elementów wygenerowanego modelu --- ocena przez DMJ każdego elementu kodu w skali 0/1 oraz opis problemów zauważonych w wygenerowanym kodzie. Szczegółowe opisy sposobu przydzielania punktacji zostały opisane w rozdziałach~\ref{ch:experiment:hardcoded} oraz ~\ref{ch:experiment:parameters}
+\end{enumerate}
 
+Weryfikacje przykładów ekstremalnych i zdegenerowanych należy rozważyć zależnie od możliwych wyjść procesu. Przy określaniu posiadanego rozwiązania każdy z elementów kodu, posiadający niepoprawne deklaracje, będzie weryfikowany w poprawny sposób. Dzieje się tak, ponieważ nie jest weryfikowane powiązania wygenerowanego kodu z opisem zadania. Dokładnie to samo można powiedzieć na temat porównywania wyników rozwiązania z rozwiązaniem bazowym, z tym że porównywane są wyniki, które przy sprawdzaniu posiadanego rozwiązaniu osiągnęły status poprawny (VALID).
 
+W przypadku oceny poszczególnych elementów kodu przez DMJ można wyróżnić przykłady ekstremalne i sposób reakcji weryfikatora. Dla modelu zdegenerowanego, który jest formalnie poprawny, ale niezgodny z opisem problemu, uwzględniony zostaje opis problemu i bazowy kod, zatem wynik oceny uwzględni niezgodność i da zerową punktację dla niezgodnych elementów. W przypadku modeli zawierających liczne, nadmiarowe elementy kod może być oceniony jako poprawny składniowo, ale otrzyma niższą ocenę za zgodność z problemem, czyli jeden ujemny punkt.
 
 \section{Generator modeli PL z opisów tekstowych}
 
