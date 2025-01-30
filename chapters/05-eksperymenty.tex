@@ -3,19 +3,19 @@
 
 \section{Pytania eksperymentalne}
 
-Eksperyment został zaprojektowany, aby odpowiedzieć na następujące pytania:
+Przeprowadzono eksperyment obliczeniowy w celu uzyskania odpowiedzi na następujące pytania:
 \begin{itemize}
     \item \textbf{Jaki procent modeli stworzonych przez generator  \textit{ZIMPL} kompiluje się poprawnie?}
 
-Badanie zdolności generatora do tworzenia kodu, który spełni podstawowe wymaganie algorytmu rozwiązującego SCIP. Algorytm określa czy dana zmienna jest możliwa do kompilacji, czy nie, nadając status \texttt{VALID} (poprawny) lub \texttt{NOT VALID} (niepoprawny).
+Badanie zdolności generatora do tworzenia poprawnego składniowo kodu poprzez próbę jego kompilacji i~rozwiązania.
 
-    \item \textbf{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?}
+    \item \textbf{Jaki jest procent poprawnych odpowiedzi generatora na zbiorze testowym?}
 
  Określenie średniego poziomu poprawności generowanych rozwiązań na pełnym zbiorze testowym. Poprawność odpowiedzi jest mierzona na podstawie pokrycia generowanego kodu z~oczekiwanym wynikiem dla danego zadania.
     
-    \item \textbf{Czy opracowany system generuje modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
+    \item \textbf{Czy opracowany system generuje poprawne modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
 
-Porównanie wyników i przy użyciu stworzonego generatora kodu  \textit{ZIMPL} i wyników generowanych przez model na podstawie standardowego, kontrolnego DMJ. Brana pod uwagę jest liczba poprawnie wygenerowanych odpowiedzi za pomocą kontrolnego DMJ w~porównaniu do liczby odpowiedzi stworzonego generatora.
+Porównanie wyników opracowanego generatora kodu  \textit{ZIMPL} i modeli generowanych przez standardowy, kontrolny \akronim{DMJ}. Brana pod uwagę jest liczba poprawnie wygenerowanych odpowiedzi za pomocą kontrolnego \akronim{DMJ} w~porównaniu do liczby poprawnych odpowiedzi stworzonego generatora.
     
     \item \textbf{Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?}
 
@@ -23,11 +23,11 @@ Ocena jakości składni dla poszczególnych zapytań pod względem poprawnego zd
     
 \end{itemize}
 
-% TP: TODO: tutaj można dopisać parametry, które są stałe w trakcie eksperymentów (temperatura?) oraz inne założenia - DONE
+% TP: tutaj można dopisać parametry, które są stałe w trakcie eksperymentów (temperatura?) oraz inne założenia - DONE
 
 W generatorze oraz kontrolnym DMJ wykorzystano GPT-4o-mini. Dla każdego zapytania do DMJ ustawiono temperaturę na wartość 0, aby uniknąć halucynacji i zapewnić większą przewidywalność odpowiedzi. Maksymalna liczba tokenów wynikowych została ustawiona na 512. Nie było potrzeby na ustawianie większej wartości, największe wygenerowane modele potrzebowały do 400 tokenów. W przypadku większych zadań, niż te wykorzystywane w ramach testów lub zmiany języka, należałoby przeanalizować zwiększenie maksymalnej liczby tokenów.
 
-% TP: TODO: tutaj też można zdefiniować "kontrolnego DMJ", jako GPT-4 (czy jakiś inny DMJ) z prostym promptem, tj. to co obecnie jest zdefiniowane w Sekcji 5.4; ten kontrolny DMJ jest wykorzystywany w Sekcjach 5.4 i 5.5 - DONE
+% TP: tutaj też można zdefiniować "kontrolnego DMJ", jako GPT-4 (czy jakiś inny DMJ) z prostym promptem, tj. to co obecnie jest zdefiniowane w Sekcji 5.4; ten kontrolny DMJ jest wykorzystywany w Sekcjach 5.4 i 5.5 - DONE
 
 Kontrolnym DMJ nazywamy pojedyncze zapytanie skierowane do DMJ w wersji GPT-4o-mini. Zapytanie nie zawiera w sobie żadnych informacji nakierowujących DMJ na składnię języka \akronim{ZIMPL}. Zapytanie kontrolnego DMJ posiada takie same parametry, co stworzony generator. Zapytanie składa się z:
 
@@ -59,7 +59,7 @@ Niepoprawne & 513 & 11,93\% \\
 
 % TP: połączyłem te dwie tabele w jedną z 5 kolumnami i dodatkowym wierszem nagłówka,
 \begin{table}[H]
-\caption{Tabela sprawdzenia poprawności w rozbiciu na sztywne i parametryzowane modele}\label{tab:experiment:compilation:breakdown}
+\caption{Tabela sprawdzenia poprawności w rozbiciu na sztywne i parametryzowane modele.}\label{tab:experiment:compilation:breakdown}
 \centering%
 \begin{tabular}{|l|c|c|c|c|}
 \hline%
@@ -80,7 +80,7 @@ Niepoprawne & 146 & 6,42\% & 367 & 18,12\%\\
 Kompiluje się 88,07\% wygenerowanych modeli PL, w tym 93,58\% dla wersji sztywnej i 81,88\% dla wersji parametryzowanej. Tabela~\ref{tab:experiment:compilation} prezentuje liczbę i odsetek przykładów ze zbioru testowego, dla których DMJ wygenerował kompilujący i niekompilujący się kod. Tabela~\ref{tab:experiment:compilation:breakdown} zawiera analogiczne dane w~rozbiciu na wersje sztywną i parametryzowaną problemu.
 
 \begin{table}[H]
-\caption{Estymacja przedziału ufności  wraz z testem z}\label{tab:experiment:analysis1}
+\caption{Estymacja 95\%-przedziałów ufności wraz z testem Z na różnice w proporcjach.}\label{tab:experiment:analysis1}
 \centering%
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -94,18 +94,19 @@ Kompiluje się 88,07\% wygenerowanych modeli PL, w tym 93,58\% dla wersji sztywn
 \hline
 \textbf{Przedział ufności (95\%)} & [87,10 ; 89,04] & [92,58 ; 94,59] & [80,20 ; 83,55] \\
 \hline
-\multicolumn{4}{|c|}{Wartość statystyki \( z \): 12,47}\\
+\textbf{$p$-wartość testu Z}&&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
-Opracowany system generuje poprawne modele z prawdopodobieństwem ponad 80\% niezależnie od przyjętej formy wynikowego modelu PL. Wyniki przedstawione w powyższej tabeli~\ref{tab:experiment:analysis1} przedstawiają przedziały ufności przy uwzględnieniu estymacji 95\% przedziałów  ufności. Wartość statystyki z wynosi 12,47, co wskazuje na istotność statystyczną wskazanych wyników. Różnice w proporcjach poprawnych modeli pomiędzy wersją sztywną a parametryzowaną są statystycznie istotne.
+Opracowany system generuje poprawne modele z prawdopodobieństwem ponad 80\% niezależnie od przyjętej formy wynikowego modelu PL. W~Tabeli~\ref{tab:experiment:analysis1} przedstawiono $95\%$-przedziały ufności dla proporcji poprawnych modeli. Wykonano test Z na różnice w propocjach poprawnie generowanych modeli w wersji sztywnej i parametrycznej na poziomie istotności $\alpha=0,05$ uzyskując $p$-wartość $\approx0$. %statystyki $Z=12,47$ dla wartości krytycznej $1,96$.
+ Różnice w proporcjach poprawnych modeli pomiędzy wersją sztywną a parametryzowaną są zatem statystycznie istotne.
 
-% TP: TODO: Bardzo ważne: wykonajcie proszę analizy statystyczne:
+% TP: Bardzo ważne: wykonajcie proszę analizy statystyczne:
 % - estymacja 95% przedziałów ufności dla prawdopodobieństwa zwrócenia poprawnego modelu: slajd 12 stąd https://theta.edu.pl/wp-content/uploads/2014/02/W11EP.pdf - możecie dopisać do tabel wyżej jako $procent \pm połowa szerokości przedziału$
 % - test t lub Z na różnice między prawdopodobieństwami zwrócenia poprawnych modeli w wersj sztywnej i parametryzowanej dla alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych - DONE
 
-\section{Jaki jest procent poprawności odpowiedzi generatora na zbiorze testowym?}
+\section{Jaki jest procent poprawnych odpowiedzi generatora na zbiorze testowym?}
 
 % TP: TODO: Bardzo proszę, przeróbcie ten tekst w stylu poprzedniej sekcji: krótka odpowiedź na pytanie z nagłówka + wyrzucić wykresy + zagregować tabele 5.4 i 5.5  oraz 5.7 i 5.8 + analiza statystyczna. - DONE
 
@@ -157,12 +158,12 @@ Nieuwzględnione & 146 & 6,42\% & 367 & 18,12\%\\
 \end{tabular}
 \end{table}
 
-W przypadku całego zbioru testowego DMJ wygenerował poprawny kod w 60,93\% przypadków, a 27,14\% wygenerowanych przykładów nie pokrywało się z wynikiem wygenerowanym przez SCIP. Dodatkowo, 11,93\% wyników zostało nieuwzględnionych w analizie, ze względu na status \textbf{niepoprawny}. W tabeli~\ref{tab:tabela4} przedstawiono szczegółowe dane na temat wygenerowanego kodu względem poprawnych wyników dla całego zbioru testowego.
+W przypadku całego zbioru testowego DMJ wygenerował poprawny kod w 60,93\% przypadków, a 27,14\% wygenerowanych przykładów nie pokrywało się z wynikiem wygenerowanym przez SCIP. Dodatkowo, 11,93\% wyników zostało nieuwzględnionych w analizie, ze względu na status \textbf{niepoprawny}. W~Tabeli~\ref{tab:tabela4} przedstawiono szczegółowe dane na temat wygenerowanego kodu względem poprawnych wyników dla całego zbioru testowego.
 
 W przypadku rozbicia na wersje sztywną i parametryzowaną, wyniki są zróżnicowane. Dla wersji sztywnej 60,00\% wyników było poprawnych, 33,58\% niepoprawnych, a 6,42\% zostało nieuwzględnionych. Dla wersji parametryzowanej, 61,98\% wyników było poprawnych, 19,90\% niepoprawnych, a 18,12\% zostało nieuwzględnionych. Szczegółowe dane na temat tych wyników zawiera tabela~\ref{tab:experiment:combined2}.
 
 \begin{table}[H]
-\caption{Estymacja przedziału ufności wraz z testem z}\label{tab:experiment:analysis2}
+\caption{Estymacja przedziału ufności wraz z testem Z na różnice w proporcjach.}\label{tab:experiment:analysis2}
 \centering%
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -176,14 +177,16 @@ W przypadku rozbicia na wersje sztywną i parametryzowaną, wyniki są zróżnic
 \hline
 \textbf{Przedział ufności (95\%)} & [59,47 ; 62,39] & [57,99 ; 62,01] & [59,86 ; 64,09] \\
 \hline
-\multicolumn{4}{|c|}{Wartość statystyki \( z \): -1,33} \\
+%\multicolumn{4}{|c|}{Wartość statystyki \( z \): -1,33} \\
+\textbf{$p$-wartość testu Z}&&\multicolumn{2}{c|}{$0,184$}\\
 \hline
 \end{tabular}
 \end{table}
 
-Wartość statystyki \( z \) przedstawiona w powyższej tabeli~\ref{tab:experiment:analysis2} wynosi -1,33, co sugeruje, że różnice między wersją parametryzowaną a sztywną nie są statystycznie istotne.
+%Wartość statystyki \( z \) przedstawiona w powyższej tabeli~\ref{tab:experiment:analysis2} wynosi -1,33, co sugeruje, że różnice między wersją parametryzowaną a sztywną nie są statystycznie istotne.
+Wykonano test Z na różnicę w proporcjach poprawnych modeli dla wersji sztywnej i parametryzowanej na poziomie istotności $\alpha=0,05$ uzyskując $p$-wartość $0,184$. Różnice w proporcjach poprawnie generowanych modeli są zatem nieistotne.
 
-Dla porównania, taka sama analiza została przeprowadzona dla wszystkich wyników, ale nie uwzględniając wartości, które zostały wykluczone jako niepoprawne. Wnioskiem z tego eksperymentu jest skuteczność w okolicy 70\% dla kodu zweryfikowanego jako możliwy do kompilacji. Wyniki dla całego zbioru zostały przedstawione w poniższej tabeli~\ref{tab:tabela7}.
+Dla porównania, taka sama analiza została przeprowadzona dla wszystkich wyników, ale nie uwzględniając wartości, które zostały wykluczone jako niepoprawne. Wnioskiem z tego eksperymentu jest skuteczność w okolicy 70\% dla kodu zweryfikowanego jako możliwy do kompilacji. Wyniki dla całego zbioru zostały przedstawione w Tabeli~\ref{tab:tabela7}.
 
 \begin{table}[H]
 \caption{Tabela sprawdzenia poprawności dla zbioru testowego oznaczonego jako możliwy do kompilowania.}\label{tab:tabela7}
@@ -219,12 +222,12 @@ Niezgadzające się & 764 & 35,89\% & 403 & 24,31\% \\
 \end{tabular}
 \end{table}
 
-Podobna weryfikacja możliwa jest dla wyników sformułowanych jako sztywne oraz parametryzowane. Dla wersji sztywnej 64,11\% wygenerowanych przykładów było poprawnych, podczas gdy 35,89\% nie zgadzało się z oczekiwanym wynikiem. Dla wersji parametryzowanej 75,69\% wyników było poprawnych, a 24,31\% niepoprawnych. W obu przypadkach analizowane dane zostały uwzględnione w tabeli~\ref{tab:experiment:combined_check}.
+Podobna weryfikacja możliwa jest dla wyników sformułowanych jako sztywne oraz parametryzowane. Dla wersji sztywnej 64,11\% wygenerowanych przykładów było poprawnych, podczas gdy 35,89\% nie zgadzało się z oczekiwanym wynikiem. Dla wersji parametryzowanej 75,69\% wyników było poprawnych, a 24,31\% niepoprawnych. W obu przypadkach analizowane dane zostały uwzględnione w Tabeli~\ref{tab:experiment:combined_check}.
 
 %Przy interpretowaniu tych wyników należy uwzględnić czynniki, które mogły powodować szumy. Jednym z nich jest niepoprawna interpretacja zadania przez generator. W przypadku, gdy model językowy zrozumie zadanie w inny sposób niż autor bazy, wynik automatycznie jest klasyfikowany jako niepoprawny, mimo że nie zawsze będzie błędny względem treści zadania.
 
 \begin{table}[H]
-\caption{Estymacja przedziału ufności wraz z testem z}\label{tab:experiment:analysis3}
+\caption{Estymacja przedziału ufności wraz z testem Z na różnice proporcji.}\label{tab:experiment:analysis3}
 \centering%
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -238,12 +241,14 @@ Podobna weryfikacja możliwa jest dla wyników sformułowanych jako sztywne oraz
 \hline
 \textbf{Przedział ufności (95\%)} & [67,71 ; 70,65] & [62,08 ; 66,15] & [73,63 ; 77,76] \\
 \hline
-\multicolumn{4}{|c|}{Wartość statystyki \( z \): -7,66} \\
+%\multicolumn{4}{|c|}{Wartość statystyki \( z \): -7,66} \\
+\textbf{$p$-wartość testu Z}&&\multicolumn{2}{c|}{$1,87\times 10^{-14}$}\\
 \hline
 \end{tabular}
 \end{table}
 
-Wartość \( z \) z tabeli~\ref{tab:experiment:analysis3} wynosi -7,66, zatem wynik między wersją sztywną i parametryzowaną jest statystycznie istotny.
+%Wartość \( z \) z tabeli~\ref{tab:experiment:analysis3} wynosi -7,66, 
+Test Z na różnice w proporcjach w Tabeli~\ref{tab:experiment:analysis3} wynosi $1,87\times 10^{-14}$, zatem różnica proporcji poprawnych modeli między wersją sztywną i parametryzowaną jest statystycznie istotna.
 
 \section{Czy opracowany system generuje modele PL z wyższym prawdopodobieństwem niż kontrolny model językowy?}
 % TP: TODO: Tutaj też sugeruję skrócić odpowiedź i usunąć rysunek 5.7; 5.8 może zostać
@@ -267,7 +272,7 @@ Zdecydowano się na taki krok ze względu w celu faktycznego sprawdzenia, czy ko
 
 %\textbf{Istnieje znacząca poprawa w jakości wygenerowanego modelu w stosunku do modelu stworzonego za pomocą kontrolnego DMJ.} Testy poprowadzone na jednorazowym zapytaniu, wykorzystując model językowy GPT-4o-mini oraz temperaturę = 0, czyli dokładnie takie parametry, jakie zostały zastosowane w przypadku stworzonego generatora, jasno wskazują na zerową skuteczność. Rezultaty nigdy nie osiągają statusu poprawnego, a tym samym nie są rozważane przy porównywaniu rozwiązań. DMJ nie zna składni języka  \textit{ZIMPL}, w związku z czym dodaje do niego niepoprawne elementy kodu, zwłaszcza w przypadku deklaracji ograniczeń. Nie jest świadomy wszystkich koniecznych do kompilacji elementów kodu, a także generuje podstawowe błędy przy odczytywaniu wartości z polecenia. Wynik sprawdzania poprawności uwzględnia jedynie sprawdzenie możliwości kompilacji kodu. Nie ma potrzeby przeprowadzania dalszych testów, albowiem musiałyby przebiegać na pustym zbiorze rozwiązań.
 
-W przypadku zbioru testowego przy zastosowaniu kontrolnego DMJ, wszystkie wygenerowane modele (100\%) były niepoprawne, co oznacza, że żaden z testowanych przykładów nie został oznaczony przez SCIP jako \textbf{poprawny}. Wyniki zostały przedstawione w tabeli~\ref{tab:tabela10}. W związku z nimi, nie było potrzeby dokonywania dalszej analizy, pod względem porównania wyników kontrolnego DMJ z poprawnym rozwiązaniem zawartym w zbiorze przykładów.
+W przypadku zbioru testowego przy zastosowaniu kontrolnego DMJ, wszystkie wygenerowane modele (100\%) były niepoprawne, co oznacza, że żaden z testowanych przykładów nie został oznaczony przez SCIP jako \textbf{poprawny}. Wyniki zostały przedstawione w Tabeli~\ref{tab:tabela10}. W związku z nimi, nie było potrzeby dokonywania dalszej analizy, pod względem porównania wyników kontrolnego DMJ z poprawnym rozwiązaniem zawartym w zbiorze przykładów.
 
 \begin{table}[H]
 \caption{Tabela sprawdzenia poprawności dla zbioru testowego przy zastosowaniu kontrolnego DMJ.}\label{tab:tabela10}
@@ -285,7 +290,7 @@ Niepoprawne & 4300 & 100,00\% \\
 \end{tabular}
 \end{table}
 
-Ostateczne zestawienie wyników generatora z jednym zapytaniem w formie tablicy kontyngencji, uwzględniając przy tym weryfikację możliwości kompilacji kodu przedstawione zostało w tabeli~\ref{tab:tabela11}.
+Ostateczne zestawienie wyników generatora z jednym zapytaniem w formie tablicy kontyngencji, uwzględniając przy tym weryfikację możliwości kompilacji kodu przedstawione zostało w Tabeli~\ref{tab:tabela11}.
 
 \begin{table}[H]
 \caption{Tablica kontyngencji dla zbioru testowego przy zastosowaniu kontrolnego DMJ oraz generatora kodu.}\label{tab:tabela11}
@@ -307,7 +312,7 @@ Niepoprawne & Niepoprawne & 513 & 11,93\% \\
 \end{tabular}
 \end{table}
 
-Dla wykresu~\ref{rys:plama2k} zastosowano skrócone nazewnictwo, w którym komplementarnie do powyższej tabeli, prawy znak dotyczy wyników stworzonego generatora podczas gdy lewy znak dotyczy wyników kontrolnego DMJ.
+Na Rysunku~\ref{rys:plama2k} zastosowano skrócone nazewnictwo, w~którym komplementarnie do powyższej tabeli, prawy znak dotyczy wyników stworzonego generatora podczas gdy lewy znak dotyczy wyników kontrolnego DMJ.
 
 \begin{figure}[H]
 \centering
@@ -330,10 +335,11 @@ Dla wykresu~\ref{rys:plama2k} zastosowano skrócone nazewnictwo, w którym kompl
 \caption{Wykres wyników sprawdzenia poprawności dla zbioru testowego przy zastosowaniu kontrolnego DMJ oraz generatora kodu.}\label{rys:plama2k}
 \end{figure}
 
-Dla lepszej wizualizacji wyników zestawiono liczbowo wartości modeli sklasyfikowanych jako \textbf{poprawne} dla generatora \akronim{ZIMPL} oraz kontrolnego DMJ. Wartość \( z \) przedstawiona w poniższej tablicy~\ref{tab:experiment:analysis4} wynosi -82,26 zatem różnica jest statystycznie istotna.
+Dla lepszej wizualizacji wyników zestawiono liczbowo wartości modeli sklasyfikowanych jako \textbf{poprawne} dla generatora \akronim{ZIMPL} oraz kontrolnego DMJ. %Wartość \( z \) przedstawiona w~Tabeli~\ref{tab:experiment:analysis4} wynosi -82,26 zatem różnica jest statystycznie istotna.
+Test Z na różnice proporcji na poziomie istotności $\alpha=0,05$ zwraca $p$-wartość $\approx 0$, a więc różnica na korzyść generatora jest istotna.
 
 \begin{table}[H]
-\caption{Estymacja przedziału ufności wraz z testem z}\label{tab:experiment:analysis4}
+\caption{Estymacja przedziału ufności wraz z testem Z na różnice proporcji.}\label{tab:experiment:analysis4}
 \centering%
 \begin{tabular}{|l|c|c|}
 \hline
@@ -347,7 +353,8 @@ Dla lepszej wizualizacji wyników zestawiono liczbowo wartości modeli sklasyfik
 \hline
 \textbf{Przedział ufności (95\%)} & [87,10 ; 89,04] & [0,00 ; 0,00] \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z \): -82,26} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z \): -82,26} \\
+\textbf{$p$-wartość testu Z}&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
@@ -358,7 +365,8 @@ Dla lepszej wizualizacji wyników zestawiono liczbowo wartości modeli sklasyfik
 Dla modeli PL w formule sztywnej generator uzyskał \textbf{3,31p}, a kontrolny DMJ \textbf{1,81p} na 4-punktowej skali jakości zdefiniowanej poniżej. Dla modeli PL w formule parametryzowanej, generator uzyskał \textbf{4,75p}, a kontrolny DMJ \textbf{2,78p} na 6-punktowej skali jakości zdefiniowanej poniżej.
 % !!! TP: TODO: tutaj wypadałoby zrobić 2 testy statystyczne na różnice generator vs kontrolny DMJ; ta skala punktowa jest arbitralna, więc rozkład wartości może być nietypowy i byłbym ostrożny w stosowaniu testów parametrycznych; raczej sugeruję użyć np. Wilcoxona dla alpha=0,05 https://pl.wikipedia.org/wiki/Test_Wilcoxona_dla_par_obserwacji
 
-Wyniki zapewnianie dla \textbf{sztywnego formułowania} modeli  \textit{ZIMPL} zapewniają poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych danych. W średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla kontrolnego DMJ ten wynik zmniejsza się o 1,50 punktu (średnio 1,81). Do testów statystycznych zastosowano test Wilcoxona dla par obserwacji. Dla alfa = 0,05 poziom istotności p-wartość wynosi w zaokrągleniu \textbf{\( 3{,}40 \times 10^{-260} \)}. Można zatem stwierdzić, że różnica między wynikami jest \textbf{istotna statystycznie}.
+Dla \textbf{sztywnego formułowania} modeli \textit{ZIMPL} generator uzyskuje poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych modelach. %Średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla kontrolnego DMJ ten wynik zmniejsza się o 1,50 punktu (średnio 1,81). Do testów statystycznych z
+Zastosowano test Wilcoxona dla par obserwacji na poziomie istotności $\alpha=0,05$ dla oceny różnic w ocenach uzyskując p-wartość \( 3{,}40 \times 10^{-260} \). Można zatem stwierdzić, że różnica między wynikami jest \textbf{istotna statystycznie}.
 
 \begin{table}[H]
 \caption{Tabela sumarycznej oceny wyników dla kodowanych sztywno modeli.}\label{tab:tabela16}
@@ -378,10 +386,10 @@ Wyniki zapewnianie dla \textbf{sztywnego formułowania} modeli  \textit{ZIMPL} z
 4 & 1481 & 0 \\
 \hline
 \textbf{Średnia ocena} & \textbf{3,31} & \textbf{1,81} \\
+%\hline
+%\multicolumn{3}{|c|}{Statystyka testu: \(145788,5\)} \\
 \hline
-\multicolumn{3}{|c|}{Statystyka testu: \(145788,5\)} \\
-\hline
-\multicolumn{3}{|c|}{Wartość statystyki \(p-value = 3{,}40 \times 10^{-260} \)} \\
+$p$-wartość&\multicolumn{2}{|c|}{\(3{,}40 \times 10^{-260} \)} \\
 \hline
 \end{tabular}
 \end{table}
@@ -437,7 +445,8 @@ Wyniki zapewnianie dla \textbf{sztywnego formułowania} modeli  \textit{ZIMPL} z
 \caption{Wykres prezentujący sumaryczną ocenę wyników dla parametryzowanych modeli.} % TP: TODO: ...dla modeli w sztywnej formule?
 \end{figure}
 
-W przypadku zestawienia wyników dla modeli parametryzowanych widać, że stworzony generator kodu \textit{ZIMPL} ponownie został lepiej oceniony niż kontrolny DMJ. W większości wypadków utrzymuje on wynik w okolicy 5 punktów (średnio 4,75). Ta różnica jest znacząca w porównaniu do wyniku kontrolnego DMJ, który jest niższy o 1,97 punktu utrzymując średni poziom 2,78 punktu. Do testów statystycznych ponownie zastosowano test Wilcoxona dla par obserwacji. Dla alfa = 0,05 poziom istotności p-wartość wynosi w zaokrągleniu \textbf{\( 3{,}37 \times 10^{-285} \)}. Jest to znacznie mniejsza wartość od typowego poziomu istotności. Można stwierdzić, że różnica między wynikami jest \textbf{istotna statystycznie}.
+W przypadku zestawienia wyników dla modeli parametryzowanych widać, że stworzony generator kodu \textit{ZIMPL} ponownie został lepiej oceniony niż kontrolny DMJ. W~większości wypadków utrzymuje on wynik w okolicy 5 punktów (średnio 4,75). Ta różnica jest znacząca w porównaniu do wyniku kontrolnego DMJ, który jest niższy o 1,97 punktu utrzymując średni poziom 2,78 punktu. Do testów statystycznych ponownie zastosowano test Wilcoxona dla par obserwacji na poziomie istotności $\alpha=0,05$ uzyskując $p$-wartość \textbf{\( 3{,}37 \times 10^{-285} \)}. %Jest to znacznie mniejsza wartość od typowego poziomu istotności. 
+Można stwierdzić, że różnica między wynikami jest \textbf{istotna statystycznie}.
 
 \begin{table}[H]
 \caption{Tabela sumarycznej oceny wyników dla parametryzowanych modeli.}\label{tab:tabela23}
@@ -461,10 +470,10 @@ W przypadku zestawienia wyników dla modeli parametryzowanych widać, że stworz
 6 & 564 & 0 \\
 \hline
 \textbf{Średnia ocena} & \textbf{4,75} & \textbf{2,78} \\
+%\hline
+%\multicolumn{3}{|c|}{Statystyka testu: \(45382,0\)} \\
 \hline
-\multicolumn{3}{|c|}{Statystyka testu: \(45382,0\)} \\
-\hline
-\multicolumn{3}{|c|}{Wartość statystyki \(p-value = 3{,}37 \times 10^{-285} \)} \\
+$p$-wartość&\multicolumn{2}{|c|}{\(3{,}37 \times 10^{-285} \)} \\
 \hline
 \end{tabular}
 \end{table}
@@ -586,16 +595,18 @@ Poniżej przedstawiona została analiza wyników generatora oraz kontrolnego DMJ
 \hline
 Średnia ocena & 0,81 & 0,62 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,59} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,59} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
-% TP: !!! TODO: test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych - DONE
+% TP: !!! test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych - DONE
 
-Już pierwszy wynik pokazuje większą skuteczność generatora ponad kontrolnym DMJ. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. Problem posiadają oba modele, natomiast kontrolny DMJ zmaga się również częściowo z błędną deklaracją zmiennych. Dla testu statystycznego na różnice średnich dla alpha = 0,05, z-score wynosi \textbf{13,59}. W związku z tym różnica między proporcjami wyników \textbf{jest istotna}.
+Już pierwszy wynik pokazuje większą skuteczność generatora ponad kontrolnym DMJ. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. Problem posiadają oba DMJ, natomiast kontrolny DMJ zmaga się również częściowo z błędną deklaracją zmiennych. Dla testu Z na różnice średnich na poziomie istotności $\alpha = 0,05$, %z-score wynosi \textbf{13,59}
+$p$-wartość wynosi $\approx 0$. W związku z tym różnica między proporcjami wyników \textbf{jest istotna}.
 
-% TP: TODO: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania? - DONE
+% TP: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania? - DONE
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela13}
@@ -610,7 +621,8 @@ Już pierwszy wynik pokazuje większą skuteczność generatora ponad kontrolnym
 \hline
 Średnia ocena & 0,83 & 0,65 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,90} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,90} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
@@ -618,8 +630,9 @@ Już pierwszy wynik pokazuje większą skuteczność generatora ponad kontrolnym
 % TP: TODO: test statystyczny jw.
 
 Generator tworzy poprawne funkcje celu częściej od kontrolnego DMJ. 
-Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z przypadków testowych generuje kod zawierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny. Dla testu statystycznego na różnice średnich dla alpha = 0,05, z-score wynosi \textbf{13,90}, zatem zwiększył się w stosunku do poprzedniego przykładu. Różnica między proporcjami wyników \textbf{jest istotna}.
-% TP: TODO: w tabeli jednak widać, że zdobywa jedyniki - chyba błąd w danych; zobaczcie, że średnie też nie pasują do danych. - done, poprawione
+Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z przypadków testowych generuje kod zawierający w sobie niepoprawną deklarację ograniczenia, przez co nigdy nie został sklasyfikowany jako poprawny. Dla testu Z na różnice średnich dla $\alpha = 0,05$, %z-score wynosi \textbf{13,90}, zatem zwiększył się w stosunku do poprzedniego przykładu
+$p$-wartość wynosi $\approx0$. Różnica między proporcjami wyników \textbf{jest istotna}.
+% TP: w tabeli jednak widać, że zdobywa jedyniki - chyba błąd w danych; zobaczcie, że średnie też nie pasują do danych. - done, poprawione
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela14}
@@ -634,14 +647,16 @@ Znacznie większe różnice zachodzą dla ograniczeń. Kontrolny DMJ w każdym z
 \hline
 Średnia ocena & 0,94 & 0,00 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 63,56} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 63,56} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
 % TP: TODO: test statystyczy jw.
 
-Największą trudnością kontrolnego DMJ jest uzyskanie pozytywnej punktacji w kategorii \textbf{Ograniczenia}. Dzieje się tak przez niepoprawny zapis początku linii deklarującej ograniczenie. W związku z tymi problemami, test statystyczny na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{63,56}, znacząco odstając od wcześniejszych wyników. Różnica między proporcjami wyników \textbf{jest istotna}.
+Największą trudnością kontrolnego DMJ jest uzyskanie pozytywnej punktacji w kategorii \textbf{Ograniczenia}. Dzieje się tak przez niepoprawny zapis początku linii deklarującej ograniczenie. W związku z tymi problemami, test Z na różnice średnich dla $\alpha = 0,05$, %wykazał z-score równe \textbf{63,56}, znacząco odstając od wcześniejszych wyników
+$p$-wartość $\approx0$. Różnica między proporcjami wyników \textbf{jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela15}
@@ -656,14 +671,16 @@ Największą trudnością kontrolnego DMJ jest uzyskanie pozytywnej punktacji w 
 \hline
 Średnia ocena & 0,73 & 0,54 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,43} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 13,43} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
-% TP: TODO: test statystyczny - DONE
+% TP: test statystyczny - DONE
 
-Kategoria \textbf{Inne wymagania} zwraca rezultaty zbliżone do pierwszych dwóch kategorii. Dla testu statystycznego na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{13,43}, co jest najniższym z dotychczasowych wyników. Mimo tego, jest na tyle znaczący, że różnica między proporcjami wyników \textbf{jest istotna}.
+Kategoria \textbf{Inne wymagania} zwraca rezultaty zbliżone do pierwszych dwóch kategorii. Dla testu Z na różnice średnich dla $\alpha = 0,05$, %wykazał z-score równe \textbf{13,43}, co jest najniższym z dotychczasowych wyników
+$p$-wartość wynosi $\approx0$. Różnica między proporcjami wyników \textbf{jest istotna}.
 
 \subsection{Modele PL w parametryzowanej formule.}\label{ch:experiment:parameters}
 
@@ -671,7 +688,7 @@ Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poni
 %Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
 
 \begin{enumerate}
-\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{{}}, z elementami w cudzysłowach. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: TODO: a jeśli wartościami zbioru są liczby? - w naszych zbiorach nadal są definiowane zgodnie z tym schematem
+\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{\{\}}, z elementami w cudzysłowach. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: TODO: a jeśli wartościami zbioru są liczby? - w naszych zbiorach nadal są definiowane zgodnie z tym schematem
 \item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]}, schematu \texttt{<klucz> wartość} lub tablicy i logicznie zgodne z celem zadania. Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie. Każde odstępstwo od reguły skutkuje przyznaniem $0$ punktów.
 \item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich dziedziny są zgodne z modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
 \item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodnieniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
@@ -681,7 +698,8 @@ Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poni
 
 % TP: TODO: poprawcie proszę niżej analogicznie do sekcji 5.5.1 -> ja kontynuuję sprawdzanie w Rozdziale 6
 
-Już w pierwszej kategorii przedstawionej w tabeli~\ref{tab:tabela17} widać znaczącą różnicę w wynikach między generowanymi wynikami. Kontrolny DMJ nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu. Dla testu statystycznego na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{28,95}. W związku z tym wynikiem, można stwierdzić, że różnica między proporcjami wyników \textbf{jest istotna}.
+Już w pierwszej kategorii przedstawionej w tabeli~\ref{tab:tabela17} widać znaczącą różnicę w wynikach między generowanymi wynikami. Kontrolny DMJ nie radzi sobie z tworzeniem zbiorów, stosując błędną implementację. Średnie wyniki uzyskanej punktacji różnią się od siebie o \textbf{0,33} punktu. Dla testu Z na różnice średnich dla $\alpha = 0,05$, %, wykazał z-score równe \textbf{28,95}
+$p$-wartość wynosi $\approx0$. W związku z tym wynikiem, można stwierdzić, że różnica między proporcjami wyników \textbf{jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zbiorów}.}\label{tab:tabela17}
@@ -696,12 +714,15 @@ Już w pierwszej kategorii przedstawionej w tabeli~\ref{tab:tabela17} widać zna
 \hline
 Średnia ocena & 0,88 & 0,45 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 28,95} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 28,95} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
-Tworzenie parametrów przedstawione w tabeli~\ref{tab:tabela18} prezentuje lepsze wyniki, zapewniając prawie 100\% skuteczności w tworzeniu przez generator. Wyniki kontrolnego DMJ również utrzymują się na poziomie powyżej 80\%. Mimo tego z-score jest równy \textbf{18,61}, co w dalszym ciągu pokazuje, że różnica między proporcjami wyników \textbf{jest istotna}.
+Tabela~\ref{tab:tabela18} prezentuje rozkład punktów przyznanych za definiowanie parametrów. Opracowany generator uzyskuje około 99\% skuteczności. Wyniki kontrolnego DMJ również utrzymują się na poziomie powyżej 80\%. %Mimo tego z-score jest równy \textbf{18,61}, co w dalszym ciągu pokazuje, że
+Test Z na różnice średnich dla $\alpha=0,05$ zwraca $p$-wartość $\approx0$, stąd 
+różnica między proporcjami wyników \textbf{jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie parametrów}.}\label{tab:tabela18}
@@ -716,12 +737,14 @@ Tworzenie parametrów przedstawione w tabeli~\ref{tab:tabela18} prezentuje lepsz
 \hline
 Średnia ocena & 0,99 & 0,82 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 28,95} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 28,95} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
-Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyniku kodu, przez co nie zostaje osiągnięta 100\% poprawność, tak jak w przypadku sztywnego formatu kodu. Poniższa tabela~\ref{tab:tabela19} przedstawia \textbf{z}, którego wartość wynosi \textbf{9,20}, co w dalszym ciągu wskazuje, że różnica między proporcjami wyników \textbf{jest istotna}.
+Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyniku kodu, przez co nie zostaje osiągnięta 100\% poprawność, tak jak w przypadku sztywnego formatu kodu. Tabela~\ref{tab:tabela19} przedstawia %\textbf{z}, którego wartość wynosi \textbf{9,20}
+$p$-wartość $\approx0$, co w dalszym ciągu wskazuje, że różnica między proporcjami wyników \textbf{jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Definiowanie zmiennnych}.}\label{tab:tabela19}
@@ -736,13 +759,16 @@ Definiowanie zmiennych na podstawie zbiorów i parametrów obniża jakość wyni
 \hline
 Średnia ocena & 0,85 & 0,73 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 9,20} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 9,20} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
 
-W przypadku definiowania funkcji celu, wyniki obu modeli są zbliżone do siebie. Poza wynikiem procentowym równym 99\%, jako jedyna kategoria, posiada \textit{z} = \textbf{0,29}, które mieści się w zakresie i wskazuje, że różnica między proporcjami wyników \textbf{nie jest istotna}.
+W przypadku definiowania funkcji celu, wyniki obu modeli są zbliżone do siebie. Poza wynikiem procentowym równym 99\%, %jako jedyna kategoria, posiada \textit{z} = \textbf{0,29}, które mieści się w zakresie
+$p$-wartość testu Z na różnice średnich na poziomie istotności $\alpha=0,05$ wynosi $0,772$
+ i wskazuje, że różnica między proporcjami wyników \textbf{nie jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Funkcja celu}.}\label{tab:tabela20}
@@ -757,12 +783,14 @@ W przypadku definiowania funkcji celu, wyniki obu modeli są zbliżone do siebie
 \hline
 Średnia ocena & 0,99 & 0,99 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 0,29} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 0,29} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$0,772$}\\
 \hline
 \end{tabular}
 \end{table}
 
-Znacząca różnica pojawia się przy porównywaniu ograniczeń. Kontrolny DMJ nie zna składni kodu  \textit{ZIMPL}, w związku z czym każdorazowo deklaruje niepoprawne ograniczenia, używając takich elementów jak \texttt{s.t.} lub \texttt{subject to}. \textit{z-score} jest równy \textbf{56,64}, zatem różnica między proporcjami wyników \textbf{jest istotna}.
+Znacząca różnica pojawia się przy porównywaniu ograniczeń. Kontrolny DMJ nie zna składni kodu  \textit{ZIMPL}, w związku z czym każdorazowo deklaruje niepoprawne ograniczenia, używając takich elementów jak \texttt{s.t.} lub \texttt{subject to}. %\textit{z-score} jest równy \textbf{56,64}
+$p$-wartość testu Z wynosi $\approx0$, zatem różnica między proporcjami wyników \textbf{jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Ograniczenia}.}\label{tab:tabela21}
@@ -777,13 +805,16 @@ Znacząca różnica pojawia się przy porównywaniu ograniczeń. Kontrolny DMJ n
 \hline
 Średnia ocena & 0,88 & 0,00 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 56,64} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 56,64} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
 
 
-W przypadku ostatniej z ocenianych kategorii przedstawionej na tablicy~\ref{tab:tabela22}, modele osiągnęły niskie oceny. Wynikało to ponownie z ogólności kategorii. Wszelkie błędy, które nie zostały wyłapane w pozostałych kategoriach, zostały rozliczone w tym miejscu. Wygenerowane modele straciły najwięcej punktów na tworzeniu niepotrzebnych i niezwiązanych z problemem komend. Dla testu statystycznego na różnice średnich dla alpha = 0,05, wykazał z-score równe \textbf{14,98}. W związku z tym wynikiem, można stwierdzić, że różnica między proporcjami wyników \textbf{jest istotna}.
+W przypadku oceny innych wymagań w Tabeli~\ref{tab:tabela22}, oba DMJ osiągnęły niskie oceny. Wynikało to ponownie z ogólności kategorii. Wszelkie błędy, które nie zostały wyłapane w pozostałych kategoriach, zostały rozliczone w tym miejscu. Wygenerowane modele straciły najwięcej punktów na wykorzystywaniu niepotrzebnych i niezwiązanych z problemem komend. Dla testu Z na różnice średnich dla $\alpha = 0,05$, %, wykazał z-score równe \textbf{14,98}. 
+$p$-wartość wynosi $\approx0$.
+W związku z tym wynikiem, można stwierdzić, że różnica między proporcjami wyników \textbf{jest istotna}.
 
 \begin{table}[H]
 \caption{Tabela ocenionych wyników dla kategorii \textbf{Inne wymagania}.}\label{tab:tabela22}
@@ -798,7 +829,8 @@ W przypadku ostatniej z ocenianych kategorii przedstawionej na tablicy~\ref{tab:
 \hline
 Średnia ocena & 0,32 & 0,13 \\
 \hline
-\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 14,98} \\
+%\multicolumn{3}{|c|}{Wartość statystyki \( z-score \): 14,98} \\
+$p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 \hline
 \end{tabular}
 \end{table}
