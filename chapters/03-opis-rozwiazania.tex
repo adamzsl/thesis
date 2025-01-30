@@ -177,7 +177,7 @@ subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
 \end{lstlisting}
 \end{enumerate}
 
-Drugi sposób programowania polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a~także zwiększa elastyczność pracy z~kodem \akronim{ZIMPL}. Modele parametryzowane można dostosować do różnych problemów, zmieniając tylko parametry wejściowe, co zwiększa ich uniwersalność. Modele są łatwiejsze do skalowania, a~także zwiększona zostaje czytelność kodu. Jest to zalecany sposób modelowania zagadnień, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. Składnia kodu parametryzowanego jest przedstawiona poniżej.
+Drugi wariant polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a~także zwiększa elastyczność pracy z~kodem \akronim{ZIMPL}. Modele parametryzowane można dostosować do różnych problemów, zmieniając tylko parametry wejściowe, co zwiększa ich uniwersalność. Modele są łatwiejsze do skalowania, a~także zwiększona zostaje czytelność kodu. Jest to zalecany sposób modelowania zagadnień, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. Składnia kodu parametryzowanego jest przedstawiona poniżej.
 
 \begin{enumerate}
 \item Deklaracja zbiorów podanych w treści zadania.
@@ -221,7 +221,7 @@ subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
 
 Wejściem problemu jest opis tekstowy zagadnienia PL w języku angielskim. Wyjście problemu stanowi model PL w języku \akronim{ZIMPL} w wybranym przez użytkownika wariancie. Kryterium akceptacji poprawności jest pokrywający się z opisaną powyżej składnią języka \akronim{ZIMPL} oraz dokładność, z jaką model odpowiada na opisany problem PL.
 
-Generator radzi sobie z przypadkami brzegowymi takimi jak puste zapytania - ignoruje takie zapytania, oczekując elementu tekstowego. W przypadku wejścia z brakującymi elementami opisu, generator zwraca bliski rozwiązaniu model. Założono, że użytkownik, który nie dostarczy pełnego opisu, deklaruje chęć otrzymania zbliżonego schematu kodu. Generator radzi sobie z dowolnymi miarami. Ograniczona jest ilość tokenów jakie zwraca w czasie odpowiedzi na zapytanie.
+Dla pustego opis zagadnienia optymalizacyjnego oczekiwanym oczekiwane wyjście jest puste. W~przypadku wejścia z brakującymi elementami opisu, oczekiwanym wyjściem jest model zawierający tylko opisane elementy. Założono, że użytkownik, który nie dostarczy pełnego opisu, deklaruje chęć otrzymania zbliżonego schematu kodu. %Generator radzi sobie z dowolnymi miarami. Ograniczona jest ilość tokenów jakie zwraca w czasie odpowiedzi na zapytanie.
 
 \section{Problem oceny modelu PL na zgodność z opisem tekstowym}
 % -  - formalny opis problemu i jego właściwości - powinnismy przedstawic jakie kategorie oceny wybralismy? Pytanie rowniez czym jest formalny opis problemu
@@ -362,7 +362,7 @@ Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures\app.png}
+    \includegraphics[width=1\linewidth]{figures/app.png}
     \caption{Wygląd interfejsu generatora kodu ZIMPL}
     \label{fig:gui}
 \end{figure}
