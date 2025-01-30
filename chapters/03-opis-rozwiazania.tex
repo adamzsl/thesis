@@ -10,7 +10,7 @@
 
 \chapter{Generowanie modeli PL z~opisów tekstowych zagadnień optymalizacyjnych}\label{ch:generation}
 
-\section{Model Programowania Liniowego}
+\section{Model Programowania Liniowego}\label{ch:generation:model}
 % - Model Programowania Liniowego - tutaj definicja, która jest zgodna z reprezentacją ZIMPL
 \subsection{Definicja}
 \textbf{Zbiór \boldmath$S$.} 
@@ -144,10 +144,84 @@ Powyższy model PL to krotka $M = (S, P, V, f, G)$, gdzie:
     \end{itemize}
 \end{enumerate}
 
-\section{Problem generowania modelu PL z opisu tekstowego}
+\section{Problem generowania modelu PL z opisu tekstowego}\label{ch:generation:generating}
 % - Problem generowania modelu PL z opisu tekstowego - tutaj poza formalnym postawieniem problemu należy omówić właściwości tego problemu; zdefiniujcie też warianty problem z parametryzacją i bez parametryzacji - tutaj mamy opisac ktore fragmenty kodu oraz w jaki sposob tworza model w zimpl? jesli tak to jest to w rozdziale 4.1.2
 
+Generowanie modelu PL w języku \akronim{ZIMPL} z opisu tekstowego polega na przekształceniu dostarczonego przez użytkownika końcowego zadania w model PL w formie kodu. Zadaniem generatora kodu \akronim{ZIMPL}  umożliwienie precyzyjne odwzorowanie logiki i struktury problemu przedstawionego w rozdziale~\ref{ch:generation:model}. Model musi zawierać wszystkie niezbędne komponenty, takie jak definicje zmiennych, parametrów, funkcji celu oraz ograniczeń, przy równoczesnym zachowaniu semantycznej zgodności z treścią wprowadzonego problemu.
 
+Przy procesie generacji, należy uwzględnić możliwe warianty zapisu kodu oferowane przez składnię języka \akronim{ZIMPL}. 
+
+Wariant pierwszy stosuje formułę \textbf{sztywnego programowania}. Takim kodem nazwano rozwiązanie, w którym wprowadzone wartości, takie jak liczby i parametry, są zapisane w sposób bezpośredni i statyczny. Utrudnia to wszelkie zmiany i dostosowania bez modyfikacji kodu, sprawiając, że model PL opisuje tylko jedną konkretną instancję zagadnienia. W~tym przypadku przy tworzeniu kodu  \akronim{ZIMPL} należy się skupić na elementach uwzględnionych poniżej.
+
+\begin{enumerate}
+\item Deklaracja zmiennych, których dotyczy zadanie.
+
+\begin{lstlisting}[language=zimpl]
+# Zadeklarowana zmienna
+var <nazwa_zmiennej>: <zakres_wartości>;
+\end{lstlisting}
+
+\item Zapisanie celu funkcji (minimalizacja lub maksymalizacja), wraz z podaniem konkretnych wartości liczbowych.
+
+\begin{lstlisting}[language=zimpl]
+# Cel funkcji
+<minimize/maximize> <nazwa_funkcji>: <wyrażenie matematyczne reprezentujące
+funkcję celu>;
+\end{lstlisting}
+
+\item Zapisanie ograniczeń przedstawionych w treści zadania za pomocą wyrażeń matematycznych.
+
+\begin{lstlisting}[language=zimpl]
+# Ograniczenia
+subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
+\end{lstlisting}
+\end{enumerate}
+
+Drugi sposób programowania polega na \textbf{wykorzystaniu parametrów i struktur danych}, takich jak zbiory. Pozwala to na łatwe wprowadzanie zmian, a~także zwiększa elastyczność pracy z~kodem \akronim{ZIMPL}. Modele parametryzowane można dostosować do różnych problemów, zmieniając tylko parametry wejściowe, co zwiększa ich uniwersalność. Modele są łatwiejsze do skalowania, a~także zwiększona zostaje czytelność kodu. Jest to zalecany sposób modelowania zagadnień, natomiast komplikuje strukturę kodu, wymagając użycia nowych elementów. Składnia kodu parametryzowanego jest przedstawiona poniżej.
+
+\begin{enumerate}
+\item Deklaracja zbiorów podanych w treści zadania.
+
+\begin{lstlisting}[language=zimpl]
+# Zbiór indeksów
+set <nazwa_zbioru> := {<wartości>};
+\end{lstlisting}
+
+\item Deklaracja wartości wejściowych parametrów, używanych jako dane pomocnicze przy określaniu stałych cech problemu.
+
+\begin{lstlisting}[language=zimpl]
+# Parametry związane z indeksem
+param <nazwa_parametru>[<indeks> w <zbiór>] := <wartość dla każdego elementu>;
+# Parametr globalny
+param <nazwa_parametruo> := <wartość>;
+\end{lstlisting}
+
+\item Deklaracja zmiennych, których dotyczy zadanie.
+
+\begin{lstlisting}[language=zimpl]
+# Zmienna decyzyjna zależna od indeksów w zbiorze
+var <nazwa_zmiennej>[<indeks> w <zbiór>]: <zakres_wartości>;
+\end{lstlisting}
+
+\item Zapisanie celu funkcji (minimalizacja lub maksymalizacja), zależnego od ustalonych zmiennych i parametrów.
+
+\begin{lstlisting}[language=zimpl]
+# Cel funkcji
+<minimize/maximize> <nazwa_funkcji>: <wyrażenie matematyczne reprezentujące
+funkcję celu>;
+\end{lstlisting}
+
+\item Zapisanie ograniczeń przedstawionych w treści zadania za pomocą wyrażeń matematycznych.
+
+\begin{lstlisting}[language=zimpl]
+# Ograniczenia
+subto <nazwa_ograniczenia>: <wyrażenie matematyczne deklarujące ograniczenie>;
+\end{lstlisting}
+\end{enumerate}
+
+Wejściem problemu jest opis tekstowy zagadnienia PL w języku angielskim. Wyjście problemu stanowi model PL w języku \akronim{ZIMPL} w wybranym przez użytkownika wariancie. Kryterium akceptacji poprawności jest pokrywający się z opisaną powyżej składnią języka \akronim{ZIMPL} oraz dokładność, z jaką model odpowiada na opisany problem PL.
+
+Generator radzi sobie z przypadkami brzegowymi takimi jak puste zapytania - ignoruje takie zapytania, oczekując elementu tekstowego. W przypadku wejścia z brakującymi elementami opisu, generator zwraca bliski rozwiązaniu model. Założono, że użytkownik, który nie dostarczy pełnego opisu, deklaruje chęć otrzymania zbliżonego schematu kodu. Generator radzi sobie z dowolnymi miarami. Ograniczona jest ilość tokenów jakie zwraca w czasie odpowiedzi na zapytanie.
 
 \section{Problem oceny modelu PL na zgodność z opisem tekstowym}
 % -  - formalny opis problemu i jego właściwości - powinnismy przedstawic jakie kategorie oceny wybralismy? Pytanie rowniez czym jest formalny opis problemu
@@ -184,7 +258,7 @@ Powyższy model PL to krotka $M = (S, P, V, f, G)$, gdzie:
 % Adam: Masz może te wykresy Jagoda? Możesz też wstawić wynikowe prompty. 
 
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=1.5cm]
     
@@ -225,9 +299,6 @@ Wykonanie rozpoczyna się od utworzenia bazy danych z parami: \textit{problem} j
 
 Jeśli \textit{Walidacja działania kodu} zakończy się sukcesem, wygenerowany kod jest oceniany poprzez niezależny \textit{DMJ}. Aby uniknąć sytuacji, w~której model oceniający jest taki sam jak model generujący kod, zdecydowano się na wykorzystanie modelu \texttt{GPT-4} do ewaluacji działania generatora. Jeśli \textit{Ocena jakości modelu} zwróci \textit{niesatysfakcjonujące rozwiązanie} jest ono zwracane do \textit{Ekspertów} w celu refaktoryzacji \textit{Szablonu zapytania}. Modele wynikowe \textit{ZIMPL} oraz walidator punktujący poszczególne zadania są poddawane sprawdzeniu i czyszczeniu z ewentualnych nieścisłości wywołanych przez halucynacje \textit{DMJ}, poprzez usuwanie i modyfikację częstych błędów.
 
-
-% \textbf{TODO - dodaje opis zbioru treningowego do przerobienia}
-% Jagoda: Dodaje akapit do wrzucenia do rozdziału 3 (tego co uważacie za słuszne)
 % TP: TODO: poniższy akapit jest w zasadzie o inżynierii podpowiedzi i jako taki bardziej pasuje do opisu metody (Rozdział 3) niż zbioru danych - DONE
 
 Nie każdy przykład ze zbioru został wykorzystany we wszystkich zapytaniach. W~związku ze specyfiką tworzonego kodu, zapytania zostały podzielone na kategorie: programowanie sztywne i programowanie z parametryzacją. Następnie utworzono trzy zapytania, każde odpowiadające określonej części definicji problemu, na które składają się: zmienne decyzyjne, funkcja celu oraz ograniczenia. Do każdego z trzech różnych zapytań dotyczących programowania sztywnego % TP: TODO <- Nie wiadomo skąd się bierze liczba 4, dlaczego akurat tyle i jak te zapytania są wybierane - Jagoda: w przypadku sztywnego kodowania wysyłane są 4 zapytania, warto to uwzględnić w opisie w rozdziale 3 % Adam x2 - sa 3 DONE
@@ -241,7 +312,7 @@ Inżynieria podpowiedzi (ang. \textit{prompt engineering}) to proces projektowan
 
 W niniejszej pracy inżynieria podpowiedzi została zastosowana do automatycznego generowania modeli \textit{PL} w języku \textit{ZIMPL}. Proces ten polegał na iteracyjnym dostosowywaniu treści podpowiedzi na podstawie wyników uzyskanych w poprzednich iteracjach. Pozwoliło to usprawnić proces generowania modeli \textit{PL} oraz poprawa ich jakości.
 
-W pracy wykorzystano inżynierie podpowiedzi, której kroki opisano poniżej:
+W pracy wykorzystano inżynierię podpowiedzi, której kroki opisano poniżej:
 \begin{itemize} 
 \item Model językowy (\textit{DMJ}) generuje model \textit{PL} w języku \textit{ZIMPL} na podstawie opisu problemu w języku naturalnym. 
 \item Wygenerowany model jest oceniany przez niezależny moduł lub specjalistę. Ocena opiera się na: 
@@ -289,20 +360,13 @@ Stworzono interfejs graficzny wykorzystując narzędzie \textit{Streamlit} \cite
 \label{fig:application-diagram}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/app.png}
+    \includegraphics[width=1\linewidth]{figures\app.png}
     \caption{Wygląd interfejsu generatora kodu ZIMPL}
     \label{fig:gui}
 \end{figure}
 
 Na Rysunku \ref{fig:application-diagram} przedstawiono schemat graficzny ekranu generatora wraz z~układem jego funkcjonalności. Na Rysunku~\ref{fig:gui} znajduje się zrzutu ekranu interfejsu użytkownika.
-
-% TP: dla kompletności pokażcie też zrzut ekranu z GUI - DONE
-
-
-
-
-
 
 
