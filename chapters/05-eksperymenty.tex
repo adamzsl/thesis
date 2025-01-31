@@ -290,7 +290,7 @@ Niepoprawne & 4300 & 100,00\% \\
 \end{tabular}
 \end{table}
 
-Ostateczne zestawienie wyników generatora z jednym zapytaniem w formie tablicy kontyngencji, uwzględniając przy tym weryfikację możliwości kompilacji kodu przedstawione zostało w Tabeli~\ref{tab:tabela11}.
+Ostateczne zestawienie wyników generatora z jednym zapytaniem w formie tablicy kontyngencji, uwzględniając przy tym weryfikację możliwości kompilacji kodu przedstawione zostało w~Tabeli~\ref{tab:tabela11}.
 
 \begin{table}[H]
 \caption{Tablica kontyngencji dla zbioru testowego przy zastosowaniu kontrolnego DMJ oraz generatora kodu.}\label{tab:tabela11}
@@ -362,7 +362,7 @@ Test Z na różnice proporcji na poziomie istotności $\alpha=0,05$ zwraca $p$-w
 \section{Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?}
 % TP: TODO: sugeruję zmienić na "Jak dużą poprawę jakości składni uzyskuje generator względem kontrolnego DMJ?" i dalej pisać o kontrolnym DMJ - DONE
 
-Dla modeli PL w formule sztywnej generator uzyskał \textbf{3,31p}, a kontrolny DMJ \textbf{1,81p} na 4-punktowej skali jakości zdefiniowanej poniżej. Dla modeli PL w formule parametryzowanej, generator uzyskał \textbf{4,75p}, a kontrolny DMJ \textbf{2,78p} na 6-punktowej skali jakości zdefiniowanej poniżej.
+Dla modeli PL w formule sztywnej generator uzyskał \textbf{3,31p}, a kontrolny DMJ \textbf{1,81p} na 4\nobreakdash-punktowej skali jakości zdefiniowanej poniżej. Dla modeli PL w formule parametryzowanej, generator uzyskał \textbf{4,75p}, a kontrolny DMJ \textbf{2,78p} na 6-punktowej skali jakości zdefiniowanej poniżej.
 % !!! TP: TODO: tutaj wypadałoby zrobić 2 testy statystyczne na różnice generator vs kontrolny DMJ; ta skala punktowa jest arbitralna, więc rozkład wartości może być nietypowy i byłbym ostrożny w stosowaniu testów parametrycznych; raczej sugeruję użyć np. Wilcoxona dla alpha=0,05 https://pl.wikipedia.org/wiki/Test_Wilcoxona_dla_par_obserwacji
 
 Dla \textbf{sztywnego formułowania} modeli \textit{ZIMPL} generator uzyskuje poprawę, ale nie jest ona tak wysoka, jak przy parametryzowanych modelach. %Średnio wyniki otrzymują ocenę w 3,31, podczas gdy dla kontrolnego DMJ ten wynik zmniejsza się o 1,50 punktu (średnio 1,81). Do testów statystycznych z
@@ -537,7 +537,7 @@ Tak jak w przypadku generowania, zastosowano wartość temperatury równą 0 ora
 
 \begin{enumerate}
 \item Do skryptu w języku \akronim{Python} wprowadzano poprawny model PL, model stworzony przez generator \akronim{ZIMPL}, model stworzony przez kontrolny DMJ oraz wartość 1, jeżeli kod był parametryzowany lub 0, jeżeli kod był w sztywnej formule.
-\item Zależnie od wprowadzonej wartości uruchamiany był DMJ wraz z odpowiednim zapytaniem. DMJ dla pojedynczego problemu PL uruchamiany był dwukrotnie, tak aby zweryfikować i nadać punktację dla modelu generatora oraz modelu kontrolnego DMJ.
+\item Zależnie od wprowadzonej wartości uruchamiany był DMJ wraz z odpowiednim zapytaniem. DMJ dla pojedynczego problemu PL uruchamiany był dwukrotnie, tak aby zweryfikować i~nadać punktację dla modelu generatora oraz modelu kontrolnego DMJ.
 
 Zapytania do oceny posiadają podobny schemat. Różnią się jedynie ilością kryteriów oceny. Schemat zapytania wygląda następująco:
 
@@ -552,14 +552,14 @@ punktów>
 Dokładny przebieg analizy wyglądał następująco:
 
 \begin{enumerate}
-\item \textbf{Zapytanie dla wartości 0} --- sprawdzało podany kod względem poprawnego kodu PL i oceniało go w 4. kategoriach szczegółowo opisanych w rozdziale~\ref{ch:experiment:hardcoded}.
-\item \textbf{Zapytanie dla wartości 1} --- sprawdzało podany kod względem poprawnego kodu PL i oceniało go w 6. kategoriach szczegółowo opisanych w rozdziale~\ref{ch:experiment:parameters}.
+\item \textbf{Zapytanie dla wartości 0} --- sprawdzało podany kod względem poprawnego kodu PL i~oceniało go w~4.~kategoriach szczegółowo opisanych w~Rozdziale~\ref{ch:experiment:hardcoded}.
+\item \textbf{Zapytanie dla wartości 1} --- sprawdzało podany kod względem poprawnego kodu PL i~oceniało go w~6.~kategoriach szczegółowo opisanych w~Rozdziale~\ref{ch:experiment:parameters}.
 \end{enumerate}
-\item Otrzymane wyniki zapisane zostały w arkuszu kalkulacyjnym, gdzie po analizie odpowiedzi dokonano oczyszczenia rezultatów z widocznych błędów, których nie dało się wykluczyć w procesie tworzenia zapytań.
+\item Otrzymane wyniki zapisane zostały w arkuszu kalkulacyjnym, gdzie po analizie odpowiedzi dokonano oczyszczenia rezultatów z~widocznych błędów, których nie dało się wykluczyć w procesie tworzenia zapytań.
 \begin{enumerate}
 \item Zmieniono punktacje na 0 dla wszystkich modeli, które przy tworzeniu ograniczeń zastosowały nazwę \textit{s.t.} lub \textit{subject}, zamiast \textit{subto}.
-\item Zmieniono punktacje na 1 dla wszystkich modeli, które posiadały komentarz o braku problemów w kategorii innych wymagań, jak brak zbędnych poleceń, poprawne rozpoczęcie linii od kluczowych słów oraz poprawne użycie prefiksu \textit{\#} komentarzy, a w wyniku halucynacji modelu otrzymały 0 punktów.
-\item Zmieniono punktację na 1 dla wszystkich modeli, dla których w kategorii innych wymagań niesłusznie dano 0 punktów za stawianie średników na końcu wierszy kodu.
+\item Zmieniono punktacje na 1 dla wszystkich modeli, które posiadały komentarz o braku problemów w~kategorii innych wymagań, jak brak zbędnych poleceń, poprawne rozpoczęcie linii od kluczowych słów oraz poprawne użycie prefiksu \textit{\#} komentarzy, a~w~wyniku halucynacji modelu otrzymały 0~punktów.
+\item Zmieniono punktację na 1 dla wszystkich modeli, dla których w kategorii innych wymagań niesłusznie dano 0~punktów za stawianie średników na końcu wierszy kodu.
 \end{enumerate}
 \end{enumerate}
 
@@ -575,7 +575,7 @@ Dla wynikowych modeli PL w \textbf{sztywnej formule} poddano ocenie poniższe kr
 
 \begin{enumerate}
 \item \textbf{Definiowanie zmiennych} -- $1$p jeśli \textbf{wszystkie} zmienne i ich typy są zgodne z modelem wzorcowym. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p.
-\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z~kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodneniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i~zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
 \item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
 \item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń (\texttt{solve}, \texttt{subject to}) oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}).
 \end{enumerate}
@@ -604,7 +604,7 @@ $p$-wartość testu Z&\multicolumn{2}{c|}{$<10^{-18}$}\\
 % TP: !!! test statystyczny na różnice średnich/frakcje dla \alpha=0,05, np. https://pl.wikipedia.org/wiki/Test_dla_proporcji#Test_dla_dwóch_prób_dużych - DONE
 
 Już pierwszy wynik pokazuje większą skuteczność generatora ponad kontrolnym DMJ. Podstawowym błędem popełnianym w deklaracji zmiennych jest niezgodna w porównaniu z zadaniem ich liczba. Problem posiadają oba DMJ, natomiast kontrolny DMJ zmaga się również częściowo z błędną deklaracją zmiennych. Dla testu Z na różnice średnich na poziomie istotności $\alpha = 0,05$, %z-score wynosi \textbf{13,59}
-$p$-wartość wynosi $\approx 0$. W związku z tym różnica między proporcjami wyników \textbf{jest istotna}.
+$p$-wartość wynosi $\approx 0$. W~związku z~tym różnica między proporcjami wyników \textbf{jest istotna}.
 
 % TP: za dużo? za mało? nieadekwatne zmienne? Macie na to jakieś statystyki do pokazania? - DONE
 
@@ -688,12 +688,12 @@ Dla wynikowych modeli PL w \textbf{formule parametryzowanej} poddano ocenie poni
 %Podobna analiza została przeprowadzona dla modeli parametryzowanych. Dla kategorii, jakie przedstawiają, przewaga generatora jest znacznie wyższa. Wynika to z złożoności kodu, z jakim pracuje. Modele generowane za pomocą pojedynczego zapytania nie posiadają wiedzy na temat struktury kodu, przez co mają problemy z identyfikacją zbiorów i parametrów. Punktacja w tym przypadku jest w kategoriach:
 
 \begin{enumerate}
-\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{\{\}}, z elementami w cudzysłowach. Nazwy zmiennych i komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: TODO: a jeśli wartościami zbioru są liczby? - w naszych zbiorach nadal są definiowane zgodnie z tym schematem
-\item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]}, schematu \texttt{<klucz> wartość} lub tablicy i logicznie zgodne z celem zadania. Nazwy parametrów mogą się różnić, o ile zachowano ich poprawne zastosowanie. Każde odstępstwo od reguły skutkuje przyznaniem $0$ punktów.
-\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i ich dziedziny są zgodne z modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
-\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w modelu wzorcowym, łącznie z kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodnieniu mapowania między nazwami zmiennych w obu modelach. Nazwy funkcji i zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
-\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
-\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego z kluczowych słów (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). 
+\item \textbf{Definiowanie zbiorów} -- $1$p jeśli wszystkie zbiory są poprawnie zdefiniowane przy użyciu nawiasów klamrowych \texttt{\{\}}, z elementami w cudzysłowach. Nazwy zmiennych i~komentarze mogą się różnić, ale logika ich wykorzystania musi pozostać taka sama. Dowolne niespełnienie tego wymagania powoduje przyznanie $0$p. % TP: TODO: a jeśli wartościami zbioru są liczby? - w naszych zbiorach nadal są definiowane zgodnie z tym schematem
+\item \textbf{Definiowanie parametrów} -- $1$p jeśli wszystkie parametry są poprawnie zindeksowane za pomocą nawiasów kwadratowych \texttt{[ ]}, schematu \texttt{<klucz> wartość} lub tablicy i logicznie zgodne z celem zadania. Nazwy parametrów mogą się różnić, o~ile zachowano ich poprawne zastosowanie. Każde odstępstwo od reguły skutkuje przyznaniem $0$ punktów.
+\item \textbf{Definiowanie zmiennych} -- $1$p jeśli wszystkie zmienne i~ich dziedziny są zgodne z~modelem wzorcowym. Zmienne muszą być indeksowane odpowiednimi zbiorami. Nazwy zmiennych i~komentarze mogą się od różnić, ale logika ich wykorzystania musi pozostać taka sama. Brak zgodności powoduje przyznanie $0$p.
+\item \textbf{Funkcja celu} -- $1$p jeśli funkcja celu jest semantycznie równa funkcji celu w~modelu wzorcowym, łącznie z~kierunkiem optymalizacji. Semantyczna równość to równość algebraiczną po uzgodnieniu mapowania między nazwami zmiennych w~obu modelach. Nazwy funkcji i~zmiennych nie mają znaczenia. Funkcje niezgodne semantycznie skutkują przyznaniem $0$p.
+\item \textbf{Ograniczenia} -- aby otrzymać $1$p, ograniczenia muszą być zdefiniowane zgodnie ze wzorcowym modelem. Liczba, logika i zapis muszą być zgodne, a~każde ograniczenie powinno zaczynać się od \texttt{subto <nazwa>:}. Zastosowanie innej struktury powoduje przyznanie $0$p.
+\item \textbf{Inne wymagania} -- $1$p przyznaje się za spełnienie wymagań takich jak: użycie \texttt{\#} jako prefiksu komentarzy, brak zbędnych poleceń oraz poprawne rozpoczęcie każdej linii od jednego ze słów kluczowych (\texttt{var}, \texttt{minimize}, \texttt{maximize}, \texttt{subto}). 
 \end{enumerate}
 
 % TP: TODO: poprawcie proszę niżej analogicznie do sekcji 5.5.1 -> ja kontynuuję sprawdzanie w Rozdziale 6
