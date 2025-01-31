@@ -1,14 +1,11 @@
-
 \chapter{Zbiór danych}\label{ch:dataset}
 
-Na potrzeby metod opisanych w Rozdziale~\ref{ch:generation}. przygotowano zbiór danych składający się z~zagadnień optymalizacyjnych przedstawionych w języku angielskim oraz referencyjnych modeli PL w języku \akronim {ZIMPL} dla tych zagadnień. %Zbiór danych stanowią zadania z treścią z dziedziny PL wraz z ich wynikiem zapisanym w języku \akronim {ZIMPL}. % TP: <- powtórzenie
+Na potrzeby metod opisanych w Rozdziale~\ref{ch:generation}. przygotowano zbiór danych składający się z~zagadnień optymalizacyjnych przedstawionych w języku angielskim oraz referencyjnych modeli PL w języku \akronim {ZIMPL} dla tych zagadnień.
 
 Zbiór danych zawiera 4380 przykładów wraz z prawidłowym kodem \akronim {ZIMPL}. Stanowi on zwielokrotnienie 40 unikalnych przykładów bazowych, stworzonych poprzez przeszukiwanie dostępnych źródeł dotyczących problemów programowania liniowego \cite{brilliant_linear,byjus_linear,cimt,arsdcollege2020,libretexts_linear,superprof_linear,toppr_graphical}. Przykłady bazowe posiadają dwie wersje dostępnych rozwiązań: sztywne oraz parametryzowane, zatem dla 40 unikalnych treści w~rzeczywistości powstaje zbiór 80 przykładów. Dla każdego unikalnego przykładu zmieniono jego treść pod względem wartości parametrów i zbiorów, funkcji celu oraz opisu zadania. Zachowano podobną logikę zadania. Stworzono od 8 do 12 różnych opisów zadania, w~zależności od liczby danych zawartych w~bazowym zadaniu. Dla każdego z~tak utworzonych zadań oraz zadania bazowego, na podstawie którego zostały utworzone, zmieniono strukturę opisu problemu na pięć różnych sposobów, zapewniając możliwość testów takich samych zadań zależnie od wariantu opisu tekstowego problemu. Podane widełki wynikają z usuwania przykładów, które w~swojej końcowej formie nie przedstawiały poprawnego opisu zadania, zwłaszcza pod względem zbyt małej ilości podanych danych, względem kodu, któremu odpowiadały.
-% TP: wypada podać dokładniejsze statystyki, tj. bazowych zagadnień jest mniej (podajcie ile) i dla każdego stworzono od X do Y wariantów opisu oraz wzorcowych modeli. Łacznie przykładów jest 4380. - DONE
 
-Zbiór danych podzielono i wykorzystano do odpowiednio: trenowania, walidacji oraz testowania programu. Zbiór treningowy wyselekcjonowano jako 20 przykładów pochodzących od 10 różnych zadań bazowych, wybranych tak, aby pokryć jak największy obszar zróżnicowanych elementów kodu \akronim {ZIMPL}. Zbiór walidacyjny składa się z pozostałych bazowych przykładów. Łącznie zawiera w sobie 60 przykładów w tym 30 przykładów z odpowiedzią w formie sztywnego kodu oraz 30 przykładów kodu parametryzowanego. Tak jak w przypadku doboru zbioru treningowego, przyjęto zasadę wyboru zadań pochodzących od zróżnicowanych zadań bazowych. Zbiór testowy stanowi 4300 przykładów zwielokrotnionych przykładów wraz z kodem \akronim {ZIMPL} w zróżnicowanej formule.  % TP: wg jakiego schematu podzielony? - DONE
+Zbiór danych podzielono i wykorzystano do odpowiednio: trenowania, walidacji oraz testowania programu. Zbiór treningowy wyselekcjonowano jako 20 przykładów pochodzących od 10 różnych zadań bazowych, wybranych tak, aby pokryć jak największy obszar zróżnicowanych elementów kodu \akronim {ZIMPL}. Zbiór walidacyjny składa się z pozostałych bazowych przykładów. Łącznie zawiera w sobie 60 przykładów w tym 30 przykładów z odpowiedzią w formie sztywnego kodu oraz 30 przykładów kodu parametryzowanego. Tak jak w przypadku doboru zbioru treningowego, przyjęto zasadę wyboru zadań pochodzących od zróżnicowanych zadań bazowych. Zbiór testowy stanowi 4300 przykładów zwielokrotnionych przykładów wraz z kodem \akronim {ZIMPL} w zróżnicowanej formule.
 
-% TP: unikajcie synonimów. Skoro zbiór danych został wprowadzony jako "zbiór danych" to niech zawsze nazywa się zbiorem danych, a nie bazą. Poprawiam, ale być może coś zostanie. - mam nadzieję, że DONE
 \section{Proces powstawania zbioru danych}
 
 \begin{figure}
@@ -54,14 +51,9 @@ Zbiór danych podzielono i wykorzystano do odpowiednio: trenowania, walidacji or
 \label{fig:dataset-creation-logical}
 \end{figure}
 
-Proces tworzenia zbioru danych podzielono na trzy etapy zwizualizowane na Rysunku~\ref{fig:dataset-creation-logical} i~opisane w~kolejnych sekcjach: etap wyszukiwania zagadnień optymalizacyjnych, etap formułowania modeli PL przy użyciu języka \textit{ZIMPL}, oraz etap zwielokrotniania przykładów za pomocą zmiany sposobu formułowania opisów i~modeli PL. % TP: <- niejasne: "treści zadań". Czy chodzi o "...formułowania opisów i modeli PL."? - tak, DONE
-
-% TP: być może warto rozrysować ten proces razem z wariantami/równoległymi ścieżkami? - DONE, nie ma równoległych ścieżek
-
+Proces tworzenia zbioru danych podzielono na trzy etapy zwizualizowane na Rysunku~\ref{fig:dataset-creation-logical} i~opisane w~kolejnych sekcjach: etap wyszukiwania zagadnień optymalizacyjnych, etap formułowania modeli PL przy użyciu języka \textit{ZIMPL}, oraz etap zwielokrotniania przykładów za pomocą zmiany sposobu formułowania opisów i~modeli PL. 
 
 \subsection{Wyszukiwanie zagadnień optymalizacyjnych}
-
-% TP: tutaj należy opisać protokół wyszukiwania; obecnie nie wiadomo skąd się wzięły akurat takie źródła - dlaczego je wybraliście. Wybór źródeł powinien być przeprowadzony w jakiś systematyczny sposób, np. na podstawie konkretnych zapytań wrzuconych w wyszukiwarkę google scholar/scopus/web of science/google books i odfiltrowaniu wyników w usystematyzowany sposób. - Adam x2? - DONE
 
 Ze względu na specyfikę zbioru danych, skupiono się na przeszukaniu źródeł opisów zagadnień optymalizacyjnych zawierających sformułowania wzorcowych modeli PL.
 
@@ -71,10 +63,6 @@ Wybór źródeł przeprowadzono w systematyczny sposób, proces polegał na wpis
 
 Poniżej przedstawiono przykład wzorcowego modelu \textit{PL} wraz z opisem zagadnienia optymalizacyjnego planowania produkcji~\cite{cimt} w języku angielskim:
 
-% TP: TODO: Tutaj jest kilka problemów:
-% 1. Wcześniej piszecie, że opisy problemów są po angielsku, a tutaj jest przykład polski; sugeruję raczej użyć angielski ze zbioru - DONE
-% 2. Sekcja "Gotowy model problemu PL" jest powtórzeniem trzech wcześniejszych sekcji.
-% Sugeruję zostawić tylko sekcję "Gotowy model problemu PL" i wprowadzić do niej komentarze z wcześniejszych sekcji o elementach tego modelu.
 \subsubsection*{Opis zagadnienia optymalizacyjnego:} \label{sec:model_example}
 \begin{quote}
 
@@ -125,10 +113,10 @@ przy ograniczeniach:
 
 \subsection{Tworzenie modeli PL w języku \akronim{ZIMPL}}
 
-Dla wyszukanych i sprawdzonych modeli PL stworzono ich reprezentacje w języku \akronim{ZIMPL} opisujące zagadnienie. %, rozwiązujące przedstawiony problem. % TP: model nic nie rozwiązuje, model opisuje zagadnienie - DONE
+Dla wyszukanych i sprawdzonych modeli PL stworzono ich reprezentacje w języku \akronim{ZIMPL} opisujące zagadnienie.
 Każdy model PL posiada dwa różne warianty w języku  \akronim{ZIMPL}: wariant w~formule programowania sztywnego oraz w~formule parametryzowanej. Dokładny opis specyfiki danego wariantu został przedstawiony w rozdziale~\ref{ch:generation:generating}
 
-Obie wersje kodu poprawnie rozwiązują problemy programowania liniowego. W czasie trenowania, walidacji i testowania generatora wykorzystywane są dane uwzględniające oba rozwiązania. Przy generowaniu modelu \akronim{ZIMPL} użytkownik wybiera formułę, a następnie, zależnie od jego wyboru, proces generacji przechodzi przez ciąg zapytań do DMJ, w wyniku których powstają opisane powyżej elementy kodu. % TP: TODO <- czy generator coś testuje? Tutaj jest chyba pomieszane nazewnictwo. Czy choci o proces tworzenia zbioru danych? Słowo "generować" pojawia się w kontekście problemu generowania modelu PL i metody generownia modelu PL, więc należy go unikać w innych kontekstach - DONE
+Obie wersje kodu poprawnie rozwiązują problemy programowania liniowego. W czasie trenowania, walidacji i testowania generatora wykorzystywane są dane uwzględniające oba rozwiązania. Przy generowaniu modelu \akronim{ZIMPL} użytkownik wybiera formułę, a następnie, zależnie od jego wyboru, proces generacji przechodzi przez ciąg zapytań do DMJ, w wyniku których powstają opisane powyżej elementy kodu. 
 
 Przygotowany przykład, zanim trafi do kolejnego etapu poszerzania zbioru danych, jest sprawdzany za pomocą narzędzi do automatycznego sprawdzania jakości kodu oraz ręcznej analizy jakości kodu. Poprawność składniowa oraz semantyczna modelu PL jest weryfikowana poprzez próbę jego rozwiązania solverem SCIP \cite{BolusaniEtal2024ZR}. Model PL, dla którego SCIP zwrócił rozwiązanie dopuszczalne, jest uznawany za poprawny składniowo i semantycznie. Weryfikacja przebiegała również poprzez ręczne sprawdzanie przez dwóch niezależnych od siebie ekspertów każdego modelu i weryfikacji, czy poszczególne elementy kodu odpowiadają celowi optymalizacji, zależnościom między modelowanymi wielkościami oraz czynnikom podlegającym optymalizacji. Ponadto eksperci weryfikowali rozwiązanie optymalne modelu PL pod względem zgodności z wiedzą dziedzinową.
 
